@@ -1,0 +1,18 @@
+{% extends "base.html" %} {% block title %} Nresume| View info {%endblock%}
+
+{% block main %}
+
+<div class="container">
+    <div class="preview">
+        <iframe id="preview-frame" title="Live Preview">
+        </iframe>
+    </div>
+</div>
+
+
+<script>
+    var iframe = document.getElementById("preview-frame");
+    iframe.srcdoc = `{{info|safe}}`;
+
+</script>
+{% endblock %}
