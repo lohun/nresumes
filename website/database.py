@@ -10,4 +10,4 @@ db = mysql.connector.connect(
 )
 
 def initialize():
-    return db.cursor()
+    return db.cursor(dictionary=True)

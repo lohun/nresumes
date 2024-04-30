@@ -45,21 +45,30 @@ def submitExperience():
 
 @views.route('/preview')
 def preview():
-    sql = "SELECT * FROM users u JOIN experience e ON u.id = e.user_id"
+    sql = "CALL firstGroupOfInfo(1)"
     cursor.execute(sql)
-    result = cursor.fetchone()
-    template = open("./resumetemplates/first.asp", "r")
+    result = cursor.fetchall()
+    template = open(result[0]['template'], "r")
     preview = template.read()
-    preview = preview.replace("fullname", result[1] + " " + result[2])
-    preview = preview.replace("address", "Surulere, Lagos")
-    preview = preview.replace("email", result[6])
-    preview = preview.replace("phone_number", result[7])
-    preview = preview.replace("start_date", result[13])
-    preview = preview.replace("end_date", result[14])
-    preview = preview.replace("company", result[10])
-    preview = preview.replace("role_description", result[15])
-    print(preview)
-
+    template = ""
+    experienceTemplate = result[0]['experience_template']
+    experience_history = set()
+    
+    for row in result:
+        temp_experience = row['experience'].replace("end_date", row['job_date'])
+        temp_experience = temp_experience.replace("start_date", row['job_start'])
+        temp_experience = temp_experience.replace("company", row['company'])
+        temp_experience = temp_experience.replace("role", row['job_title'])
+        temp_experience = temp_experience.replace("role_description", row['job_description'])
+        experience_history.add(temp_experience)
+        
+    experience_string = ""
+    for row in experience_history:
+        experience_string = experience_string + row
+    experienceTemplate = experienceTemplate.replace('employment_history', experience_string)
+    
+    preview = preview.replace("info", experienceTemplate)
+    
     return render_template('preview.html', info = preview)
 
 @views.route('/update', methods = ['POST'])
