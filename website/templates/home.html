@@ -34,62 +34,11 @@
                 type="button" role="tab" aria-controls="v-pills-extra" aria-selected="false">Extra</button>
         </div>
         <div class="tab-content" id="v-pills-tabContent">
-            <div class="tab-pane fade show active" id="v-pills-basic" role="tabpanel"
-                aria-labelledby="v-pills-basic-tab">
-
-                <form action="/submitBasic" method="post">
-                    <div class="mb-3">
-                        <label for="firstName" class="form-label">First Name</label>
-                        <input type="text" class="form-control" name="firstName" id="firstName" aria-describedby="firstName">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="lastName" class="form-label">Last Name</label>
-                        <input type="text" class="form-control" id="lastName" name="lastName" aria-describedby="lastName">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="title" class="form-label">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="address" class="form-label">Address</label>
-                        <input type="text" class="form-control" id="address" aria-describedby="address">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="country" class="form-label">Country</label>
-                        <input type="text" class="form-control" id="country" name="country" aria-describedby="country">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" name="email" aria-describedby="email">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="phoneNumber" class="form-label">Phone Number</label>
-                        <input type="phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber" aria-describedby="phoneNumber">
-                    </div>
-
-                    <button type="submit" class="btn btn-primary">Submit</button>
-                </form>
-
-
-
-            </div>
             <div class="tab-pane fade" id="v-pills-experience" role="tabpanel" aria-labelledby="v-pills-experience-tab">
                 <form action="/submitExperience" method="post">
                     <div class="mb-3">
                         <label for="company" class="form-label">Company Name</label>
                         <input type="text" class="form-control" id="company" name="company" aria-describedby="company">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="companyAddress" class="form-label">Company Address</label>
-                        <input type="text" class="form-control" id="companyAddress" name="companyAddress aria-describedby="companyAddress">
                     </div>
 
 
@@ -117,35 +66,35 @@
                 </form>
             </div>
             <div class="tab-pane fade" id="v-pills-education" role="tabpanel" aria-labelledby="v-pills-education-tab">
-                <form action="">
+                <form action="/submitEducation" method="POST">
                     <div class="mb-3">
                         <label for="course" class="form-label">Course Name</label>
-                        <input type="text" class="form-control" id="course" aria-describedby="course">
+                        <input type="text" class="form-control" id="course" name="department" aria-describedby="course">
                     </div>
 
                     <div class="mb-3">
                         <label for="faculty" class="form-label">Faculty</label>
-                        <input type="text" class="form-control" id="faculty" aria-describedby="faculty">
+                        <input type="text" class="form-control" id="faculty" name="faculty" aria-describedby="faculty">
                     </div>
 
                     <div class="mb-3">
                         <label for="school" class="form-label">Institution Name</label>
-                        <input type="text" class="form-control" id="school" aria-describedby="school">
+                        <input type="text" class="form-control" id="school" name="school" aria-describedby="school">
                     </div>
 
                     <div class="mb-3">
                         <label for="degree" class="form-label">Award/Honours</label>
-                        <input type="text" class="form-control" id="degree" aria-describedby="degree">
+                        <input type="text" class="form-control" name="award" id="degree" aria-describedby="degree">
                     </div>
 
                     <div class="mb-3">
                         <label for="dateStarted" class="form-label">Date Started</label>
-                        <input type="text" class="form-control" id="dateStarted" aria-describedby="dateStarted">
+                        <input type="date" name="date_started" class="form-control" id="dateStarted" aria-describedby="dateStarted">
                     </div>
 
                     <div class="mb-3">
                         <label for="dateEnd" class="form-label">Date End</label>
-                        <input type="text" class="form-control" id="dateEnd" aria-describedby="dateEnd">
+                        <input type="date" name="date_ended" class="form-control" id="dateEnd" aria-describedby="dateEnd">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -156,17 +105,17 @@
                 <form action="">
                     <div class="mb-3">
                         <label for="certificationName" class="form-label">Certificate Name</label>
-                        <input type="text" class="form-control" id="certificationName">
+                        <input type="text" class="form-control" name="name" id="certificationName">
                     </div>
 
                     <div class="mb-3">
                         <label for="organizationCertificate" class="form-label">Organization</label>
-                        <input type="text" class="form-control" id="organizationCertificate">
+                        <input type="text" class="form-control" name="organization" id="organizationCertificate">
                     </div>
 
                     <div class="mb-3">
                         <label for="certficateAwardDate" class="form-label">Award Date</label>
-                        <input type="text" class="form-control" id="certficateAwardDate">
+                        <input type="date" name="date" class="form-control" id="certficateAwardDate">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -174,46 +123,36 @@
             </div>
 
             <div class="tab-pane fade" id="v-pills-skills" role="tabpanel" aria-labelledby="v-pills-skills-tab">
-                <form action="">
+                <form action="/submitSkills" method="post">
                     <div class="mb-3">
                         <label for="skillName" class="form-label">Skill</label>
-                        <input type="password" class="form-control" id="skillName">
+                        <input type="text" name="name" class="form-control" id="skillName">
                     </div>
-
-
-                    <div class="mb-3">
-                        <label for="skillName" class="form-label">Expert Level</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
-                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
                 </form>
             </div>
 
             <div class="tab-pane fade" id="v-pills-volunteering" role="tabpanel"
                 aria-labelledby="v-pills-volunteering-tab">
-                <form action="">
+                <form action="/submitVolunteer" method="post">
                     <div class="mb-3">
                         <label for="course" class="form-label">Organization</label>
-                        <input type="text" class="form-control" id="course" aria-describedby="course">
+                        <input type="text" name="organization" class="form-control" id="course" aria-describedby="course">
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="course" class="form-label">Role</label>
+                        <input type="text" name="role" class="form-control" id="role" aria-describedby="course">
                     </div>
 
                     <div class="mb-3">
                         <label for="faculty" class="form-label">Date Started</label>
-                        <input type="text" class="form-control" id="faculty" aria-describedby="faculty">
+                        <input type="date"  class="form-control" id="faculty" aria-describedby="faculty">
                     </div>
 
                     <div class="mb-3">
                         <label for="school" class="form-label">Date Ended</label>
-                        <input type="text" class="form-control" id="school" aria-describedby="school">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="volunteerDescription" class="form-label">Description/Achievements</label>
-                        <textarea class="form-control" id="volunteerDescription" rows="3"></textarea>
+                        <input type="date" class="form-control" id="school" aria-describedby="school">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -221,42 +160,25 @@
             </div>
 
             <div class="tab-pane fade" id="v-pills-socials" role="tabpanel" aria-labelledby="v-pills-socials-tab">
-                <form action="">
-
+                <form action="/submitSocial" method="post">
                     <div class="mb-3">
-                        <label for="skillName" class="form-label">Type</label>
-                        <select class="form-select" aria-label="Default select example">
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-select" name="type" aria-label="Default select example">
                             <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
+                            <option value="linkedIn">LinkedIn</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="github">Github</option>
+                            <option value="youtube">Youtube</option>
+                            <option value="pinterest">Pinterest</option>
+                            <option value="dribbble">Dribbble</option>
                         </select>
                     </div>
 
 
                     <div class="mb-3">
                         <label for="link" class="form-label">Link</label>
-                        <input type="text" class="form-control" id="link">
-                    </div>
-                </form>
-            </div>
-
-            <div class="tab-pane fade" id="v-pills-languages" role="tabpanel" aria-labelledby="v-pills-languages-tab">
-                <form action="">
-                    <div class="mb-3">
-                        <label for="language" class="form-label">Language</label>
-                        <input type="password" class="form-control" id="language">
-                    </div>
-
-
-                    <div class="mb-3">
-                        <label for="skillName" class="form-label">Expert Level</label>
-                        <select class="form-select" aria-label="Default select example">
-                            <option selected>Open this select menu</option>
-                            <option value="1">One</option>
-                            <option value="2">Two</option>
-                            <option value="3">Three</option>
-                        </select>
+                        <input type="text" name="link" class="form-control" id="link">
                     </div>
                 </form>
             </div>

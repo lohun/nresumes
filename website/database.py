@@ -1,13 +1,17 @@
-import mysql
-import mysql.connector
 
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 
-db = mysql.connector.connect(
-    host = "localhost",
-    user = "root",
-    password = "",
-    database = "nresume"
-)
+uri = "mongodb+srv://nresume:DmmB3vwBOI1NldH8@cluster0.gmrsueq.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 
-def initialize():
-    return db.cursor(dictionary=True)
+# Create a new client and connect to the server
+client = MongoClient(uri, server_api=ServerApi('1'))
+
+db = client['nresume']
+
+# Send a ping to confirm a successful connection
+try:
+    client.admin.command('ping')
+    print("Pinged your deployment. You successfully connected to MongoDB!")
+except Exception as e:
+    print(e)
