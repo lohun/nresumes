@@ -26,8 +26,8 @@
             <button class="nav-link" id="v-pills-socials-tab" data-bs-toggle="pill" data-bs-target="#v-pills-socials"
                 type="button" role="tab" aria-controls="v-pills-socials" aria-selected="false">Socials</button>
 
-            <button class="nav-link" id="v-pills-languages-tab" data-bs-toggle="pill"
-                data-bs-target="#v-pills-languages" type="button" role="tab" aria-controls="v-pills-languages"
+            <button class="nav-link" id="v-pills-interest-tab" data-bs-toggle="pill"
+                data-bs-target="#v-pills-interest" type="button" role="tab" aria-controls="v-pills-interest"
                 aria-selected="false">Languages</button>
 
             <button class="nav-link" id="v-pills-extra-tab" data-bs-toggle="pill" data-bs-target="#v-pills-extra"
@@ -102,7 +102,7 @@
             </div>
             <div class="tab-pane fade" id="v-pills-certifications" role="tabpanel"
                 aria-labelledby="v-pills-certifications-tab">
-                <form action="">
+                <form action="/submitCertification" method="post">
                     <div class="mb-3">
                         <label for="certificationName" class="form-label">Certificate Name</label>
                         <input type="text" class="form-control" name="name" id="certificationName">
@@ -147,12 +147,12 @@
 
                     <div class="mb-3">
                         <label for="faculty" class="form-label">Date Started</label>
-                        <input type="date"  class="form-control" id="faculty" aria-describedby="faculty">
+                        <input type="date" name="date_started"  class="form-control" id="faculty" aria-describedby="faculty">
                     </div>
 
                     <div class="mb-3">
                         <label for="school" class="form-label">Date Ended</label>
-                        <input type="date" class="form-control" id="school" aria-describedby="school">
+                        <input type="date" name="date_ended" class="form-control" id="school" aria-describedby="school">
                     </div>
 
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -183,17 +183,26 @@
                 </form>
             </div>
 
+            <div class="tab-pane fade" id="v-pills-interest" role="tabpanel" aria-labelledby="v-pills-interest-tab">
+                <form action="/submitInterests" method="post">
+                    <div class="mb-3">
+                        <label for="interest" class="form-label">Interest</label>
+                        <input type="text" name="name" class="form-control" id="interest">
+                    </div>
+                </form>
+            </div>
+
             <div class="tab-pane fade" id="v-pills-extra" role="tabpanel" aria-labelledby="v-pills-extra-tab">
-                <form action="">
+                <form action="/submitExtra" method="post">
                     <div class="mb-3">
                         <label for="extra" class="form-label">Title</label>
-                        <input type="password" class="form-control" id="extra">
+                        <input type="text" name="title" class="form-control" id="extra">
                     </div>
 
 
                     <div class="mb-3">
                         <label for="extraDetail" class="form-label">Details</label>
-                        <textarea class="form-control" id="volunteerDescription" rows="3"></textarea>
+                        <textarea class="form-control" name="description" id="volunteerDescription" rows="3"></textarea>
                     </div>
                 </form>
             </div>

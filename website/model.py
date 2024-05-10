@@ -21,107 +21,40 @@ class User(UserMixin):
     first_name = ""
     last_name = ""
     email = ""
-    schema = {
-        "id": "UID",
-        "first_name": "string",
-        "last_name": "string",
-        "date_of_birth": "string",
-        "email": "string",
-        "phone_number": "string",
-        "summary": "string",
-        "template": "string",
-        "password": "string",
-        "education": """[
-            {
-                "id": "UID",
-                "school": "string",
-                "award": "string",
-                "department": "string",
-                "faculty": "string",
-                "achievements": "string",
-                "date_started": "string",
-                "date_ended": "string"
-            }
-                      ]""",
-                      
-        "socials": """[
-                "id": "UID",
-                "type": (),
-                "link": "string"
-            ]""",
-        
-        "certifications": """[
-                "id": "UID",
-                "name": string,
-                "organization": string
-                "date": string
-            ]""",
-        
-        "experience": """[
-            {
-                "id": "UID",
-                "company": "string",
-                "role": "string",
-                "description": "string",
-                "date_started": "string",
-                "date_ended": "string"
-            }
-                      ]""",
-        
-        "projects": """[
-            {
-                "id": "UID",
-                "name": "string",
-                "link": "string",
-                "description": "string",
-                "date_started": "string",
-                "date_ended": "string"
-            }
-                      ]""",
-                      
-        "skills": """[
-            {
-                "id": "UID",
-                "name": "string",
-                "experience_id": [],
-                "project_id": []
-            }
-                      ]""",
-                      
-        "volunteer": """[
-            {
-                "id": "UID",
-                "organization": "string",
-                "role": string,
-                "date_started": "string",
-                "date_ended": "string"
-            }
-                      ]""",
-                      
-        "interests": """[
-        {
-            "id": "UID",
-            "name": "string",
-        }
-                    ]""",
-                    
-        "extra": """[
-        {
-            "id": "UID",
-            "title": "string",
-            "description": "string",
-        }
-                    ]""",
-                      
-            
-    }
+    date_of_birth = ""
+    phone_number = ""
+    summary = ""
+    template = ""
+    password = ""
+    education = []
+    socials = []
+    certifications = []
+    experience = []
+    projects = []
+    skills = []
+    volunteer = []
+    interests = []
+    extra = []
 
-
-    def __init__(self, id, first_name, last_name, email, authenticated, anonymous, active):
-        self.id = id
-        self.first_name = first_name
-        self.last_name = last_name
-        self.email = email
+    def __init__(self, user, authenticated, anonymous, active):
+        self.id = user['_id']
+        self.first_name = user['first_name']
+        self.last_name = user['last_name']
+        self.email = user['email']
+        self.date_of_birth = user['date_of_birth']
+        self.phone_number = user['phone_number']
+        self.summary = user['summary']
+        self.template = user['template']
+        self.password = user['password']
+        self.education = user['education']
+        self.socials = user['socials']
+        self.certifications = user['certifications']
+        self.experience = user['experience']
+        self.projects = user['projects']
+        self.skills = user['skills']
+        self.volunteer = user['volunteer']
+        self.interests = user['interests']
+        self.extra = user['extra']
         self.authenticated = authenticated
         self.anonymous = anonymous,
         self.active = active

@@ -32,5 +32,5 @@ def create_app():
 def load_user(user_id):
     user_id = json.loads(user_id)
     result = cursor.find_one({"_id": ObjectId(user_id)})
-    user = User(id=result['_id'], first_name=result['first_name'], last_name=result['last_name'], email=result['email'], active=True, anonymous=False, authenticated=True)
+    user = User(user=result, active=True, anonymous=False, authenticated=True)
     return user

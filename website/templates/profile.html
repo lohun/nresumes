@@ -1,155 +1,159 @@
-{% extends "base.html" %} {% block title %} Nresume| View Profile {%endblock%}
+{% extends "details.html" %} {% block title %} View Profile {%endblock%}
+
+{% block header %} View Profile {%endblock%}
 
 {% block main %}
-<div class="container">
-    <section>
-        <h4>Basic Information</h4>
-        <div class="px-4">
-            <p>Name: {{ data['first_name'] }} {{ data['last_name'] }}</p>
-            <p>Address: {{ data['address'] }}</p>
-            <p>Country: {{ data['country'] }}</p>
-            <p>Date of Birth: {{ data['date_of_birth'] }}</p>
-            <p>Email: {{ data['email'] }}</p>
-            <p>Phone Number: {{ data['phone_number'] }}</p>
-        </div>
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Experience</h4>
-    
-        {% if data['experience'] != [] %}
+<div class="card">
+    <div class="card-body">
+        <section>
+            <h4>Basic Information</h4>
+            <div class="px-4">
+                <p>Name: {{ data['first_name'] }} {{ data['last_name'] }}</p>
+                <p>Address: {{ data['address'] }}</p>
+                <p>Country: {{ data['country'] }}</p>
+                <p>Date of Birth: {{ data['date_of_birth'] }}</p>
+                <p>Email: {{ data['email'] }}</p>
+                <p>Phone Number: {{ data['phone_number'] }}</p>
+            </div>
+        </section>
+        <hr>
+
+        <section>
+            <h4>Experience</h4>
+
+            {% if data['experience'] != [] %}
             {% for row in data['experience'] %}
-                <div class="mb-3 px-4">
-                    <h5><u>{{ row['company'] }}</u></h5>
-                    <p>{{ row['date_started'] }} to  {{row['date_ended']}}</p>
-                    <p>{{ row['role'] }}</p>
-                    <p>{{ row['description'] }}</p>
-                </div>
+            <div class="mb-3 px-4">
+                <h5><u>{{ row['company'] }}</u></h5>
+                <p>{{ row['date_started'] }} to {{row['date_ended']}}</p>
+                <p>{{ row['role'] }}</p>
+                <p>{{ row['description'] }}</p>
+            </div>
             {% endfor %}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}
-    </section>
-    <hr>
-    
-    
-    <section>
-        <h4>Education</h4>
-    
-        {% if data['education'] != [] %}
+            {% endif %}
+        </section>
+        <hr>
+
+
+        <section>
+            <h4>Education</h4>
+
+            {% if data['education'] != [] %}
             {% for row in data['education'] %}
-                <div class="mb-3 px-4">
-                    <h5><u>{{ row['award'] }}</u></h5>
-                    <p>{{ row['department'] }}</p>
-                    <p>{{ row['faculty'] }}</p>
-                    <p>{{ row['school'] }}</p>
-                    <p>{{ row['date_started'] }} to  {{ row['date_ended'] }}</p>
-                </div>
+            <div class="mb-3 px-4">
+                <h5><u>{{ row['award'] }}</u></h5>
+                <p>{{ row['department'] }}</p>
+                <p>{{ row['faculty'] }}</p>
+                <p>{{ row['school'] }}</p>
+                <p>{{ row['date_started'] }} to {{ row['date_ended'] }}</p>
+            </div>
             {% endfor %}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}        
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Certifications</h4>
-    
-        {% if data['certifications'] != [] %}
+            {% endif %}
+        </section>
+        <hr>
+
+        <section>
+            <h4>Certifications</h4>
+
+            {% if data['certifications'] != [] %}
             {% for row in data['certifications'] %}
-                <div class="mb-3 px-4">
-                    <p>{{row['certification_name']}}</p>
-                    <p>{{row['certificate_organization']}}</p>
-                    <p>{{row['certification_date']}}</p>
-                </div>
-            {%endfor%}
-        {% else %}
-            <p>No Information here</p>
-        {% endif %}
-        
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Projects</h4>
-    
-        {% if data['projects'] != [] %}
-            {% for row in data['projects'] %}
-                <div class="mb-3 px-4">
-                    <h5><u>{{row['name']}}</u></h5>
-                    <p>{{row['description']}}</p>
-                    <p>{{ row['date_started'] }} to  {{ row['date_ended'] }}</p>
-                    {% if row['link'] != "" %}
-                        <a href="{{row['link']}}"></a>
-                    {%endif%}
-                </div>
-            {%endfor%}
-        {% else %}
-            <p>No Information here</p>
-        {% endif %}
-        
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Skills</h4>
-    
-        {% if data['skills'] != [] %}
-            {% for row in data['skills'] %}
+            <div class="mb-3 px-4">
                 <p>{{row['name']}}</p>
+                <p>{{row['organization']}}</p>
+                <p>{{row['date']}}</p>
+            </div>
             {%endfor%}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}
-        
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Volunteering</h4>
-    
-        {% if data['volunteering'] != [] %}
-            {% for row in data['volunteering'] %}
-                <h5><u>{{row['organization']}}</u></h5>
-                <p>{{row['role']}}</p>
-                <p>{{ row['date_started'] }} to  {{ row['date_ended'] }}</p>
+            {% endif %}
+
+        </section>
+        <hr>
+
+        <section>
+            <h4>Projects</h4>
+
+            {% if data['projects'] != [] %}
+            {% for row in data['projects'] %}
+            <div class="mb-3 px-4">
+                <h5><u>{{row['name']}}</u></h5>
+                <p>{{row['description']}}</p>
+                <p>{{ row['date_started'] }} to {{ row['date_ended'] }}</p>
+                {% if row['link'] != "" %}
+                <a href="{{row['link']}}"></a>
+                {%endif%}
+            </div>
             {%endfor%}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}
-        
-    </section>
-    <hr>
-    
-    <section>
-        <h4>Interests/Hobbies</h4>
-    
-        {% if data['interests'] != [] %}
+            {% endif %}
+
+        </section>
+        <hr>
+
+        <section>
+            <h4>Skills</h4>
+
+            {% if data['skills'] != [] %}
+            {% for row in data['skills'] %}
+            <p>{{row['name']}}</p>
+            {%endfor%}
+            {% else %}
+            <p>No Information here</p>
+            {% endif %}
+
+        </section>
+        <hr>
+
+        <section>
+            <h4>Volunteering</h4>
+
+            {% if data['volunteer'] != [] %}
+            {% for row in data['volunteer'] %}
+            <h5><u>{{row['organization']}}</u></h5>
+            <p>{{row['role']}}</p>
+            <p>{{ row['date_started'] }} to {{ row['date_ended'] }}</p>
+            {%endfor%}
+            {% else %}
+            <p>No Information here</p>
+            {% endif %}
+
+        </section>
+        <hr>
+
+        <section>
+            <h4>Interests/Hobbies</h4>
+
+            {% if data['interests'] != [] %}
             {% for row in data['interests'] %}
-                <p>{{ row['name'] }}</p>
+            <p>{{ row['name'] }}</p>
             {%endfor%}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}
-        
-    </section>
-    <hr>
-    
-    <section>
-        
-        {% if data['extra_info'] != [] %}
+            {% endif %}
+
+        </section>
+        <hr>
+
+        <section>
+
+            {% if data['extra_info'] != [] %}
             {% for row in data['extra_info'] %}
-                <div class="mb-3 px-4">
-                    <h4>{{row['extra_title']}}</h4>
-                    <p>{{row['extra_description']}}</p>
-                </div>
+            <div class="mb-3 px-4">
+                <h4>{{row['extra_title']}}</h4>
+                <p>{{row['extra_description']}}</p>
+            </div>
             {%endfor%}
-        {% else %}
+            {% else %}
             <p>No Information here</p>
-        {% endif %}
-        
-    </section>
+            {% endif %}
+
+        </section>
+    </div>
 </div>
 
 {%endblock%}
