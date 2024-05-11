@@ -1,0 +1,95 @@
+{% extends "details.html" %} {% block title %} Certifications {%endblock%}
+{% block header %} Certifications {%endblock%}
+
+{% block main %}
+<div class="card">
+    <div class="card-body">
+
+        <div class="demo-inline-spacing mt-3">
+            <div class="list-group">
+
+
+                {% for row in certification %}
+                <a href="javascript:void(0);"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex justify-content-between w-100">
+                        <h6>{{ row['name'] }}</h6>
+                        <small>
+                            <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-name="{{ row['name'] }}"
+                                data-date="{{ row['date'] }}" data-organization="{{ row['organization'] }}"
+                                onclick="editform(this)" data-bs-target="#modalCenter"
+                                class="text-info tf-icons bx bx-pencil"></span>
+                            <span onclick='follow(`/deleteEducation/{{ row["_id"] }}`)'
+                                class="text-danger tf-icons bx bx-trash"></span>
+                        </small>
+                    </div>
+                    <p class="mb-1">
+                        <p>Gotten from {{ row['organization'] }} by {{ row['date'] }}</p>
+                    </p>
+                </a>
+                {%endfor%}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExperience" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="certificationName" class="form-label">Certificate Name</label>
+                            <input type="text" class="form-control" name="Name" id="editCertificationName">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="organizationCertificate" class="form-label">Organization</label>
+                            <input type="text" class="form-control" name="organization" id="editOrganizationCertificate">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="certficateAwardDate" class="form-label">Award Date</label>
+                            <input type="date" name="date" class="form-control" id="editCertficateAwardDate">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function editform(e) {
+            var id = e.getAttribute("data-id");
+            var name = e.getAttribute("data-name");
+            var organization = e.getAttribute("data-organization");
+            var dateOfCertificate = e.getAttribute("data-date");
+
+            document.getElementById("editId").value = id;
+            document.getElementById("editCertificationName").value = name;
+            document.getElementById("editOrganizationCertificate").value = organization;
+            document.getElementById("editCertficateAwardDate").value = dateOfCertificate;
+        }
+
+        function follow(link) {
+            location.href = link
+        }
+    </script>
+
+    {%endblock%}

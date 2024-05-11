@@ -1,0 +1,105 @@
+{% extends "details.html" %} {% block title %} Volunteer {%endblock%}
+{% block header %} Volunteer {%endblock%}
+
+{% block main %}
+<div class="card">
+    <div class="card-body">
+
+        <div class="demo-inline-spacing mt-3">
+            <div class="list-group">
+
+
+                {% for row in volunteer %}
+                <a href="javascript:void(0);"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex justify-content-between w-100">
+                        <h6>{{ row['organization'] }}</h6>
+                        <small>
+                            <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-role="{{ row['role'] }}"
+                                data-dateStarted="{{ row['date_started'] }}" data-dateEnded="{{ row['date_ended'] }}"
+                                data-organization="{{ row['organization'] }}" onclick="editform(this)"
+                                data-bs-target="#modalCenter" class="text-info tf-icons bx bx-pencil"></span>
+                            <span onclick='follow(`/deleteEducation/{{ row["_id"] }}`)'
+                                class="text-danger tf-icons bx bx-trash"></span>
+                        </small>
+                    </div>
+                    <p class="mb-1">
+                        <p>{{ row['role'] }} from {{ row['date_started'] }} to {{ row['date_ended'] }}</p>
+                    </p>
+                </a>
+                {%endfor%}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExperience" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Organization</label>
+                            <input type="text" name="organization" class="form-control" id="editOrganization"
+                                aria-describedby="course">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Role</label>
+                            <input type="text" name="role" class="form-control" id="editRole" aria-describedby="editRole">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="faculty" class="form-label">Date Started</label>
+                            <input type="date" name="date_started" class="form-control" id="editDateStarted"
+                                aria-describedby="faculty">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="school" class="form-label">Date Ended</label>
+                            <input type="date" name="date_ended" class="form-control" id="editDateEnd"
+                                aria-describedby="school">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function editform(e) {
+            var id = e.getAttribute("data-id");
+            var role = e.getAttribute("data-role");
+            var organization = e.getAttribute("data-organization");
+            var dateStarted = e.getAttribute("data-dateStarted");
+            var dateEnded = e.getAttribute("data-dateEnded");
+
+            document.getElementById("editId").value = id;
+            document.getElementById("editRole").value = role;
+            document.getElementById("editOrganization").value = organization;
+            document.getElementById("editDateStarted").value = dateStarted;
+            document.getElementById("editDateEnd").value = dateEnded;
+        }
+
+        function follow(link) {
+            location.href = link
+        }
+    </script>
+
+    {%endblock%}

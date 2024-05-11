@@ -1,0 +1,91 @@
+{% extends "details.html" %} {% block title %} Extras {%endblock%}
+{% block header %} Extra Info {%endblock%}
+
+{% block main %}
+<div class="card">
+    <div class="card-body">
+
+        <div class="demo-inline-spacing mt-3">
+            <div class="list-group">
+
+
+                {% for row in extra %}
+                <a href="javascript:void(0);"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex justify-content-between w-100">
+                        <h6>{{ row['title'] }}</h6>
+                        <small>
+                            <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-title="{{ row['title'] }}"
+                                data-description="{{ row['description'] }}" onclick="editform(this)"
+                                data-bs-target="#modalCenter" class="text-info tf-icons bx bx-pencil"></span>
+                            <span onclick='follow(`/deleteEducation/{{ row["_id"] }}`)'
+                                class="text-danger tf-icons bx bx-trash"></span>
+                        </small>
+                    </div>
+                    <p class="mb-1">
+                        <p>
+
+                            {{row['description']}}
+                        </p>
+                    </p>
+                </a>
+                {%endfor%}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExperience" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="extra" class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" id="editTitle">
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="extraDetail" class="form-label">Details</label>
+                            <textarea class="form-control" name="description" id="editDescription" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function editform(e) {
+            var id = e.getAttribute("data-id");
+            var title = e.getAttribute("data-title");
+            var description = e.getAttribute("data-description");
+
+            document.getElementById("editId").value = id;
+            document.getElementById("editTitle").value = title;
+            document.getElementById("editDescription").value = description;
+        }
+
+        function follow(link) {
+            location.href = link
+        }
+    </script>
+
+    {%endblock%}

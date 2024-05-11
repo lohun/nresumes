@@ -1,0 +1,124 @@
+{% extends "details.html" %} {% block title %} Education {%endblock%}
+{% block header %} Education {%endblock%}
+
+{% block main %}
+<div class="card">
+    <div class="card-body">
+
+        <div class="demo-inline-spacing mt-3">
+            <div class="list-group">
+
+
+                {% for row in education %}
+                <a href="javascript:void(0);"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex justify-content-between w-100">
+                        <h6>{{ row['school'] }}</h6>
+                        <small>
+                            <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-school="{{ row['school'] }}"
+                                data-award="{{ row['award'] }}" data-department="{{ row['department'] }}"
+                                data-dateEnded="{{ row['date_ended'] }}" data-faculty="{{ row['faculty'] }}"
+                                data-dateStarted="{{ row['date_started'] }}"
+                                onclick="editform(this)"
+                                data-bs-target="#modalCenter" class="text-info tf-icons bx bx-pencil"></span>
+                            <span onclick='follow(`/deleteEducation/{{ row["_id"] }}`)'
+                                class="text-danger tf-icons bx bx-trash"></span>
+                        </small>
+                    </div>
+                    <p class="mb-1">
+                        <p>Studied {{ row['department'] }} in the faculty of {{ row['faculty'] }} <em>from {{
+                                row['date_started'] }} to {{ row['date_ended'] }}</em></p>
+                        <p>Finished with {{ row['award'] }}</p>
+                    </p>
+                </a>
+                {%endfor%}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExperience" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="editCourse" name="department"
+                                aria-describedby="course">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="faculty" class="form-label">Faculty</label>
+                            <input type="text" class="form-control" id="editFaculty" name="faculty"
+                                aria-describedby="faculty">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="school" class="form-label">Institution Name</label>
+                            <input type="text" class="form-control" id="editSchool" name="school" aria-describedby="school">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="degree" class="form-label">Award/Honours</label>
+                            <input type="text" class="form-control" name="award" id="editDegree" aria-describedby="degree">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dateStarted" class="form-label">Date Started</label>
+                            <input type="date" name="date_started" class="form-control" id="editDateStarted"
+                                aria-describedby="dateStarted">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="dateEnd" class="form-label">Date End</label>
+                            <input type="date" name="date_ended" class="form-control" id="editDateEnd"
+                                aria-describedby="dateEnd">
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script>
+        function editform(e) {
+            var id = e.getAttribute("data-id");
+            var school = e.getAttribute("data-school")
+            var award = e.getAttribute("data-award")
+            var dateStarted = e.getAttribute("data-dateStarted")
+            var dateEnded = e.getAttribute("data-dateEnded")
+            var department = e.getAttribute("data-department")
+            var faculty = e.getAttribute("data-faculty")
+
+            document.getElementById("editId").value = id
+            document.getElementById("editSchool").value = school
+            document.getElementById("editDegree").value = award
+            document.getElementById("editDateStarted").value = dateStarted
+            document.getElementById("editDateEnd").value = dateEnded
+            document.getElementById("editCourse").value = department
+            document.getElementById("editFaculty").value = faculty
+        }
+
+        function follow(link) {
+            location.href = link
+        }
+    </script>
+
+    {%endblock%}

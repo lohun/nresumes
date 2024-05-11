@@ -57,7 +57,6 @@ def login():
 @login_required
 def home():
     user = current_user
-
     return render_template("profile.html", data=user)
 
 @views.route("/basic_info")
@@ -67,7 +66,6 @@ def basic_info():
         redirect("/login")
     
     user = current_user
-
     return render_template("profile.html", data=user)
 
 @views.route('/register', methods=['GET',"POST"])
@@ -158,7 +156,7 @@ def submitExperience():
 @login_required
 def education():
     education = current_user.education
-    return render_template("experience.html", education = education)
+    return render_template("education.html", education = education)
 
 @views.route('/submitEducation', methods=["POST"])
 @login_required
@@ -192,8 +190,8 @@ def submitEducation():
 @views.route('/certification')
 @login_required
 def certification():
-    certification = current_user.certification
-    return render_template("experience.html", certification = certification)
+    certification = current_user.certifications
+    return render_template("certification.html", certification = certification)
 
 @views.route('/submitCertification', methods=["POST"])
 @login_required
@@ -236,11 +234,11 @@ def submitSocial():
     )
     return redirect("/", 201)
 
-@views.route('/project')
+@views.route('/projects')
 @login_required
 def project():
-    project = current_user.project
-    return render_template("experience.html", project = project)
+    project = current_user.projects
+    return render_template("projects.html", project = project)
 
 @views.route('/submitProject', methods=["POST"])
 @login_required
@@ -271,7 +269,7 @@ def submitProject():
 @login_required
 def skills():
     skills = current_user.skills
-    return render_template("experience.html", skills = skills)
+    return render_template("skills.html", skills = skills)
 
 @views.route('/submitSkills', methods=["POST"])
 @login_required
@@ -294,7 +292,7 @@ def submitSkills():
 @login_required
 def volunteer():
     volunteer = current_user.volunteer
-    return render_template("experience.html", volunteer = volunteer)
+    return render_template("volunteer.html", volunteer = volunteer)
 
 @views.route('/submitVolunteer', methods=["POST"])
 @login_required
@@ -319,11 +317,11 @@ def submitVolunteer():
     )
     return redirect("/", 201)
 
-@views.route('/interest')
+@views.route('/interests')
 @login_required
-def interest():
-    interest = current_user.interest
-    return render_template("experience.html", interest = interest)
+def interests():
+    interest = current_user.interests
+    return render_template("interests.html", interest = interest)
 
 @views.route('/submitInterests', methods=["POST"])
 @login_required
@@ -346,7 +344,7 @@ def submitInterests():
 @login_required
 def extra():
     extra = current_user.extra
-    return render_template("experience.html", extra = extra)
+    return render_template("extra.html", extra = extra)
 
 @views.route('/submitExtra', methods=["POST"])
 @login_required
