@@ -15,7 +15,7 @@
         -webkit-font-smoothing: antialiased;
         color: #333332;
         font-family: Lora, serif;
-        font-size: 18px;
+        font-size: 12px;
         font-weight: 400;
         line-height: 1.4;
         text-rendering: optimizeLegibility;
@@ -82,6 +82,12 @@
         text-align: center;
     }
 
+    .name-hero h3 {
+        font-family: Open Sans, sans-serif;
+        font-size: 1.5em;
+        text-align: center;
+    }
+
     .name-hero h1 em {
         color: rgba(0, 0, 0, .3);
         font-style: normal;
@@ -142,52 +148,39 @@
         text-align: justify;
     }
 
-    @media screen and (max-width: 48em) {
+    .right,
+    .left {
+        float: none;
+        position: relative !important;
+        width: 100%;
+        min-height: 250px;
+        margin-bottom: 40px;
+    }
 
-        .right,
-        .left {
-            float: none;
-            position: relative !important;
-            width: 100%;
-            min-height: 500px;
-        }
+    .handmade {
+        text-align: center !important;
+        margin-top: 0px !important;
+    }
 
-        .handmade {
-            text-align: center !important;
-            margin-top: 0px !important;
-        }
 
-        @media screen and (max-width: 75em) {
-            body {
-                font-size: 16px;
-            }
-        }
+    .clearfix:after {
+        content: " ";
+        /* Older browser do not support empty content */
+        visibility: hidden;
+        display: block;
+        height: 0;
+        clear: both;
+    }
 
-        @media screen and (max-width: 60em) {
-            body {
-                font-size: 14px;
-            }
-        }
+    .handmade {
+        text-align: right;
+        margin-top: 100px;
+    }
 
-        .clearfix:after {
-            content: " ";
-            /* Older browser do not support empty content */
-            visibility: hidden;
-            display: block;
-            height: 0;
-            clear: both;
-        }
-
-        .handmade {
-            text-align: right;
-            margin-top: 100px;
-        }
-
-        .handmade em {
-            font-family: 'Shadows Into Light', cursive;
-            font-size: 1.25em;
-            margin-left: 5px;
-        }
+    .handmade em {
+        font-family: 'Shadows Into Light', cursive;
+        font-size: 1.25em;
+        margin-left: 5px;
     }
 </style>
 
@@ -204,10 +197,9 @@
 
             <div class="name-text">
 
-                <h1>fullname</h1>
-                <p>address</p>
-                <p>email</p>
-                <p>phone_number</p>
+                <h1>{{title}}</h1>
+                <h3>{{fullname}}</h3>
+                <p>{{basic_info}}</p>
 
             </div>
 
@@ -217,12 +209,12 @@
     <div class="right">
 
         <div class="inner">
-            info
+            {{info}}
 
-            
+
             <section>
                 <div class="handmade">
-                    <p>made by <em> fullname</em></p>
+                    <p>made by <em> {{fullname}}</em></p>
                 </div>
             </section>
         </div>

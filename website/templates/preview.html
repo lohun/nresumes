@@ -1,14 +1,219 @@
-{% extends "base.html" %} {% block title %} Nresume| View info {%endblock%}
+{% extends "details.html" %} {% block title %} Build Resume {%endblock%}
+{% block header %} Build your Resume {%endblock%}
 
 {% block main %}
 
-<div class="container">
-    <div class="preview">
+<div class="offcanvas offcanvas-end" tabindex="-1" id="offcanvasEnd" aria-labelledby="offcanvasEndLabel">
+    <div class="offcanvas-header">
+        <h5 id="offcanvasEndLabel" class="offcanvas-title">Edit Resume</h5>
+        <button type="button" class="btn-close text-reset" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+    </div>
+    <div class="offcanvas-body my-auto mx-0 flex-grow-0">
+        <div class="accordion mt-3" id="accordionExample">
+            <div class="card accordion-item active">
+                <h2 class="accordion-header" id="headingOne">
+                    <button type="button" class="accordion-button" data-bs-toggle="collapse"
+                        data-bs-target="#accordionOne" aria-expanded="true" aria-controls="accordionOne">
+                        Basic Information
+                    </button>
+                </h2>
+
+                <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form action="/edituser" method="post">
+                            <div class="mb-3">
+                                <label for="role" class="form-label">Title</label>
+                                <input type="text" value="{{user.title}}" class="form-control" id="title"
+                                    name="title" aria-describedby="title">
+                            </div>
+                            <div class="mb-3">
+                                <label for="lastName" class="form-label">Last Name</label>
+                                <input type="text" value="{{user.last_name}}" class="form-control" id="startDate"
+                                    name="last_name" aria-describedby="lastName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="firstName" class="form-label">First Name</label>
+                                <input type="text" class="form-control" id="firstDate" value="{{user.first_name}}"
+                                    name="first_name" aria-describedby="firstName">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="text" class="form-control" value="{{user.email}}" id="email" readonly
+                                    aria-describedby="email">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <input type="text" class="form-control" id="address" value="{{user.address}}"
+                                    name="address" aria-describedby="address">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="country" class="form-label">Country</label>
+                                <input type="text" class="form-control" id="country" value="{{user.country}}"
+                                    name="country" aria-describedby="country">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="phoneNumber" class="form-label">Phone Number</label>
+                                <input type="text" class="form-control" id="phoneNumber" value="{{user.phone_number}}"
+                                    name="phone_number" aria-describedby="firstName">
+                            </div>
+
+                            <div class="mb-3">
+                                <label for="summary" class="form-label">Summary</label>
+                                <textarea class="form-control" id="summary" name="summary" rows="3">{{user.summary}}</textarea>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="card accordion-item">
+                <h2 class="accordion-header" id="headingTwo">
+                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse"
+                        data-bs-target="#accordionTwo" aria-expanded="false" aria-controls="accordionTwo">
+                        Social Media Selections
+                    </button>
+                </h2>
+                <div id="accordionTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo"
+                    data-bs-parent="#accordionExample">
+                    <div class="accordion-body">
+                        <form action="/socialsallowed" method="post">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="email_bool" id="defaultCheck3" {%
+                                    if user.email_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Email </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="personal_bool" id="defaultCheck3"
+                                    {% if user.personal_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Personal Website </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="linkedin_bool" id="defaultCheck3" {%
+                                    if user.linkedin_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> LinkedIn </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="twitter_bool" id="defaultCheck3"
+                                    {% if user.twitter_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Twitter </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="instagram_bool" id="defaultCheck3"
+                                    {% if user.instagram_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Instagram </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="youtube_bool" id="defaultCheck3"
+                                    {% if user.youtube_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Youtube </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="tiktok_bool" id="defaultCheck3" {%
+                                    if user.tiktok_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Tiktok </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="github_bool" id="defaultCheck3" {%
+                                    if user.github_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Github </label>
+                            </div>
+
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" name="phone_bool" id="defaultCheck3" {%
+                                    if user.phone_bool=="on" %} checked {% endif %} />
+                                <label class="form-check-label" for="defaultCheck3"> Phone Number </label>
+                            </div>
+
+                            <button type="submit" class="btn btn-primary w-100">Submit</button>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .card2 {
+        height: 60vh;
+        width: 100%;
+    }
+
+    iframe {
+        width: 100%;
+        height: 100%;
+    }
+
+    @media (max-width: 900px) {
+        .card {
+            height: 60vh;
+            width: 100%;
+        }
+    }
+</style>
+
+<div class="btn-group mb-5" role="group" aria-label="First group">
+    <a href="/template" class="btn btn-outline-secondary">
+        <i class="tf-icons bx bx-edit"></i>
+    </a>
+
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
+        aria-controls="offcanvasEnd">
+        <i class="tf-icons bx bx-pencil"></i>
+    </button>
+
+    <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalCenter"
+        aria-controls="offcanvasEnd">
+        <i class="tf-icons bx bx-download"></i>
+    </button>
+</div>
+<div class="card card2">
+    <div class="card-body">
         <iframe id="preview-frame" title="Live Preview">
         </iframe>
     </div>
 </div>
 
+
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Download Resume</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/download" method="post">
+                        <div class="mb-3">
+                            <input type="hidden" name="default_name" value="{{filename}}">
+                            <label for="name" class="form-label">PDF Name</label>
+                            <input type="text" class="form-control" id="editCompany" name="filename"
+                                aria-describedby="company">
+                            <small>Please input a name or use the default <strong>{{filename}}</strong></small>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     var iframe = document.getElementById("preview-frame");

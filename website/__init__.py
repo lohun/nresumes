@@ -1,11 +1,12 @@
 from flask import Flask
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
-
 from .model import User
 from .database import db
 import json
 from bson import ObjectId
+from flask_cors import CORS
+
 
 class JSONEncoder(json.JSONEncoder):
     def default(self, o):
@@ -19,6 +20,7 @@ def create_app():
     app = Flask(__name__)
     app.config['SECRET_KEY'] = "DDE 546 WD65DW DW23"
     bcrypt = Bcrypt(app)
+    cors = CORS(app)
     login_manager.init_app(app)
 
     from .views import views

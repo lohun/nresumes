@@ -2,6 +2,8 @@
 {% block header %} Projects {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Project</button>
+
 <div class="card">
     <div class="card-body">
 
@@ -39,30 +41,21 @@
 </div>
 
 
-
-
-
 <!-- Modal -->
 <div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editProject" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="course" class="form-label">Project Name</label>
                             <input type="text" name="name" class="form-control" id="editName" aria-describedby="name">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="course" class="form-label">Organization</label>
-                            <input type="text" name="organization" class="form-control" id="editOrganization"
-                                aria-describedby="editOrganization">
                         </div>
 
                         <div class="mb-3">
@@ -85,7 +78,7 @@
 
                         <div>
                             <label for="editDescription" class="form-label">Description</label>
-                            <textarea class="form-control" id="editDescription" rows="3"></textarea>
+                            <textarea class="form-control" name="description" id="editDescription" rows="3"></textarea>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -94,30 +87,75 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitProject" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Project Name</label>
+                            <input type="text" name="name" class="form-control" id="name" aria-describedby="name">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Link</label>
+                            <input type="text" name="link" class="form-control" id="link" aria-describedby="editLink">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="faculty" class="form-label">Date Started</label>
+                            <input type="date" name="date_started" class="form-control" id="dateStarted"
+                                aria-describedby="faculty">
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="school" class="form-label">Date Ended</label>
+                            <input type="date" name="date_ended" class="form-control" id="dateEnd"
+                                aria-describedby="school">
+                        </div>
+
+                        <div>
+                            <label for="editDescription" class="form-label">Description</label>
+                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var name = e.getAttribute("data-name");
-            var link = e.getAttribute("data-link");
-            var description = e.getAttribute("data-description");
-            var organization = e.getAttribute("data-organization");
-            var dateStarted = e.getAttribute("data-dateStarted");
-            var dateEnded = e.getAttribute("data-dateEnded");
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var name = e.getAttribute("data-name");
+        var link = e.getAttribute("data-link");
+        var description = e.getAttribute("data-description");
+        var dateStarted = e.getAttribute("data-dateStarted");
+        var dateEnded = e.getAttribute("data-dateEnded");
 
-            document.getElementById("editId").value = id;
-            document.getElementById("editRole").value = name;
-            document.getElementById("editLink").value = link;
-            document.getElementById("editDescription").innerText = description;
-            document.getElementById("editOrganization").value = organization;
-            document.getElementById("editDateStarted").value = dateStarted;
-            document.getElementById("editDateEnd").value = dateEnded;
-        }
+        document.getElementById("editId").value = id;
+        document.getElementById("editName").value = name;
+        document.getElementById("editLink").value = link;
+        document.getElementById("editDescription").innerText = description;
+        document.getElementById("editDateStarted").value = dateStarted;
+        document.getElementById("editDateEnd").value = dateEnded;
+    }
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+    function follow(link) {
+        location.href = link
+    }
+</script>
 
-    {%endblock%}
+{%endblock%}

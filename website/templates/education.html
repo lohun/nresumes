@@ -2,6 +2,8 @@
 {% block header %} Education {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add
+    Education</button>
 <div class="card">
     <div class="card-body">
 
@@ -18,8 +20,7 @@
                             <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-school="{{ row['school'] }}"
                                 data-award="{{ row['award'] }}" data-department="{{ row['department'] }}"
                                 data-dateEnded="{{ row['date_ended'] }}" data-faculty="{{ row['faculty'] }}"
-                                data-dateStarted="{{ row['date_started'] }}"
-                                onclick="editform(this)"
+                                data-dateStarted="{{ row['date_started'] }}" onclick="editform(this)"
                                 data-bs-target="#modalCenter" class="text-info tf-icons bx bx-pencil"></span>
                             <span onclick='follow(`/deleteEducation/{{ row["_id"] }}`)'
                                 class="text-danger tf-icons bx bx-trash"></span>
@@ -48,12 +49,12 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editEducation" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="course" class="form-label">Course Name</label>
@@ -69,12 +70,14 @@
 
                         <div class="mb-3">
                             <label for="school" class="form-label">Institution Name</label>
-                            <input type="text" class="form-control" id="editSchool" name="school" aria-describedby="school">
+                            <input type="text" class="form-control" id="editSchool" name="school"
+                                aria-describedby="school">
                         </div>
 
                         <div class="mb-3">
                             <label for="degree" class="form-label">Award/Honours</label>
-                            <input type="text" class="form-control" name="award" id="editDegree" aria-describedby="degree">
+                            <input type="text" class="form-control" name="award" id="editDegree"
+                                aria-describedby="degree">
                         </div>
 
                         <div class="mb-3">
@@ -95,30 +98,79 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitEducation" method="POST">
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="course" name="department" aria-describedby="course">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="faculty" class="form-label">Faculty</label>
+                            <input type="text" class="form-control" id="faculty" name="faculty" aria-describedby="faculty">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="school" class="form-label">Institution Name</label>
+                            <input type="text" class="form-control" id="school" name="school" aria-describedby="school">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="degree" class="form-label">Award/Honours</label>
+                            <input type="text" class="form-control" name="award" id="degree" aria-describedby="degree">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="dateStarted" class="form-label">Date Started</label>
+                            <input type="date" name="date_started" class="form-control" id="dateStarted" aria-describedby="dateStarted">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="dateEnd" class="form-label">Date End</label>
+                            <input type="date" name="date_ended" class="form-control" id="dateEnd" aria-describedby="dateEnd">
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var school = e.getAttribute("data-school")
-            var award = e.getAttribute("data-award")
-            var dateStarted = e.getAttribute("data-dateStarted")
-            var dateEnded = e.getAttribute("data-dateEnded")
-            var department = e.getAttribute("data-department")
-            var faculty = e.getAttribute("data-faculty")
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var school = e.getAttribute("data-school")
+        var award = e.getAttribute("data-award")
+        var dateStarted = e.getAttribute("data-dateStarted")
+        var dateEnded = e.getAttribute("data-dateEnded")
+        var department = e.getAttribute("data-department")
+        var faculty = e.getAttribute("data-faculty")
 
-            document.getElementById("editId").value = id
-            document.getElementById("editSchool").value = school
-            document.getElementById("editDegree").value = award
-            document.getElementById("editDateStarted").value = dateStarted
-            document.getElementById("editDateEnd").value = dateEnded
-            document.getElementById("editCourse").value = department
-            document.getElementById("editFaculty").value = faculty
-        }
+        document.getElementById("editId").value = id
+        document.getElementById("editSchool").value = school
+        document.getElementById("editDegree").value = award
+        document.getElementById("editDateStarted").value = dateStarted
+        document.getElementById("editDateEnd").value = dateEnded
+        document.getElementById("editCourse").value = department
+        document.getElementById("editFaculty").value = faculty
+    }
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+    function follow(link) {
+        location.href = link
+    }
+</script>
 
-    {%endblock%}
+{%endblock%}

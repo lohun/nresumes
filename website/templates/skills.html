@@ -2,6 +2,7 @@
 {% block header %} Skills {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Skill</button>
 <div class="card">
     <div class="card-body">
 
@@ -40,12 +41,12 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editSkills" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="skillName" class="form-label">Skill</label>
@@ -58,20 +59,44 @@
             </div>
         </div>
     </div>
+</div>
 
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitSkills" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="skillName" class="form-label">Skill</label>
+                            <input type="text" name="name" class="form-control" id="skillName">
+                        </div>
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var name = e.getAttribute("data-name");
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            document.getElementById("editId").value = id;
-            document.getElementById("editSkillName").value = name;
-        }
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var name = e.getAttribute("data-name");
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+        document.getElementById("editId").value = id;
+        document.getElementById("editSkillName").value = name;
+    }
 
-    {%endblock%}
+    function follow(link) {
+        location.href = link
+    }
+</script>
+
+{%endblock%}

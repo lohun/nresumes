@@ -1,0 +1,37 @@
+{% extends "details.html" %} {% block title %} Resumes {%endblock%}
+{% block header %} Resumes {%endblock%}
+
+{% block main %}
+
+<div class="card">
+    <div class="table-responsive text-nowrap">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Date</th>
+                    <th>File</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody class="table-border-bottom-0">
+                {% for row in builds%}
+                <tr>
+                    <td>{{row['name']}}</td>
+                    <td>{{row['date']}}</td>
+                    <td><a href="{{ url_for('static', filename=row['path']) }}" target="_blank
+                        "  class="btn btn-outline-secondary">
+                        <i class="tf-icons bx bx-download"></i>
+                    </a></td>
+                    <td><a href="deletefile/{{row['_id']}}"  class="btn btn-outline-danger">
+                        <i class="tf-icons bx bx-trash"></i>
+                    </a></td>
+                </tr>
+
+                {%endfor%}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{%endblock%}

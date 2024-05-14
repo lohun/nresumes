@@ -2,6 +2,8 @@
 {% block header %} Volunteer {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Volunteer Info</button>
+
 <div class="card">
     <div class="card-body">
 
@@ -44,12 +46,12 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editVolunteer" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="course" class="form-label">Organization</label>
@@ -59,7 +61,8 @@
 
                         <div class="mb-3">
                             <label for="course" class="form-label">Role</label>
-                            <input type="text" name="role" class="form-control" id="editRole" aria-describedby="editRole">
+                            <input type="text" name="role" class="form-control" id="editRole"
+                                aria-describedby="editRole">
                         </div>
 
                         <div class="mb-3">
@@ -80,26 +83,65 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Add Info</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitVolunteer" method="post">
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Organization</label>
+                            <input type="text" name="organization" class="form-control" id="course" aria-describedby="course">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="course" class="form-label">Role</label>
+                            <input type="text" name="role" class="form-control" id="role" aria-describedby="course">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="faculty" class="form-label">Date Started</label>
+                            <input type="date" name="date_started"  class="form-control" id="faculty" aria-describedby="faculty">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="school" class="form-label">Date Ended</label>
+                            <input type="date" name="date_ended" class="form-control" id="school" aria-describedby="school">
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var role = e.getAttribute("data-role");
-            var organization = e.getAttribute("data-organization");
-            var dateStarted = e.getAttribute("data-dateStarted");
-            var dateEnded = e.getAttribute("data-dateEnded");
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var role = e.getAttribute("data-role");
+        var organization = e.getAttribute("data-organization");
+        var dateStarted = e.getAttribute("data-dateStarted");
+        var dateEnded = e.getAttribute("data-dateEnded");
 
-            document.getElementById("editId").value = id;
-            document.getElementById("editRole").value = role;
-            document.getElementById("editOrganization").value = organization;
-            document.getElementById("editDateStarted").value = dateStarted;
-            document.getElementById("editDateEnd").value = dateEnded;
-        }
+        document.getElementById("editId").value = id;
+        document.getElementById("editRole").value = role;
+        document.getElementById("editOrganization").value = organization;
+        document.getElementById("editDateStarted").value = dateStarted;
+        document.getElementById("editDateEnd").value = dateEnded;
+    }
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+    function follow(link) {
+        location.href = link
+    }
+</script>
 
-    {%endblock%}
+{%endblock%}

@@ -1,3 +1,4 @@
+from distutils.command import build
 import json
 import bcrypt
 from flask_login import UserMixin
@@ -18,9 +19,22 @@ class User(UserMixin):
     anonymous = True
     active = False
     id = 0
+    profile_picture = "placeholder.png"
+    title = ""
     first_name = ""
     last_name = ""
     email = ""
+    email_bool = "on"
+    address_bool = "on"
+    linkedin_bool = "off"
+    phone_bool = "on"
+    twitter_bool = None
+    instagram_bool = None
+    youtube_bool = None
+    tiktok_bool = None
+    github_bool = None
+    address = ""
+    country = ""
     date_of_birth = ""
     phone_number = ""
     summary = ""
@@ -35,12 +49,26 @@ class User(UserMixin):
     volunteer = []
     interests = []
     extra = []
+    builds = []
 
     def __init__(self, user, authenticated, anonymous, active):
         self.id = user['_id']
+        self.title = user['title']
         self.first_name = user['first_name']
         self.last_name = user['last_name']
         self.email = user['email']
+        self.personal_bool = user['personal_bool']
+        self.address_bool = user['address_bool']
+        self.email_bool = user['email_bool']
+        self.linkedin_bool = user['linkedin_bool']
+        self.phone_bool = user['phone_bool']
+        self.twitter_bool = user['twitter_bool']
+        self.instagram_bool = user['instagram_bool']
+        self.youtube_bool = user['youtube_bool']
+        self.tiktok_bool = user['tiktok_bool']
+        self.github_bool = user['github_bool']
+        self.address = user['address']
+        self.country = user['country']
         self.date_of_birth = user['date_of_birth']
         self.phone_number = user['phone_number']
         self.summary = user['summary']
@@ -55,9 +83,13 @@ class User(UserMixin):
         self.volunteer = user['volunteer']
         self.interests = user['interests']
         self.extra = user['extra']
+        self.builds = user['builds']
         self.authenticated = authenticated
         self.anonymous = anonymous,
         self.active = active
+        
+        if user['profile_picture'] != "":
+            self.profile_picture = user['profile_picture']
         
     def is_authenticated(self):
         return self.authenticated

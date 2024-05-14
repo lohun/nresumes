@@ -2,6 +2,8 @@
 {% block header %} Extra Info {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Extra</button>
+
 <div class="card">
     <div class="card-body">
 
@@ -46,12 +48,12 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editExtra" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="extra" class="form-label">Title</label>
@@ -70,22 +72,52 @@
             </div>
         </div>
     </div>
+</div>
 
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var title = e.getAttribute("data-title");
-            var description = e.getAttribute("data-description");
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Add an item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExtra" method="post">
+                        <div class="mb-3">
+                            <label for="extra" class="form-label">Title</label>
+                            <input type="text" name="title" class="form-control" id="extra">
+                        </div>
+    
+    
+                        <div class="mb-3">
+                            <label for="extraDetail" class="form-label">Details</label>
+                            <textarea class="form-control" name="description" id="volunteerDescription" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-            document.getElementById("editId").value = id;
-            document.getElementById("editTitle").value = title;
-            document.getElementById("editDescription").value = description;
-        }
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var title = e.getAttribute("data-title");
+        var description = e.getAttribute("data-description");
 
-    {%endblock%}
+        document.getElementById("editId").value = id;
+        document.getElementById("editTitle").value = title;
+        document.getElementById("editDescription").value = description;
+    }
+
+    function follow(link) {
+        location.href = link
+    }
+</script>
+
+{%endblock%}

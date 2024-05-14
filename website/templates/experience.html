@@ -2,6 +2,7 @@
 {% block header %} Experience {%endblock%}
 
 {% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Experience</button>
 <div class="card">
     <div class="card-body">
 
@@ -46,12 +47,12 @@
     <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="modalCenterTitle">Edit this experience</h5>
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/editExperience" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="company" class="form-label">Company Name</label>
@@ -89,7 +90,52 @@
             </div>
         </div>
     </div>
+</div>
 
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Add Experience</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/submitExperience" method="post">
+                        <div class="mb-3">
+                            <label for="company" class="form-label">Company Name</label>
+                            <input type="text" class="form-control" id="company" name="company" aria-describedby="company">
+                        </div>
+    
+    
+                        <div class="mb-3">
+                            <label for="title" class="form-label">Title</label>
+                            <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="startDate" class="form-label">Start Date</label>
+                            <input type="text" class="form-control" id="startDate" name="startDate" aria-describedby="startDate">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="endDate" class="form-label">End Date</label>
+                            <input type="text" class="form-control" id="endDate" name="endDate" aria-describedby="endDate">
+                        </div>
+    
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Job Description</label>
+                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                        </div>
+    
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
     <script>
         function editform(e) {
