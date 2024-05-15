@@ -998,7 +998,6 @@ def download():
 @login_required
 def builds():
     builds = current_user.builds
-    builds = builds.reverse()
     return render_template("build.html", user=current_user, builds = builds)
 
 
@@ -1148,10 +1147,11 @@ def deleteVolunteer(id):
 @views.route("/deleteBuilds/<id>")
 @login_required
 def deleteBuilds(id):
+    user = current_user
     _id = current_user.id
     dirname = os.path.dirname(__file__)
-    for row in current_user.builds:
-        if row._id == id:
+    for row in user.builds:
+        if row['_id'] == id:
             if os.path.exists(os.path.join(dirname, f"website/static/{row['path']}")):
                 os.remove(os.path.join(dirname, f"website/static/{row['path']}"))
     collection.update_one( 
