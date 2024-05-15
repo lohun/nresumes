@@ -1,0 +1,129 @@
+{% extends "details.html" %} {% block title %} Social Media Links {%endblock%}
+{% block header %} Social Media Links {%endblock%}
+
+{% block main %}
+<button data-bs-toggle="modal" data-bs-target="#modalCenter" class="btn btn-outline-primary mb-5">Add Skill</button>
+<div class="card">
+    <div class="card-body">
+
+        <div class="demo-inline-spacing mt-3">
+            <div class="list-group">
+
+
+                {% for row in socials %}
+                <a href="javascript:void(0);"
+                    class="list-group-item list-group-item-action flex-column align-items-start">
+                    <div class="d-flex justify-content-between w-100">
+                        <h6>{{ row['type'] }}</h6>
+                        <small>
+                            <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-type="{{ row['type'] }}"
+                                data-link="{{ row['link'] }}" onclick="editform(this)" data-bs-target="#modalCenter2"
+                                class="text-info tf-icons bx bx-pencil"></span>
+                            <span onclick='follow(`/deleteSocial/{{ row["_id"] }}`)'
+                                class="text-danger tf-icons bx bx-trash"></span>
+                        </small>
+                    </div>
+                    <a href="{{row['link']}}">{{row['link']}}</a>
+                </a>
+                {%endfor%}
+
+            </div>
+        </div>
+
+    </div>
+</div>
+
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form action="/submitSocial" method="post">
+                    <div class="mb-3">
+                        <label for="type" class="form-label">Type</label>
+                        <select class="form-select" name="type" aria-label="Default select example">
+                            <option selected>Open this select menu</option>
+                            <option value="website">Website</option>
+                            <option value="linkedin">LinkedIn</option>
+                            <option value="twitter">Twitter</option>
+                            <option value="instagram">Instagram</option>
+                            <option value="github">Github</option>
+                            <option value="youtube">Youtube</option>
+                        </select>
+                    </div>
+
+
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link</label>
+                        <input type="text" name="link" class="form-control" id="link">
+                    </div>
+                    <button type="submit" class="btn btn-primary w-100">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+
+<div class="modal fade" id="modalCenter2" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenter2Title">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <form action="/editSocial" method="post">
+                        <input type="hidden" id="editId" name="id">
+                        <div class="mb-3">
+                            <label for="type" class="form-label">Type</label>
+                            <select class="form-select" id="editType" name="type" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="website">Website</option>
+                                <option value="linkedin">LinkedIn</option>
+                                <option value="twitter">Twitter</option>
+                                <option value="instagram">Instagram</option>
+                                <option value="github">Github</option>
+                                <option value="youtube">Youtube</option>
+                            </select>
+                        </div>
+
+
+                        <div class="mb-3">
+                            <label for="link" class="form-label">Link</label>
+                            <input type="text" id="editLink" name="link" class="form-control" id="link">
+                        </div>
+                        <button type="submit" class="btn btn-primary w-100">Submit</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var type = e.getAttribute("data-type");
+        var link = e.getAttribute("data-link");
+
+        document.getElementById("editId").value = id;
+        document.getElementById("editType").value = type;
+        document.getElementById("editLink").value = link;
+    }
+
+    function follow(link) {
+        location.href = link
+    }
+</script>
+
+{%endblock%}

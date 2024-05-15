@@ -56,7 +56,7 @@ def login():
                 login_user(user, remember=True, duration=timedelta(days=365))
                 flash("Login successful")
                 
-                return redirect('/')
+                return redirect('/summary')
             else:
                 flash('login unsuccessful')
         else:
@@ -64,11 +64,11 @@ def login():
         
     return render_template('login.html')
 
-@views.route('/')
+@views.route('/summary')
 @login_required
 def home():
     user = current_user
-    return render_template("profile.html", data=user)
+    return render_template("profile.html", user=user)
 
 @views.route("/profile", methods=["GET", "POST"])
 @login_required
@@ -119,7 +119,7 @@ def register():
         
         if(password != confirmPassword):
             flash("Password does not match")
-            return redirect("/", code=403)
+            return redirect("/register")
         password = bytes(password, "utf-8")
         password = bcrypt.hashpw(password, salt=bcrypt.gensalt())
 
@@ -159,7 +159,7 @@ def register():
         
         collection.insert_one(data)
 
-        return redirect("/")
+        return redirect("/login")
     return render_template("register.html")
 
 
@@ -192,7 +192,7 @@ def edituser():
 @login_required
 def experience():
     experience = current_user.experience
-    return render_template("experience.html", experience = experience)
+    return render_template("experience.html", user=current_user, experience = experience)
 
 @views.route('/editExperience', methods=["POST"])
 @login_required
@@ -215,7 +215,7 @@ def editExperience():
             }
         }
     )
-    return redirect("/")
+    return redirect("/experience")
     
 @views.route('/submitExperience', methods=["POST"])
 @login_required
@@ -245,7 +245,7 @@ def submitExperience():
 @login_required
 def education():
     education = current_user.education
-    return render_template("education.html", education = education)
+    return render_template("education.html", user=current_user, education = education)
 
 @views.route('/editEducation', methods=["POST"])
 @login_required
@@ -306,7 +306,7 @@ def submitEducation():
 @login_required
 def certification():
     certification = current_user.certifications
-    return render_template("certification.html", certification = certification)
+    return render_template("certification.html", user=current_user, certification = certification)
 
 @views.route('/editCertification', methods=["POST"])
 @login_required
@@ -366,19 +366,36 @@ def submitSocial():
             } } 
          }
     )
-    return redirect("/")
+    return redirect("/socials")
+
+@views.route('/socials')
+@login_required
+def socials():
+    user = current_user.socials
+    return render_template("socials.html", user=current_user, socials=user)
 
 @views.route('/editSocial', methods=["POST"])
 @login_required
 def editSocial():
-    # _id = current_user.id
-    return redirect("/")
+    _id = current_user.id
+    id = request.form.get("id")
+    social_type = request.form.get("type")
+    link = request.form.get("link")
+    
+    collection.update_one( 
+        { "_id" : ObjectId(_id), "socials._id": ObjectId(id) },
+        { "$set": { 
+            "socials.$.type": social_type, 
+            "socials.$.link": link
+        }}
+    )
+    return redirect("/socials")
 
 @views.route('/projects')
 @login_required
 def project():
     project = current_user.projects
-    return render_template("projects.html", project = project)
+    return render_template("projects.html", user=current_user, project = project)
 
 @views.route('/editProject', methods=["POST"])
 @login_required
@@ -431,7 +448,7 @@ def submitProject():
 @login_required
 def skills():
     skills = current_user.skills
-    return render_template("skills.html", skills = skills)
+    return render_template("skills.html", user=current_user, skills = skills)
 
 @views.route('/editSkills', methods=["POST"])
 @login_required
@@ -469,7 +486,7 @@ def submitSkills():
 @login_required
 def volunteer():
     volunteer = current_user.volunteer
-    return render_template("volunteer.html", volunteer = volunteer)
+    return render_template("volunteer.html", user=current_user, volunteer = volunteer)
 
 @views.route('/editVolunteer', methods=["POST"])
 @login_required
@@ -519,7 +536,7 @@ def submitVolunteer():
 @login_required
 def interests():
     interest = current_user.interests
-    return render_template("interests.html", interest = interest)
+    return render_template("interests.html", user=current_user, interest = interest)
 
 @views.route('/editInterests', methods=["POST"])
 @login_required
@@ -557,7 +574,7 @@ def submitInterests():
 @login_required
 def extra():
     extra = current_user.extra
-    return render_template("extra.html", extra = extra)
+    return render_template("extra.html", user=current_user, extra = extra)
 
 @views.route('/editExtra', methods=["POST"])
 @login_required
@@ -982,7 +999,7 @@ def download():
 def builds():
     builds = current_user.builds
     builds = builds.reverse()
-    return render_template("build.html", builds = builds)
+    return render_template("build.html", user=current_user, builds = builds)
 
 
 @views.route('/logout')
@@ -1015,9 +1032,135 @@ def upload():
         filename = secure_filename(file.filename)
         file.save(f"{path}/{filename}")
         collection.update_one( 
-        { "_id" : ObjectId(_id) },
-        { "$set": { "profile_picture": f"build/{user.last_name} {user.first_name}/profile/{filename}"}}
-    )
+            { "_id" : ObjectId(_id) },
+            { "$set": { "profile_picture": f"build/{user.last_name} {user.first_name}/profile/{filename}"}}
+        )
         return redirect("/profile")
 
+@views.route("/deleteEducation/<id>")
+@login_required
+def deleteEducation(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "education":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/education")
+
+@views.route("/deleteExperience/<id>")
+@login_required
+def deleteExperience(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "experience":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/experience")
+
+@views.route("/deleteCertification/<id>")
+@login_required
+def deleteCertification(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "certifications":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/certification")
+
+@views.route("/deleteSocial/<id>")
+@login_required
+def deleteSocial(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "socials":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/socials")
+
+@views.route("/deleteProject/<id>")
+@login_required
+def deleteProject(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "projects":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/projects")
+
+@views.route("/deleteSkill/<id>")
+@login_required
+def deleteSkill(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "skills":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/skills")
+
+@views.route("/deleteInterest/<id>")
+@login_required
+def deleteInterest(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "interests":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/interests")
+
+@views.route("/deleteExtra/<id>")
+@login_required
+def deleteExtra(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "extra":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/extra")
+
+@views.route("/deleteVolunteer/<id>")
+@login_required
+def deleteVolunteer(id):
+    _id = current_user.id
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "volunteer":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/volunteer")
+
+@views.route("/deleteBuilds/<id>")
+@login_required
+def deleteBuilds(id):
+    _id = current_user.id
+    dirname = os.path.dirname(__file__)
+    for row in current_user.builds:
+        if row._id == id:
+            if os.path.exists(os.path.join(dirname, f"website/static/{row['path']}")):
+                os.remove(os.path.join(dirname, f"website/static/{row['path']}"))
+    collection.update_one( 
+        { "_id" : ObjectId(_id) },
+        { 
+         "$pull": { "builds":{ "_id": ObjectId(id)}}
+        }
+    )
+    return redirect("/builds")
+    
+    
 
