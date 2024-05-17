@@ -39,6 +39,10 @@ collection = db["user"]
 def unauthorized_callback():
     return redirect('/login')
 
+@views.route("/")
+def index():
+    return render_template('landing.html')
+
 @views.route("/login", methods=["GET", "POST"])
 def login():
     if request.method == "POST":

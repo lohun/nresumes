@@ -1,0 +1,451 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport"
+    content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
+
+  <title>NResume | {%block title %} {%endblock%}</title>
+
+  <meta name="description" content="" />
+
+  <!-- Favicon -->
+  <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='assets/img/favicon/favicon.ico') }}" />
+
+  <link rel="apple-touch-icon" sizes="180x180"
+    href="{{ url_for('static', filename='assets/img/favicon/apple-touch-icon.png') }}">
+  <link rel="icon" type="image/png" sizes="32x32"
+    href="{{ url_for('static', filename='assets/img/favicon/favicon-32x32.png') }}">
+  <link rel="icon" type="image/png" sizes="16x16"
+    href="{{ url_for('static', filename='assets/img/favicon/favicon-16x16.png') }}">
+  <link rel="manifest" href="{{ url_for('static', filename='assets/img/favicon/site.webmanifest') }}">
+
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Public+Sans:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500;1,600;1,700&display=swap"
+    rel="stylesheet" />
+
+  <!-- Icons. Uncomment required icon fonts -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/fonts/boxicons.css') }}" />
+
+  <!-- Core CSS -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/css/core.css') }}"
+    class="template-customizer-core-css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor/css/theme-default.css') }}"
+    class="template-customizer-theme-css" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/css/demo.css') }}" />
+
+  <!-- Vendors CSS -->
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
+
+  <!-- Page CSS -->
+
+  <!-- Helpers -->
+  <script src="{{ url_for('static', filename='assets/vendor/js/helpers.js') }}"></script>
+
+  <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
+  <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
+  <script src="{{ url_for('static', filename='assets/js/config.js') }}"></script>
+  <style>
+    /* Custom CSS styles */
+    /* You can add your custom CSS styles here */
+    /* For example: */
+
+    .home-image {
+      margin: auto;
+      width: 100%;
+      object-fit: contain;
+    }
+
+
+    .feature {
+      padding: 50px 0;
+    }
+
+    .pricing-content {
+      position: relative;
+    }
+
+    .pricing_design {
+      position: relative;
+      margin: 0px 15px;
+    }
+
+    .pricing_design .single-pricing {
+      background: #696cff;
+      padding: 60px 40px;
+      border-radius: 30px;
+      box-shadow: 0 10px 40px -10px rgba(0, 64, 128, .2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .pricing_design .single-pricing:before {
+      content: "";
+      background-color: #fff;
+      width: 100%;
+      height: 100%;
+      border-radius: 18px 18px 190px 18px;
+      border: 1px solid #eee;
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      z-index: -1;
+    }
+
+    .price-head h2 {
+      margin-bottom: 20px;
+      font-size: 26px;
+      font-weight: 600;
+    }
+
+    .price-head h1 {
+      font-weight: 600;
+      margin-top: 30px;
+      margin-bottom: 5px;
+    }
+
+    .single-pricing ul {
+      list-style: none;
+      margin-top: 30px;
+    }
+
+    .single-pricing ul li {
+      line-height: 36px;
+    }
+
+    .single-pricing ul li i {
+      background: #696cff;
+      color: #fff;
+      width: 20px;
+      height: 20px;
+      border-radius: 30px;
+      font-size: 11px;
+      text-align: center;
+      line-height: 20px;
+      margin-right: 6px;
+    }
+
+    .price_btn {
+      background: #696cff;
+      padding: 10px 30px;
+      color: #fff;
+      display: inline-block;
+      margin-top: 20px;
+      border-radius: 2px;
+      -webkit-transition: 0.3s;
+      transition: 0.3s;
+    }
+
+    .price_btn:hover {
+      background: #0aa1d6;
+    }
+
+    a {
+      text-decoration: none;
+    }
+
+    .section-title {
+      margin-bottom: 60px;
+    }
+
+    .text-center {
+      text-align: center !important;
+    }
+
+    .section-title h2 {
+      font-size: 45px;
+      font-weight: 600;
+      margin-top: 0;
+      position: relative;
+      text-transform: capitalize;
+    }
+
+    .service-11 {
+      font-family: "Montserrat", sans-serif;
+      color: #8d97ad;
+      font-weight: 300;
+    }
+
+    .service-11 h1,
+    .service-11 h2,
+    .service-11 h3,
+    .service-11 h4,
+    .service-11 h5,
+    .service-11 h6 {
+      color: #3e4555;
+    }
+
+    .service-11 .font-weight-medium {
+      font-weight: 500;
+    }
+
+    .service-11 .bg-light {
+      background-color: #f4f8fa !important;
+    }
+
+    .service-11 .subtitle {
+      color: #8d97ad;
+      line-height: 24px;
+    }
+
+    .service-11 .card.card-shadow {
+      -webkit-box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+      box-shadow: 0px 0px 30px rgba(115, 128, 157, 0.1);
+    }
+
+    .service-11 .wrap-service11-box {
+      margin-top: 60px;
+    }
+
+    .service-11 .wrap-service11-box .icon-space {
+      margin: -70px 0 20px;
+    }
+
+    .service-11 .wrap-service11-box .icon-space .icon-round {
+      font-size: 45px;
+      color: #ffffff;
+    }
+
+    .service-11 .bg-success-gradiant {
+      background: #696cff;
+    }
+
+    .service-11 .icon-round {
+      width: 80px;
+      line-height: 80px;
+    }
+
+    .service-11 .btn-success-gradiant {
+      background: #696cff;
+    }
+
+    .service-11 .btn-success-gradiant:hover {
+      background: #1dc8cc;
+    }
+
+    .service-11 .btn-md {
+      padding: 15px 45px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- Navbar -->
+  <nav class="navbar fixed-top navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a href="/summary" class="app-brand-link">
+        <span class="app-brand-logo demo">
+          <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
+        </span>
+      </a>
+      <!-- <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+        aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button> -->
+      {% if current_user.is_authenticated %}
+      <a href="/summary" class="btn btn-outline-primary btn-lg">Go to Dashboard</a>
+      {% else: %}
+      <a href="/login" class="btn btn-outline-primary btn-lg">Login</a>
+      {% endif %}
+    </div>
+  </nav>
+
+  <!-- Hero Section -->
+  <section class="hero text-left mt-5 py-5" style="position: relative;">
+    <div class="container" style="position: relative; z-index: 2;">
+      <div class="row d-flex flex-wrap align-items-center">
+        <div class="col-md-6">
+          <div class="app-brand justify-content-start">
+            <a href="/register" class="app-brand-link gap-2">
+              <span class="app-brand-logo demo">
+                <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
+              </span>
+              <span class="app-brand-text demo text-body fw-bolder">NResume</span>
+            </a>
+          </div>
+          <h1>Create Your Perfect Resume</h1>
+          <p class="lead">Start building your professional resume today!</p>
+          {% if current_user.is_authenticated %}
+          <a href="/summary" class="btn btn-primary btn-lg">Get Started</a>
+          {% else: %}
+          <a href="/register" class="btn btn-primary btn-lg">Get Started</a>
+          {% endif %}
+        </div>
+
+        <div class="col-md-6 justify-content-center mt-4">
+          <img src="{{ url_for('static', filename ='assets/img/backgrounds/home.png')}}" class="img-fluid home-image"
+            alt="Home image of a Resume">
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Section -->
+  <section id="features" class="feature">
+
+    <div class="bg-light py-5 service-11">
+      <div class="container">
+        <!-- Row  -->
+        <div class="row">
+          <!-- Column -->
+          <div class="col-md-4 wrap-service11-box">
+            <div class="card card-shadow border-0 mb-4">
+              <div class="p-4">
+                <div class="icon-space">
+                  <div class="icon-round text-center d-inline-block rounded-circle bg-success-gradiant"><i
+                      class='bx bx-rocket'></i></div>
+                </div>
+                <h6 class="font-weight-medium">Easy to Use</h6>
+                <p class="mt-3">Create your resume effortlessly with our intuitive interface.</p>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+          <div class="col-md-4 wrap-service11-box">
+            <div class="card card-shadow border-0 mb-4">
+              <div class="p-4">
+                <div class="icon-space">
+                  <div class="icon-round text-center d-inline-block rounded-circle bg-success-gradiant"><i
+                      class='bx bx-phone'></i></div>
+                </div>
+                <h6 class="font-weight-medium">Customer Support</h6>
+                <p class="mt-3">Round the clock customer service to assist you through all</p>
+              </div>
+            </div>
+          </div>
+          <!-- Column -->
+          <div class="col-md-4 wrap-service11-box">
+            <div class="card card-shadow border-0 mb-4">
+              <div class="p-4">
+                <div class="icon-space">
+                  <div class="icon-round text-center d-inline-block rounded-circle bg-success-gradiant"><i
+                      class='bx bx-palette'></i></div>
+                </div>
+                <h6 class="font-weight-medium">Customizable Templates</h6>
+                <p class="mt-3">Choose from a our of templates and customize them as you wish.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="pricing" class="pricing-content section-padding">
+    <div class="container">
+      <div class="section-title text-center">
+        <h2>Pricing Plans</h2>
+        <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking
+          at its layout.</p>
+      </div>
+      <div class="row text-center">
+        <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.1s"
+          data-wow-offset="0"
+          style="visibility: visible; animation-duration: 1s; animation-delay: 0.1s; animation-name: fadeInUp;">
+          <div class="pricing_design">
+            <div class="single-pricing">
+              <div class="price-head">
+                <h2>Basic</h2>
+                <h1>₦0</h1>
+                <span>/Coming Soon</span>
+              </div>
+              <ul>
+                <!-- <li><b>15</b> website</li> -->
+              </ul>
+              <div class="pricing-price">
+
+              </div>
+              <a href="#" class="price_btn">Order Now</a>
+            </div>
+          </div>
+        </div><!--- END COL -->
+        <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.2s"
+          data-wow-offset="0"
+          style="visibility: visible; animation-duration: 1s; animation-delay: 0.2s; animation-name: fadeInUp;">
+          <div class="pricing_design">
+            <div class="single-pricing">
+              <div class="price-head">
+                <h2>Standard</h2>
+                <h1>₦0</h1>
+                <span>/Coming Soon</span>
+              </div>
+              <ul>
+                <!-- <li><b>15</b> website</li> -->
+              </ul>
+              <div class="pricing-price">
+
+              </div>
+              <a href="#" class="price_btn">Order Now</a>
+            </div>
+          </div>
+        </div><!--- END COL -->
+        <div class="col-lg-4 col-sm-6 col-xs-12 wow fadeInUp" data-wow-duration="1s" data-wow-delay="0.3s"
+          data-wow-offset="0"
+          style="visibility: visible; animation-duration: 1s; animation-delay: 0.3s; animation-name: fadeInUp;">
+          <div class="pricing_design">
+            <div class="single-pricing">
+              <div class="price-head">
+                <h2>Premium</h2>
+                <h1>₦0</h1>
+                <span>/Coming Soon</span>
+              </div>
+              <ul>
+                <!-- <li><b>15</b> website</li> -->
+              </ul>
+              <div class="pricing-price">
+
+              </div>
+              <a href="#" class="price_btn">Order Now</a>
+            </div>
+          </div>
+        </div><!--- END COL -->
+      </div><!--- END ROW -->
+    </div><!--- END CONTAINER -->
+  </section>
+
+
+  <footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+      <div class="mb-2 mb-md-0">
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        , made with ❤️ by
+        <a href="#" target="_blank" class="footer-link fw-bolder">Nwankpele Damilola</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <!-- Core JS -->
+  <!-- build:js assets/vendor/js/core.js -->
+  <script src="{{ url_for('static', filename='assets/vendor/libs/jquery/jquery.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/libs/popper/popper.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/js/bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>
+
+  <script src="{{ url_for('static', filename='assets/vendor/js/menu.js') }}"></script>
+  <!-- endbuild -->
+
+  <!-- Vendors JS -->
+
+  <!-- Main JS -->
+  <script src="{{ url_for('static', filename='assets/js/main.js') }}"></script>
+
+  <!-- Page JS -->
+  <script src="{{ url_for('static', filename='assets/js/pages-account-settings-account.js') }}"></script>
+
+  <!-- Place this tag in your head or just before your close body tag. -->
+  <script async defer src="https://buttons.github.io/buttons.js"></script>
+</body>
+
+</html>
