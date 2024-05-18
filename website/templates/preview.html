@@ -20,11 +20,11 @@
 
                 <div id="accordionOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
                     <div class="accordion-body">
-                        <form action="/edituser" method="post">
+                        <form action="/edituser" id="editUser" method="post">
                             <div class="mb-3">
                                 <label for="role" class="form-label">Title</label>
-                                <input type="text" value="{{user.title}}" class="form-control" id="title"
-                                    name="title" aria-describedby="title">
+                                <input type="text" value="{{user.title}}" class="form-control" id="title" name="title"
+                                    aria-describedby="title">
                             </div>
                             <div class="mb-3">
                                 <label for="lastName" class="form-label">Last Name</label>
@@ -63,7 +63,7 @@
 
                             <div class="mb-3">
                                 <label for="summary" class="form-label">Summary</label>
-                                <textarea class="form-control" id="summary" name="summary" rows="3">{{user.summary}}</textarea>
+                                <div id="summary" class="form-control">{{user.summary | safe}}</div>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -96,8 +96,8 @@
                             </div>
 
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" name="linkedin_bool" id="defaultCheck3" {%
-                                    if user.linkedin_bool=="on" %} checked {% endif %} />
+                                <input class="form-check-input" type="checkbox" name="linkedin_bool" id="defaultCheck3"
+                                    {% if user.linkedin_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> LinkedIn </label>
                             </div>
 
@@ -167,18 +167,18 @@
 </style>
 
 <div class="btn-group mb-5" role="group" aria-label="First group">
-    <a href="/template" class="btn btn-outline-secondary">
-        <i class="tf-icons bx bx-edit"></i>
+    <a href="#" class="btn btn-outline-secondary">
+        Change Template
     </a>
 
     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
         aria-controls="offcanvasEnd">
-        <i class="tf-icons bx bx-pencil"></i>
+        Edit Resume
     </button>
 
     <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#modalCenter"
         aria-controls="offcanvasEnd">
-        <i class="tf-icons bx bx-download"></i>
+        Download
     </button>
 </div>
 <div class="card card2">
@@ -215,9 +215,31 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
+
 <script>
     var iframe = document.getElementById("preview-frame");
     iframe.srcdoc = `{{info|safe}}`;
+
+
+    const quill = new Quill('#summary', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block'],
+                [{ list: 'ordered' }],
+            ],
+        },
+        theme: 'snow'
+    });
+
+    const form = document.getElementById('editUser');
+    form.addEventListener('formdata', (event) => {
+        event.preventDefault();
+        // Append Quill content before submitting
+        event.formData.append('summary', JSON.stringify(quill.getContents().ops));
+        form.submit()
+    });
 
 </script>
 {% endblock %}
