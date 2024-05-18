@@ -106,14 +106,8 @@ def profile():
 @views.route('/register', methods=['GET',"POST"])
 def register():
     if request.method == "POST":
-        firstName = request.form.get("firstName")
-        lastName = request.form.get("lastName")
-        title = request.form.get("title")
         dob = request.form.get("dob")
-        address = request.form.get("address")
-        country = request.form.get("country")
         email = request.form.get("email")
-        phoneNumber = request.form.get("phoneNumber")
         password = request.form.get("password")
         confirmPassword = request.form.get("confirmPassword")
         
@@ -129,11 +123,11 @@ def register():
 
         data = {
             "_id": ObjectId(),
-            "title": title,
-            "first_name": firstName,
-            "last_name": lastName,
-            "address": address,
-            "country": country,
+            "title": "",
+            "first_name": "",
+            "last_name": "",
+            "address": "",
+            "country": "",
             "date_of_birth": dob,
             "email": email,
             "email_bool": True,
@@ -145,7 +139,7 @@ def register():
             "tiktok_bool": False,
             "github_bool": False,
             "personal_bool": False,
-            "phone_number": phoneNumber,
+            "phone_number": "",
             "summary": "",
             "template": template['_id'],
             "password": password,

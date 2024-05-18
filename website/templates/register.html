@@ -11,7 +11,8 @@
                     <div class="app-brand justify-content-center">
                         <a href="/" class="app-brand-link gap-2">
                             <span class="app-brand-logo demo">
-                                <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
+                                <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt=""
+                                    srcset="">
                             </span>
                             <span class="app-brand-text demo text-body fw-bolder">NResume</span>
                         </a>
@@ -21,39 +22,6 @@
                     <p class="mb-4">Let's get started!</p>
 
                     <form id="formAuthentication" class="mb-3" action="/register" method="POST">
-                        <div class="mb-3">
-                            <label for="firstName" class="form-label">First Name</label>
-                            <input type="text" class="form-control" name="firstName" id="firstName"
-                                aria-describedby="firstName">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="lastName" class="form-label">Last Name</label>
-                            <input type="text" class="form-control" id="lastName" name="lastName"
-                                aria-describedby="lastName">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="dob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control" id="dob" name="dob" aria-describedby="dob">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="title" class="form-label">Title</label>
-                            <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="address" class="form-label">Address</label>
-                            <input type="text" class="form-control" id="address" name="address"
-                                aria-describedby="address">
-                        </div>
-
-                        <div class="mb-3">
-                            <label for="country" class="form-label">Country</label>
-                            <input type="text" class="form-control" id="country" name="country"
-                                aria-describedby="country">
-                        </div>
 
                         <div class="mb-3">
                             <label for="email" class="form-label">Email</label>
@@ -61,10 +29,10 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="phoneNumber" class="form-label">Phone Number</label>
-                            <input type="phoneNumber" class="form-control" id="phoneNumber" name="phoneNumber"
-                                aria-describedby="phoneNumber">
+                            <label for="dob" class="form-label">Date of Birth</label>
+                            <input type="date" class="form-control" id="dob" name="dob" aria-describedby="dob">
                         </div>
+
                         <div class="mb-3 form-password-toggle">
                             <label class="form-label" for="password">Password</label>
                             <div class="input-group input-group-merge">
@@ -76,7 +44,7 @@
                         </div>
 
                         <div class="mb-3 form-password-toggle">
-                            <label class="form-label" for="confirmPassword">Password</label>
+                            <label class="form-label" for="confirmPassword">Confirm Password</label>
                             <div class="input-group input-group-merge">
                                 <input type="password" id="confirmPassword" class="form-control" name="confirmPassword"
                                     placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
