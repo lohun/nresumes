@@ -60,7 +60,7 @@ def login():
                 login_user(user, remember=True, duration=timedelta(days=365))
                 flash("Login successful")
                 
-                return redirect('/summary')
+                return redirect('/profile')
             else:
                 flash('login unsuccessful')
         else:
@@ -88,7 +88,7 @@ def profile():
         country = request.form.get("country")
         summary = request.form.get("summary")
         
-        collection.update_one( 
+        info = collection.update_one( 
             { "_id" : ObjectId(_id) },
             { "$set": { 
                 "title": title,
@@ -100,7 +100,11 @@ def profile():
                 "phone_number": phone
             }}
         )
-        return redirect("/profile")
+        if info:
+            flash("Hey, your profile has been updated")
+            return redirect("/profile")
+        else:
+            flash("Profile has not been updated, please try again.")
     return render_template("user_profile.html", user=user)
 
 @views.route('/register', methods=['GET',"POST"])
@@ -155,9 +159,11 @@ def register():
             "builds": []
         }
         
-        collection.insert_one(data)
-
-        return redirect("/login")
+        if collection.insert_one(data):
+            flash("Welcome!! Welcome!! Please login and get started")
+            return redirect("/login")
+        else:
+            flash("Please try again")
     return render_template("register.html")
 
 
@@ -172,7 +178,7 @@ def edituser():
     country = request.form.get("country")
     summary = request.form.get("summary")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { "$set": { 
             "title": title,
@@ -184,6 +190,12 @@ def edituser():
             "phone_number": phone
         }}
     )
+    
+    if info:
+        flash("Hey, your profile has been updated")
+        return redirect("/build")
+    else:
+        flash("Profile has not been updated, please try again.")
     return redirect("/build")
 
 @views.route('/experience')
@@ -202,7 +214,7 @@ def editExperience():
     startDate = request.form.get("startDate")
     endDate = request.form.get("endDate")
     description = request.form.get("description")
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "experience._id": ObjectId(id) },
         { "$set": { 
             "experience.$.role": title, 
@@ -213,6 +225,11 @@ def editExperience():
             }
         }
     )
+    if info:
+        flash("Your experience has been updated")
+        return redirect("/experience")
+    else:
+        flash("Your experience has not been updated, please try again.")
     return redirect("/experience")
     
 @views.route('/submitExperience', methods=["POST"])
@@ -225,7 +242,7 @@ def submitExperience():
     description = request.form.get("description")
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "experience": {
                 "_id": ObjectId(),
@@ -237,6 +254,11 @@ def submitExperience():
             } } 
          }
     )
+    if info:
+        flash("Expereince added")
+        return redirect("/experience")
+    else:
+        flash("Info not added, please try again.")
     return redirect("/experience")
 
 @views.route('/education')
@@ -257,7 +279,7 @@ def editEducation():
     achievments = request.form.get("achievments")
     date_started = request.form.get("date_started")
     date_ended = request.form.get("date_ended")
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "education._id": ObjectId(id) },
         { "$set": { 
             "education.$.school": school, 
@@ -269,6 +291,11 @@ def editEducation():
             "education.$.date_ended": date_ended,
         }}
     )
+    if info:
+        flash("Education edited")
+        return redirect("/education")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/education")
 
 @views.route('/submitEducation', methods=["POST"])
@@ -284,7 +311,7 @@ def submitEducation():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "education": {
                 "_id": ObjectId(),
@@ -298,6 +325,11 @@ def submitEducation():
             } } 
          }
     )
+    if info:
+        flash("Education added")
+        return redirect("/education")
+    else:
+        flash("Info not added, please try again.")
     return redirect("/education")
 
 @views.route('/certification')
@@ -315,7 +347,7 @@ def editCertification():
     organization = request.form.get("organization")
     certification_date = request.form.get("date")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "certifications._id": ObjectId(id) },
         { "$set": { 
             "certifications.$.name": name, 
@@ -323,6 +355,12 @@ def editCertification():
             "certifications.$.date": certification_date
         }}
     )
+    
+    if info:
+        flash("Certification edited")
+        return redirect("/certification")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/certification")
 
 @views.route('/submitCertification', methods=["POST"])
@@ -334,7 +372,7 @@ def submitCertification():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "certifications": {
                 "_id": ObjectId(),
@@ -344,6 +382,11 @@ def submitCertification():
             } } 
          }
     )
+    if info:
+        flash("Certification submitted")
+        return redirect("/certification")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/certification")
 
 
@@ -355,7 +398,7 @@ def submitSocial():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "socials": {
                 "_id": ObjectId(),
@@ -364,6 +407,11 @@ def submitSocial():
             } } 
          }
     )
+    if info:
+        flash("Social media submitted")
+        return redirect("/socials")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/socials")
 
 @views.route('/socials')
@@ -380,13 +428,19 @@ def editSocial():
     social_type = request.form.get("type")
     link = request.form.get("link")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "socials._id": ObjectId(id) },
         { "$set": { 
             "socials.$.type": social_type, 
             "socials.$.link": link
         }}
     )
+    
+    if info:
+        flash("Social media editted")
+        return redirect("/socials")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/socials")
 
 @views.route('/projects')
@@ -406,7 +460,7 @@ def editProject():
     date_started = request.form.get("date_started")
     date_ended = request.form.get("date_ended")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "projects._id": ObjectId(id) },
         { "$set": { 
             "projects.$.name": name, 
@@ -416,6 +470,12 @@ def editProject():
             "projects.$.date_ended": date_ended
         }}
     )
+    
+    if info:
+        flash("Project edited")
+        return redirect("/projects")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/projects")
 
 @views.route('/submitProject', methods=["POST"])
@@ -428,7 +488,7 @@ def submitProject():
     date_ended = request.form.get("date_ended")
     id = current_user.id
     
-    collection.update_one(
+    info = collection.update_one(
         { "_id" : ObjectId(id) },
         { "$push": { "projects": {
                 "_id": ObjectId(),
@@ -440,7 +500,13 @@ def submitProject():
             } } 
          }
     )
-    return redirect("/projects")
+    
+    if info:
+        flash("Project submitted")
+        return redirect("/projects")
+    else:
+        flash("Info not submitted, please try again.")
+    return redirect("/prskillsojects")
 
 @views.route('/skills')
 @login_required
@@ -455,12 +521,18 @@ def editSkills():
     id = request.form.get("id")
     name = request.form.get("name")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "skills._id": ObjectId(id) },
         { "$set": { 
             "skills.$.name": name
         }}
     )
+    
+    if info:
+        flash("Skill edited")
+        return redirect("/skills")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/skills")
 
 @views.route('/submitSkills', methods=["POST"])
@@ -470,7 +542,7 @@ def submitSkills():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "skills": {
                 "_id": ObjectId(),
@@ -478,6 +550,12 @@ def submitSkills():
             } } 
          }
     )
+    
+    if info:
+        flash("Skill submitted")
+        return redirect("/skills")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/skills")
 
 @views.route('/volunteer')
@@ -496,7 +574,7 @@ def editVolunteer():
     date_started = request.form.get("date_started")
     date_ended = request.form.get("date_ended")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "volunteer._id": ObjectId(id) },
         { "$set": { 
             "volunteer.$.organization": organization,
@@ -505,6 +583,12 @@ def editVolunteer():
             "volunteer.$.date_ended": date_ended
         }}
     )
+    
+    if info:
+        flash("Volunteer information edited")
+        return redirect("/volunteer")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/volunteer")
 
 @views.route('/submitVolunteer', methods=["POST"])
@@ -517,7 +601,7 @@ def submitVolunteer():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "volunteer": {
                 "_id": ObjectId(),
@@ -528,6 +612,11 @@ def submitVolunteer():
             } } 
          }
     )
+    if info:
+        flash("Volunteer information submitted")
+        return redirect("/volunteer")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/volunteer")
 
 @views.route('/interests')
@@ -543,12 +632,18 @@ def editInterests():
     id = request.form.get("id")
     name = request.form.get("name")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "interests._id": ObjectId(id) },
         { "$set": { 
             "interests.$.name": name
         }}
     )
+    
+    if info:
+        flash("Information edited")
+        return redirect("/interests")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/interests")
 
 @views.route('/submitInterests', methods=["POST"])
@@ -558,7 +653,7 @@ def submitInterests():
     
     id = current_user.id
 
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "interests": {
                 "_id": ObjectId(),
@@ -566,6 +661,12 @@ def submitInterests():
             } } 
          }
     )
+    
+    if info:
+        flash("Information submitted")
+        return redirect("/interests")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/interests")
 
 @views.route('/extra')
@@ -582,10 +683,16 @@ def editExtra():
     title = request.form.get("title")
     description = request.form.get("description")
     
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id), "extra._id": ObjectId(id) },
         { "$set": { "extra.$.title": title, "extra.$.description": description}}
     )
+    
+    if info:
+        flash("Information edited")
+        return redirect("/extra")
+    else:
+        flash("Info not edited, please try again.")
     return redirect("/extra")
 
 @views.route('/submitExtra', methods=["POST"])
@@ -594,7 +701,7 @@ def submitExtra():
     title = request.form.get("title")
     description = request.form.get("description")    
     id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "extra": {
                 "_id": ObjectId(),
@@ -603,6 +710,12 @@ def submitExtra():
             } } 
          }
     )
+    
+    if info:
+        flash("Information submitted")
+        return redirect("/extra")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/extra")
 
 
@@ -619,7 +732,7 @@ def socialsallowed():
     youtube_bool = request.form.get('youtube_bool')
     tiktok_bool = request.form.get('tiktok_bool')
     github_bool = request.form.get('github_bool')
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : id },
         { "$set": { "email_bool": email_bool,
             "linkedin_bool": linkedin_bool,
@@ -632,6 +745,12 @@ def socialsallowed():
             "personal_bool": personal_bool,
             } } 
     )
+    
+    if info:
+        flash("Information submitted")
+        return redirect("/build")
+    else:
+        flash("Info not submitted, please try again.")
     return redirect("/build")
 
 
@@ -1028,118 +1147,177 @@ def upload():
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
         file.save(f"{path}/{filename}")
-        collection.update_one( 
+        info = collection.update_one( 
             { "_id" : ObjectId(_id) },
             { "$set": { "profile_picture": f"build/{user.last_name} {user.first_name}/profile/{filename}"}}
         )
+        
+        if info:
+            flash("Profile Pic updated")
+            return redirect("/profile")
+        else:
+            flash("Oops, not updated, please try again.")
         return redirect("/profile")
 
 @views.route("/deleteEducation/<id>")
 @login_required
 def deleteEducation(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "education":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/education")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/education")
 
 @views.route("/deleteExperience/<id>")
 @login_required
 def deleteExperience(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "experience":{ "_id": ObjectId(id)}}
         }
     )
+    if info:
+        flash("Information deleted")
+        return redirect("/experience")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/experience")
 
 @views.route("/deleteCertification/<id>")
 @login_required
 def deleteCertification(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "certifications":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/certification")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/certification")
 
 @views.route("/deleteSocial/<id>")
 @login_required
 def deleteSocial(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "socials":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/socials")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/socials")
 
 @views.route("/deleteProject/<id>")
 @login_required
 def deleteProject(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "projects":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/projects")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/projects")
 
 @views.route("/deleteSkill/<id>")
 @login_required
 def deleteSkill(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "skills":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/skills")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/skills")
 
 @views.route("/deleteInterest/<id>")
 @login_required
 def deleteInterest(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "interests":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/interests")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/interests")
 
 @views.route("/deleteExtra/<id>")
 @login_required
 def deleteExtra(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "extra":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/extra")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/extra")
 
 @views.route("/deleteVolunteer/<id>")
 @login_required
 def deleteVolunteer(id):
     _id = current_user.id
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "volunteer":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/volunteer")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/volunteer")
 
 @views.route("/deleteBuilds/<id>")
@@ -1152,12 +1330,18 @@ def deleteBuilds(id):
         if row['_id'] == id:
             if os.path.exists(os.path.join(dirname, f"website/static/{row['path']}")):
                 os.remove(os.path.join(dirname, f"website/static/{row['path']}"))
-    collection.update_one( 
+    info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
          "$pull": { "builds":{ "_id": ObjectId(id)}}
         }
     )
+    
+    if info:
+        flash("Information deleted")
+        return redirect("/builds")
+    else:
+        flash("Info not deleted, please try again.")
     return redirect("/builds")
     
     

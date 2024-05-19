@@ -55,6 +55,37 @@
 </head>
 
 <body>
+
+
+  {% with messages = get_flashed_messages()%}
+  {% if messages%}
+  {% for message in messages%}
+  <div style="position: fixed; top: 30;" class="bs-toast toast fade show bg-primary" role="alert" role="alert"
+    data-delay="2000" aria-live="assertive" aria-atomic="true">
+    <div class="toast-header">
+      <i class="bx bx-bell me-2"></i>
+      <div class="me-auto fw-semibold">NResume</div>
+      <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+    </div>
+    <div class="toast-body">
+      {{message}}
+    </div>
+  </div>
+
+  <script>
+    setTimeout(function () {
+      var messages = document.getElementsByClassName('toast').length
+      for (let index = 0; index < messages; index++) {
+        const element = document.getElementsByClassName('toast')[index];
+        element.classList.replace('show', 'hide');
+      }
+    }, 6000)
+  </script>
+  {%endfor%}
+  {%endif%}
+  {%endwith%}
+
+
   <!-- Layout wrapper -->
   <div class="layout-wrapper layout-content-navbar">
     <div class="layout-container">
