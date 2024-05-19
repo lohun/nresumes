@@ -88,7 +88,7 @@ class User(UserMixin):
         self.anonymous = anonymous,
         self.active = active
         
-        if user['profile_picture'] != "":
+        if 'profile_picture' in user.key() and user['profile_picture'] != "":
             self.profile_picture = user['profile_picture']
         
     def is_authenticated(self):

@@ -143,6 +143,7 @@ def register():
             "tiktok_bool": False,
             "github_bool": False,
             "personal_bool": False,
+            "address_bool": False,
             "phone_number": "",
             "summary": "",
             "template": template['_id'],
