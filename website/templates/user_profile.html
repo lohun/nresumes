@@ -103,7 +103,7 @@
     form.addEventListener('formdata', (event) => {
         event.preventDefault();
         // Append Quill content before submitting
-        event.formData.append('summary', JSON.stringify(quill.getContents().ops));
+        event.formData.append('summary', quill.root.innerHTML);
         form.submit()
     });
 </script>
