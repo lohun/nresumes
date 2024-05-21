@@ -117,7 +117,7 @@ def register():
         
         templates = db['template']
         templates = templates.find({})
-        template = templates[0]
+        template = templates[1]
         
         if(password != confirmPassword):
             flash("Password does not match")

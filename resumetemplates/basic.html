@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+        }
+
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1,
+        h2,
+        h3 {
+            margin: 0;
+            padding-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 2em;
+            border-bottom: 2px solid #333;
+        }
+
+        .contact,
+        .education,
+        .experience,
+        .skills {
+            margin-bottom: 20px;
+        }
+
+        .section-title {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+            padding-bottom: 5px;
+        }
+
+        .item {
+            margin-bottom: 15px;
+        }
+
+        .item-title {
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .item-subtitle {
+            font-style: italic;
+            color: #666;
+        }
+
+        .item-date {
+            float: right;
+            color: #999;
+        }
+
+        .clear {
+            clear: both;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <h1>{{fullname}}</h1>
+            <div class="contact">
+                <p>{{basic_info}}</p>
+            </div>
+        </header>
+        {{info}}
+    </div>
+</body>
+
+</html>
