@@ -2,7 +2,8 @@
 {% block header %} Experience {%endblock%}
 
 {% block main %}
-<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add Experience</button>
+<button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add
+    Experience</button>
 <div class="card">
     <div class="card-body">
 
@@ -10,16 +11,16 @@
             <div class="list-group">
 
 
-                {% for row in experience %}
+                {% for row in current_user.experience %}
                 <a href="javascript:void(0);"
                     class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex justify-content-between w-100">
                         <h6>{{ row['role'] }}</h6>
                         <small>
                             <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-company="{{ row['company'] }}"
-                                data-role = "{{ row['role'] }}"
-                                data-dateStarted="{{ row['date_started'] }}" data-dateEnded="{{ row['date_ended'] }}"
-                                data-description="{{ row['description'] }}" onclick="editform(this)"
+                                data-role="{{ row['role'] }}" data-dateStarted="{{ row['date_started'] }}"
+                                data-dateEnded="{{ row['date_ended'] }}"
+                                data-description='{{ row["description"] | safe }}' onclick="editform(this)"
                                 data-bs-target="#modalCenter" class="text-info tf-icons bx bx-pencil"></span>
                             <span onclick='follow(`/deleteExperience/{{ row["_id"] }}`)'
                                 class="text-danger tf-icons bx bx-trash"></span>
@@ -27,7 +28,7 @@
                     </div>
                     <p class="mb-1">
                         <p>{{ row['company'] }} <em>from {{ row['date_started'] }} to {{ row['date_ended'] }}</em></p>
-                        <p>{{ description }}</p>
+                        <p>{{ row['description'] | safe }}</p>
                     </p>
                 </a>
                 {%endfor%}
@@ -52,7 +53,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/editExperience" method="post">
+                    <form action="/editExperience" id="editExperience" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="company" class="form-label">Company Name</label>
@@ -80,8 +81,8 @@
                         </div>
 
                         <div class="mb-3">
-                            <label for="description" class="form-label">Job Description</label>
-                            <textarea class="form-control" id="editDescription" name="description" rows="3"></textarea>
+                            <label for="editDescription" class="form-label">Job Description</label>
+                            <div id="editDescription" class="form-control"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -102,33 +103,36 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitExperience" method="post">
+                    <form action="/submitExperience" id="submitExperience" method="post">
                         <div class="mb-3">
                             <label for="company" class="form-label">Company Name</label>
-                            <input type="text" class="form-control" id="company" name="company" aria-describedby="company">
+                            <input type="text" class="form-control" id="company" name="company"
+                                aria-describedby="company">
                         </div>
-    
-    
+
+
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
                             <input type="text" class="form-control" id="title" name="title" aria-describedby="title">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="startDate" class="form-label">Start Date</label>
-                            <input type="text" class="form-control" id="startDate" name="startDate" aria-describedby="startDate">
+                            <input type="text" class="form-control" id="startDate" name="startDate"
+                                aria-describedby="startDate">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="endDate" class="form-label">End Date</label>
-                            <input type="text" class="form-control" id="endDate" name="endDate" aria-describedby="endDate">
+                            <input type="text" class="form-control" id="endDate" name="endDate"
+                                aria-describedby="endDate">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="description" class="form-label">Job Description</label>
-                            <textarea class="form-control" id="description" name="description" rows="3"></textarea>
+                            <div id="description" class="form-control"></div>
                         </div>
-    
+
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>
                 </div>
@@ -137,26 +141,67 @@
     </div>
 </div>
 
-    <script>
-        function editform(e) {
-            var id = e.getAttribute("data-id");
-            var role = e.getAttribute("data-role")
-            var company = e.getAttribute("data-company")
-            var dateStarted = e.getAttribute("data-dateStarted")
-            var dateEnded = e.getAttribute("data-dateEnded")
-            var dateDescription = e.getAttribute("data-description")
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
-            document.getElementById("editId").value = id
-            document.getElementById("editTitle").value = role
-            document.getElementById("editCompany").value = company
-            document.getElementById("editStartDate").value = dateStarted
-            document.getElementById("editEndDate").value = dateEnded
-            document.getElementById("editDescription").value = dateDescription
-        }
+<script>
+    const quill = new Quill('#editDescription', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block'],
+                [{ list: 'ordered' }],
+            ],
+        },
+        theme: 'snow'
+    });
 
-        function follow(link) {
-            location.href = link
-        }
-    </script>
+    const quill2 = new Quill('#description', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block'],
+                [{ list: 'ordered' }],
+            ],
+        },
+        theme: 'snow'
+    });
 
-    {%endblock%}
+    function editform(e) {
+        var id = e.getAttribute("data-id");
+        var role = e.getAttribute("data-role")
+        var company = e.getAttribute("data-company")
+        var dateStarted = e.getAttribute("data-dateStarted")
+        var dateEnded = e.getAttribute("data-dateEnded")
+        var dateDescription = e.getAttribute("data-description")
+
+        document.getElementById("editId").value = id
+        document.getElementById("editTitle").value = role
+        document.getElementById("editCompany").value = company
+        document.getElementById("editStartDate").value = dateStarted
+        document.getElementById("editEndDate").value = dateEnded
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(0, dateDescription);
+    }
+
+    function follow(link) {
+        location.href = link
+    }
+
+    const form = document.getElementById('submitExperience');
+    form.addEventListener('formdata', (event) => {
+        event.preventDefault();
+        // Append Quill content before submitting
+        event.formData.append('description', quill2.root.innerHTML);
+        form.submit()
+    });
+
+    const form2 = document.getElementById('editExperience');
+    form2.addEventListener('formdata', (event) => {
+        event.preventDefault();
+        // Append Quill content before submitting
+        event.formData.append('description', quill.root.innerHTML);
+        form.submit()
+    });
+</script>
+
+{%endblock%}

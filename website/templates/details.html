@@ -171,12 +171,12 @@
             <span class="menu-header-text">Pages</span>
           </li>
 
-          <!-- <li class="menu-item">
+          <li class="menu-item">
             <a href="/templates" class="menu-link">
               <i class="menu-icon tf-icons bx bx-pen"></i>
               <div>Templates</div>
             </a>
-          </li> -->
+          </li>
 
           <li class="menu-item">
             <a href="/build" class="menu-link">
@@ -219,7 +219,7 @@
               <li class="nav-item navbar-dropdown dropdown-user dropdown">
                 <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
                   <div class="avatar avatar-online">
-                    <img src="{{ url_for('static', filename=user.profile_picture) }}" alt
+                    <img src="{{ url_for('static', filename=current_user.profile_picture) }}" alt
                       class="w-px-40 h-auto rounded-circle" />
                   </div>
                 </a>

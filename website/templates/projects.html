@@ -11,7 +11,7 @@
             <div class="list-group">
 
 
-                {% for row in project %}
+                {% for row in current_user.projects %}
                 <a href="javascript:void(0);"
                     class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex justify-content-between w-100">
@@ -19,7 +19,7 @@
                         <small>
                             <span data-bs-toggle="modal" data-id="{{ row['_id'] }}" data-name="{{ row['name'] }}"
                                 data-dateStarted="{{ row['date_started'] }}" data-dateEnded="{{ row['date_ended'] }}"
-                                data-link="{{ row['link'] }}" data-description="{{ row['description'] }}"
+                                data-link="{{ row['link'] }}" data-description='{{ row["description"] | safe }}'
                                 onclick="editform(this)" data-bs-target="#modalCenter"
                                 class="text-info tf-icons bx bx-pencil"></span>
                             <span onclick='follow(`/deleteProject/{{ row["_id"] }}`)'
@@ -28,7 +28,7 @@
                     </div>
                     <p class="mb-1">
                         <p>Started {{ row['date_started'] }} to {{ row['date_ended'] }}</p>
-                        <p>{{ row['description'] }}</p>
+                        <p>{{ row['description']| safe }}</p>
                         <small><a href="{{row['link']}}">Click here to see project</a></small>
                     </p>
                 </a>
@@ -51,7 +51,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/editProject" method="post">
+                    <form action="/editProject" id="editProject" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="course" class="form-label">Project Name</label>
@@ -76,9 +76,9 @@
                                 aria-describedby="school">
                         </div>
 
-                        <div>
+                        <div class="mb-3">
                             <label for="editDescription" class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="editDescription" rows="3"></textarea>
+                            <div id="editDescription" class="form-control"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -98,7 +98,7 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <form action="/submitProject" method="post">
+                    <form action="/submitProject" id="submitProject" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="course" class="form-label">Project Name</label>
@@ -122,9 +122,9 @@
                                 aria-describedby="school">
                         </div>
 
-                        <div>
-                            <label for="editDescription" class="form-label">Description</label>
-                            <textarea class="form-control" name="description" id="description" rows="3"></textarea>
+                        <div class="mb-3">
+                            <label for="description" class="form-label">Description</label>
+                            <div id="description" class="form-control"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -135,8 +135,31 @@
     </div>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
 <script>
+    const quill = new Quill('#editDescription', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block'],
+                [{ list: 'ordered' }],
+            ],
+        },
+        theme: 'snow'
+    });
+
+    const quill2 = new Quill('#description', {
+        modules: {
+            toolbar: [
+                ['bold', 'italic'],
+                ['link', 'blockquote', 'code-block'],
+                [{ list: 'ordered' }],
+            ],
+        },
+        theme: 'snow'
+    });
+
     function editform(e) {
         var id = e.getAttribute("data-id");
         var name = e.getAttribute("data-name");
@@ -145,10 +168,12 @@
         var dateStarted = e.getAttribute("data-dateStarted");
         var dateEnded = e.getAttribute("data-dateEnded");
 
+
         document.getElementById("editId").value = id;
         document.getElementById("editName").value = name;
         document.getElementById("editLink").value = link;
-        document.getElementById("editDescription").innerText = description;
+        quill.setContents([]);
+        quill.clipboard.dangerouslyPasteHTML(0, description);
         document.getElementById("editDateStarted").value = dateStarted;
         document.getElementById("editDateEnd").value = dateEnded;
     }
@@ -156,6 +181,22 @@
     function follow(link) {
         location.href = link
     }
+
+    const form = document.getElementById('submitProject');
+    form.addEventListener('formdata', (event) => {
+        event.preventDefault();
+        // Append Quill content before submitting
+        event.formData.append('description', quill2.root.innerHTML);
+        form.submit()
+    });
+
+    const form2 = document.getElementById('editProject');
+    form2.addEventListener('formdata', (event) => {
+        event.preventDefault();
+        // Append Quill content before submitting
+        event.formData.append('description', quill.root.innerHTML);
+        form.submit()
+    });
 </script>
 
 {%endblock%}

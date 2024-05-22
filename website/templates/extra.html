@@ -11,7 +11,7 @@
             <div class="list-group">
 
 
-                {% for row in extra %}
+                {% for row in current_user.extra %}
                 <a href="javascript:void(0);"
                     class="list-group-item list-group-item-action flex-column align-items-start">
                     <div class="d-flex justify-content-between w-100">
@@ -139,8 +139,8 @@
 
         document.getElementById("editId").value = id;
         document.getElementById("editTitle").value = title;
+        quill.setContents([]);
         quill.clipboard.dangerouslyPasteHTML(0, description);
-        // quill.setContents(data.description);
     }
 
     function follow(link) {

@@ -1,0 +1,54 @@
+{% extends "details.html" %} {% block title %} Profile {%endblock%}
+{% block header %} Select your Resume template <em>{{current_user.first_name}}</em> {%endblock%}
+
+{% block main %}
+<small>All templates fonts and colors can be edited while building the resume</small>
+<div class="card mb-4">
+    <h5 class="card-header">Profile Details</h5>
+    <div class="card-body">
+        <div class="row">
+            {% for row in templates %}
+            <div class="col-md-4">
+                <img data-bs-toggle="modal" data-id="{{ row['_id'] }}"
+                    data-image="{{ url_for('static', filename=row['image']) }}" data-bs-target="#modalCenter"
+                    src="{{ url_for('static', filename=row['image']) }}" style="cursor: pointer;"
+                    onclick="fillModal(this)" alt="Image Sample of a Resume" class="img-fluid img-thumbnail">
+            </div>
+            {%endfor%}
+        </div>
+    </div>
+</div>
+
+
+
+<div class="modal fade" id="modalCenter" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalCenterTitle">Edit this item</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <img alt="Image Sample of a Resume" id="full-image" class="img-fluid img-thumbnail">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
+                    Close
+                </button>
+                <a id="image-link" class="btn btn-primary">Save changes</a>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script>
+    function fillModal(e) {
+        var id = e.getAttribute("data-id");
+        var image = e.getAttribute("data-image");
+
+        document.getElementById('full-image').src = image;
+        document.getElementById('image-link').href = `/selecttemplate/${id}`;
+    }
+</script>
+{%endblock%}

@@ -23,47 +23,47 @@
                         <form action="/edituser" id="editUser" method="post">
                             <div class="mb-3">
                                 <label for="role" class="form-label">Title</label>
-                                <input type="text" value="{{user.title}}" class="form-control" id="title" name="title"
+                                <input type="text" value="{{current_user.title}}" class="form-control" id="title" name="title"
                                     aria-describedby="title">
                             </div>
                             <div class="mb-3">
                                 <label for="lastName" class="form-label">Last Name</label>
-                                <input type="text" value="{{user.last_name}}" class="form-control" id="startDate"
+                                <input type="text" value="{{current_user.last_name}}" class="form-control" id="startDate"
                                     name="last_name" aria-describedby="lastName">
                             </div>
                             <div class="mb-3">
                                 <label for="firstName" class="form-label">First Name</label>
-                                <input type="text" class="form-control" id="firstDate" value="{{user.first_name}}"
+                                <input type="text" class="form-control" id="firstDate" value="{{current_user.first_name}}"
                                     name="first_name" aria-describedby="firstName">
                             </div>
 
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email</label>
-                                <input type="text" class="form-control" value="{{user.email}}" id="email" readonly
+                                <input type="text" class="form-control" value="{{current_user.email}}" id="email" readonly
                                     aria-describedby="email">
                             </div>
 
                             <div class="mb-3">
                                 <label for="address" class="form-label">Address</label>
-                                <input type="text" class="form-control" id="address" value="{{user.address}}"
+                                <input type="text" class="form-control" id="address" value="{{current_user.address}}"
                                     name="address" aria-describedby="address">
                             </div>
 
                             <div class="mb-3">
                                 <label for="country" class="form-label">Country</label>
-                                <input type="text" class="form-control" id="country" value="{{user.country}}"
+                                <input type="text" class="form-control" id="country" value="{{current_user.country}}"
                                     name="country" aria-describedby="country">
                             </div>
 
                             <div class="mb-3">
                                 <label for="phoneNumber" class="form-label">Phone Number</label>
-                                <input type="text" class="form-control" id="phoneNumber" value="{{user.phone_number}}"
+                                <input type="text" class="form-control" id="phoneNumber" value="{{current_user.phone_number}}"
                                     name="phone_number" aria-describedby="firstName">
                             </div>
 
                             <div class="mb-3">
                                 <label for="summary" class="form-label">Summary</label>
-                                <div id="summary" class="form-control">{{user.summary | safe}}</div>
+                                <div id="summary" class="form-control">{{current_user.summary | safe}}</div>
                             </div>
 
                             <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -85,55 +85,55 @@
                         <form action="/socialsallowed" method="post">
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="email_bool" id="defaultCheck3" {%
-                                    if user.email_bool=="on" %} checked {% endif %} />
+                                    if current_user.email_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Email </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="personal_bool" id="defaultCheck3"
-                                    {% if user.personal_bool=="on" %} checked {% endif %} />
+                                    {% if current_user.personal_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Personal Website </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="linkedin_bool" id="defaultCheck3"
-                                    {% if user.linkedin_bool=="on" %} checked {% endif %} />
+                                    {% if current_user.linkedin_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> LinkedIn </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="twitter_bool" id="defaultCheck3"
-                                    {% if user.twitter_bool=="on" %} checked {% endif %} />
+                                    {% if current_user.twitter_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Twitter </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="instagram_bool" id="defaultCheck3"
-                                    {% if user.instagram_bool=="on" %} checked {% endif %} />
+                                    {% if current_user.instagram_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Instagram </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="youtube_bool" id="defaultCheck3"
-                                    {% if user.youtube_bool=="on" %} checked {% endif %} />
+                                    {% if current_user.youtube_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Youtube </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="tiktok_bool" id="defaultCheck3" {%
-                                    if user.tiktok_bool=="on" %} checked {% endif %} />
+                                    if current_user.tiktok_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Tiktok </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="github_bool" id="defaultCheck3" {%
-                                    if user.github_bool=="on" %} checked {% endif %} />
+                                    if current_user.github_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Github </label>
                             </div>
 
                             <div class="form-check">
                                 <input class="form-check-input" type="checkbox" name="phone_bool" id="defaultCheck3" {%
-                                    if user.phone_bool=="on" %} checked {% endif %} />
+                                    if current_user.phone_bool=="on" %} checked {% endif %} />
                                 <label class="form-check-label" for="defaultCheck3"> Phone Number </label>
                             </div>
 
@@ -167,7 +167,7 @@
 </style>
 
 <div class="btn-group mb-5" role="group" aria-label="First group">
-    <a href="#" class="btn btn-outline-secondary">
+    <a href="/templates" class="btn btn-outline-secondary">
         Change Template
     </a>
 

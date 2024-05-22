@@ -934,7 +934,6 @@ def download():
     if filename == None or filename == "":
         filename = default_name
     
-    
     user = current_user
     id = user.id
     template = user.template
@@ -1117,6 +1116,35 @@ def download():
 def builds():
     builds = current_user.builds
     return render_template("build.html", user=current_user, builds = builds)
+
+@views.route('/templates')
+@login_required
+def templates():
+    templates_collection = db.template
+    template = templates_collection.find({})
+    return render_template("templates.html", templates=template)
+
+@views.route('/selecttemplate/<id>')
+@login_required
+def selecttemplate(id):
+    templates_collection = db.template
+    template = templates_collection.find_one({"_id": ObjectId(id)})
+    if template == [] or template == {}:
+        flash("Template does not exist")
+        return redirect("templates")
+    
+    info = collection.update_one(
+            {"_id": ObjectId(current_user.id)},
+            {"$set": {
+                "template": ObjectId(id)
+            }}
+        )
+    if info:
+        flash("Template selected")
+        return redirect("/build")
+    else:
+        flash("Oops, not updated, please try again.")
+        redirect("/templates")
 
 
 @views.route('/logout')

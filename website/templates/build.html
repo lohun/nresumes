@@ -15,7 +15,7 @@
                 </tr>
             </thead>
             <tbody class="table-border-bottom-0">
-                {% for row in builds%}
+                {% for row in current_user.builds%}
                 <tr>
                     <td>{{row['name']}}</td>
                     <td>{{row['date']}}</td>

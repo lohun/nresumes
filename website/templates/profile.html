@@ -8,12 +8,12 @@
         <section>
             <h4>Basic Information</h4>
             <div class="px-4">
-                <p>Name: {{ user['first_name'] }} {{ user['last_name'] }}</p>
-                <p>Address: {{ user['address'] }}</p>
-                <p>Country: {{ user['country'] }}</p>
-                <p>Date of Birth: {{ user['date_of_birth'] }}</p>
-                <p>Email: {{ user['email'] }}</p>
-                <p>Phone Number: {{ user['phone_number'] }}</p>
+                <p>Name: {{ current_user.first_name }} {{ current_user.last_name }}</p>
+                <p>Address: {{ current_user.address }}</p>
+                <p>Country: {{ current_user.country }}</p>
+                <p>Date of Birth: {{ current_user.date_of_birth }}</p>
+                <p>Email: {{ current_user.email }}</p>
+                <p>Phone Number: {{ current_user.phone_number }}</p>
             </div>
         </section>
         <hr>
@@ -21,8 +21,8 @@
         <section>
             <h4>Experience</h4>
 
-            {% if user['experience'] != [] %}
-            {% for row in user['experience'] %}
+            {% if current_user.experience != [] %}
+            {% for row in current_user.experience %}
             <div class="mb-3 px-4">
                 <h5><u>{{ row['company'] }}</u></h5>
                 <p>{{ row['date_started'] }} to {{row['date_ended']}}</p>
@@ -40,8 +40,8 @@
         <section>
             <h4>Education</h4>
 
-            {% if user['education'] != [] %}
-            {% for row in user['education'] %}
+            {% if current_user.education != [] %}
+            {% for row in current_user.education %}
             <div class="mb-3 px-4">
                 <h5><u>{{ row['award'] }}</u></h5>
                 <p>{{ row['department'] }}</p>
@@ -59,8 +59,8 @@
         <section>
             <h4>Certifications</h4>
 
-            {% if user['certifications'] != [] %}
-            {% for row in user['certifications'] %}
+            {% if current_user.certifications != [] %}
+            {% for row in current_user.certifications %}
             <div class="mb-3 px-4">
                 <p>{{row['name']}}</p>
                 <p>{{row['organization']}}</p>
@@ -77,8 +77,8 @@
         <section>
             <h4>Projects</h4>
 
-            {% if user['projects'] != [] %}
-            {% for row in user['projects'] %}
+            {% if current_user.projects != [] %}
+            {% for row in current_user.projects %}
             <div class="mb-3 px-4">
                 <h5><u>{{row['name']}}</u></h5>
                 <p>{{row['description']}}</p>
@@ -98,8 +98,8 @@
         <section>
             <h4>Skills</h4>
 
-            {% if user['skills'] != [] %}
-            {% for row in user['skills'] %}
+            {% if current_user.skills != [] %}
+            {% for row in current_user.skills %}
             <p>{{row['name']}}</p>
             {%endfor%}
             {% else %}
@@ -112,8 +112,8 @@
         <section>
             <h4>Volunteering</h4>
 
-            {% if user['volunteer'] != [] %}
-            {% for row in user['volunteer'] %}
+            {% if current_user.volunteer != [] %}
+            {% for row in current_user.volunteer %}
             <h5><u>{{row['organization']}}</u></h5>
             <p>{{row['role']}}</p>
             <p>{{ row['date_started'] }} to {{ row['date_ended'] }}</p>
@@ -128,8 +128,8 @@
         <section>
             <h4>Interests/Hobbies</h4>
 
-            {% if user['interests'] != [] %}
-            {% for row in user['interests'] %}
+            {% if current_user.interests != [] %}
+            {% for row in current_user.interests %}
             <p>{{ row['name'] }}</p>
             {%endfor%}
             {% else %}
@@ -141,8 +141,8 @@
 
         <section>
 
-            {% if user['extra_info'] != [] %}
-            {% for row in user['extra_info'] %}
+            {% if current_user.extra_info != [] %}
+            {% for row in current_user.extra_info %}
             <div class="mb-3 px-4">
                 <h4>{{row['extra_title']}}</h4>
                 <p>{{row['extra_description']}}</p>
