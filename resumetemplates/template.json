@@ -2,7 +2,7 @@
     "_id": {
         "$oid": "66375065baea10cfe4c55f69"
     },
-    "location": "./resumetemplates/basic.html",
+    "location": "./resumetemplates/first.html",
     "education": "<div class='item'><span class='item-date'>{{date_started}} - {{date_ended}}</span><div class='clear'></div><p class='item-title'>{{award}} in {{department}}</p><p class='item-subtitle'>{{school}}</p></div>",
     "education_template": "<section class='education'><h2 class='section-title'>Education</h2>{{education_history}}</section>",
     "experience": "<div class='item'><span class='item-date'>{{start_date}} - {{end_date}}</span><div class='clear'></div><p class='item-title'>{{role}}</p><p class='item-subtitle'>{{company}}</p>{{role_description}}</div>",
@@ -11,8 +11,8 @@
     "socials_template": "<section><h1>Social Media</h1>{{socials_history}}</section>",
     "projects": "<div class='item'><span class='item-date'>{{date_started}} - {{date_ended}}</span><div class='clear'></div><p class='item-title'>{{name}}</p><p class='item-subtitle'> | <a href='{{link}}'>{{link}}</a></p>{{description}}</div>",
     "projects_template": "<section class='project'><h2 class='section-title'>Projects</h2>{{projects_history}}</section>",
-    "skills": "<p style='margin: 10px; padding: 20px;'>{{name}}</p>",
-    "skills_template": "<section class='skills'><h2 class='section-title'>Skills</h2><div style='display: flex;' class='item'>{{skills_history}}</div></section>",
+    "skills": "<p>{{name}}</p>",
+    "skills_template": "<section class='skills'><h2 class='section-title'>Skills</h2><div class='item'>{{skills_history}}</div></section>",
     "volunteer": "<div class='item'><span class='item-date'>{{date_started}} - {{date_ended}}</span><div class='clear'></div><p class='item-title'>{{organization}}</p><p class='item-subtitle'>{{role}}</p></div>",
     "volunteering_template": "<section class='volunteer'><h2 class='section-title'>Volunteer</h2>{{volunteer_history}}</section>",
     "interests": "<p style='margin: 10px; padding: 20px;'>{{name}}</p>",
@@ -22,7 +22,7 @@
     "certification": "<div class='item'><span class='item-date'>{{date}}</span><div class='clear'></div><p class='item-title'>{{name}}</p><p class='item-subtitle'>{{organization}}</p></div>",
     "certifications_template": "<section class='certification'><h2 class='section-title'>Certifications</h2>{{certifications_history}}</section>",
     "basic": "{{basic}} | ",
-    "image": "resumetemplates/basic.png"
+    "image": "resumetemplates/first.png"
 }
 
 

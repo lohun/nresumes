@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8ff;
+            color: #333;
+        }
+        .container {
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        header {
+            text-align: center;
+            background-color: #6a0dad;
+            color: white;
+            padding: 20px;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 2.5em;
+        }
+        .contact {
+            margin-top: 10px;
+        }
+        .contact p {
+            margin: 5px 0;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #6a0dad;
+            border-bottom: 2px solid #6a0dad;
+            padding-bottom: 5px;
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        .item-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #6a0dad;
+        }
+        .item-subtitle {
+            font-style: italic;
+            color: #555;
+        }
+        .item-date {
+            float: right;
+            color: #6a0dad;
+        }
+        .clear {
+            clear: both;
+        }
+        ul {
+            padding-left: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>{{fullname}} <small style="color: #555;">| {{title}}</small></h1>
+            <div class="contact">
+                <p>{{basic_info}}</p>
+            </div>
+        </header>
+        {{info}}
+    </div>
+</body>
+</html>

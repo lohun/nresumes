@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resume</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8ff;
+            color: #333;
+        }
+        .container {
+            display: grid;
+            grid-template-columns: 1fr 3fr;
+            gap: 20px;
+            width: 80%;
+            margin: 20px auto;
+            background: #fff;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        .sidebar {
+            background-color: #6a0dad;
+            color: white;
+            padding: 20px;
+        }
+        .sidebar h1 {
+            margin-top: 0;
+        }
+        .main {
+            padding: 20px;
+        }
+        .section {
+            margin-bottom: 20px;
+        }
+        .section-title {
+            font-size: 1.5em;
+            margin-bottom: 10px;
+            color: #6a0dad;
+            border-bottom: 2px solid #6a0dad;
+            padding-bottom: 5px;
+        }
+        .item {
+            margin-bottom: 15px;
+        }
+        .item-title {
+            font-weight: bold;
+            font-size: 1.2em;
+            color: #6a0dad;
+        }
+        .item-subtitle {
+            font-style: italic;
+            color: #555;
+        }
+        .item-date {
+            color: #6a0dad;
+            font-style: italic;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="sidebar">
+            <h1>John Doe</h1>
+            <div class="contact">
+                <p>Email: john.doe@example.com</p>
+                <p>Phone: (123) 456-7890</p>
+                <p>LinkedIn: linkedin.com/in/johndoe</p>
+            </div>
+            <div class="skills">
+                <h2>Skills</h2>
+                <p>HTML, CSS, JavaScript, React, Node.js, Git, Agile methodologies</p>
+            </div>
+        </div>
+        <div class="main">
+            <section class="section education">
+                <h2 class="section-title">Education</h2>
+                <div class="item">
+                    <p class="item-title">Bachelor of Science in Computer Science</p>
+                    <p class="item-subtitle">University of XYZ</p>
+                    <p class="item-date">2015 - 2019</p>
+                </div>
+            </section>
+            <section class="section experience">
+                <h2 class="section-title">Experience</h2>
+                <div class="item">
+                    <p class="item-title">Software Engineer</p>
+                    <p class="item-subtitle">Tech Company ABC</p>
+                    <p class="item-date">2020 - Present</p>
+                    <ul>
+                        <li>Developed and maintained web applications using HTML, CSS, and JavaScript.</li>
+                        <li>Collaborated with cross-functional teams to deliver high-quality software products.</li>
+                    </ul>
+                </div>
+                <div class="item">
+                    <p class="item-title">Junior Developer</p>
+                    <p class="item-subtitle">Startup DEF</p>
+                    <p class="item-date">2019 - 2020</p>
+                    <ul>
+                        <li>Assisted in the development of a new e-commerce platform.</li>
+                        <li>Performed bug fixes and code reviews.</li>
+                    </ul>
+                </div>
+            </section>
+        </div>
+    </div>
+</body>
+</html>
