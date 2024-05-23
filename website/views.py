@@ -45,6 +45,9 @@ def index():
 
 @views.route("/login", methods=["GET", "POST"])
 def login():
+    if current_user.is_authenticated:
+        return redirect("/summary")
+    
     if request.method == "POST":
         email = request.form.get("email").strip()
         password = request.form.get("password").strip()
@@ -109,6 +112,9 @@ def profile():
 
 @views.route('/register', methods=['GET',"POST"])
 def register():
+    if current_user.is_authenticated:
+        return redirect("/summary")
+    
     if request.method == "POST":
         dob = request.form.get("dob")
         email = request.form.get("email")
