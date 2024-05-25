@@ -27,7 +27,7 @@
                 <h5><u>{{ row['company'] }}</u></h5>
                 <p>{{ row['date_started'] }} to {{row['date_ended']}}</p>
                 <p>{{ row['role'] }}</p>
-                <p>{{ row['description'] }}</p>
+                <p>{{ row['description'] | safe }}</p>
             </div>
             {% endfor %}
             {% else %}
@@ -81,7 +81,7 @@
             {% for row in current_user.projects %}
             <div class="mb-3 px-4">
                 <h5><u>{{row['name']}}</u></h5>
-                <p>{{row['description']}}</p>
+                <p>{{row['description'] | safe }}</p>
                 <p>{{ row['date_started'] }} to {{ row['date_ended'] }}</p>
                 {% if row['link'] != "" %}
                 <a href="{{row['link']}}"></a>
@@ -145,7 +145,7 @@
             {% for row in current_user.extra_info %}
             <div class="mb-3 px-4">
                 <h4>{{row['extra_title']}}</h4>
-                <p>{{row['extra_description']}}</p>
+                <p>{{row['extra_description'] | safe }}</p>
             </div>
             {%endfor%}
             {% else %}
