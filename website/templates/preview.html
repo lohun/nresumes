@@ -7,7 +7,7 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
-    <title>NResume | {%block title %} {%endblock%}</title>
+    <title>NResume | Build Resume</title>
 
     <meta name="description" content="" />
 
@@ -57,7 +57,9 @@
         .card2 {
             height: 80vh;
             width: 100%;
+            overflow: hidden;
         }
+
 
         .btn-group {
             position: fixed;
@@ -77,6 +79,27 @@
             .card {
                 height: 60vh;
                 width: 100%;
+            }
+
+            .card2 {
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            .card2 .card-body {
+                width: 800px;
+                height: 100vh;
+                overflow: hidden;
+            }
+
+            iframe {
+                width: 76.92% !important;
+                height: 100% !important;
+                -webkit-transform: scale(0.5);
+                transform: scale(0.5);
+                -webkit-transform-origin: 0 0;
+                transform-origin: 0 0;
+                overflow: hidden;
             }
 
             .btn-group {
@@ -511,7 +534,8 @@
                                 </div>
                                 <div class="card card2">
                                     <div class="card-body">
-                                        <iframe id="preview-frame" title="Live Preview">
+                                        <iframe id="preview-frame" allow="fullscreen" allowfullscreen frameborder="0"
+                                            title="Live Preview">
                                         </iframe>
                                     </div>
                                 </div>
@@ -604,8 +628,10 @@
     <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
     <script>
-        var iframe = document.getElementById("preview-frame");
-        iframe.srcdoc = `{{info|safe}}`;
+        var doc = document.getElementById('preview-frame').contentWindow.document;
+        doc.open();
+        doc.write(`{{info|safe}}`);
+        doc.close();
 
 
         const quill = new Quill('#summary', {

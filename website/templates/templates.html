@@ -2,10 +2,9 @@
 {% block header %} Select your Resume template <em>{{current_user.first_name}}</em> {%endblock%}
 
 {% block main %}
-<small>All templates fonts and colors can be edited while building the resume</small>
 <div class="card mb-4">
-    <h5 class="card-header">Profile Details</h5>
     <div class="card-body">
+        <small>All templates fonts and colors can be edited while building the resume</small>
         <div class="row">
             {% for row in templates %}
             <div class="col-md-4">
@@ -35,7 +34,7 @@
                 <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">
                     Close
                 </button>
-                <a id="image-link" class="btn btn-primary">Save changes</a>
+                <a id="image-link" class="btn btn-primary">Use this template</a>
             </div>
         </div>
     </div>
