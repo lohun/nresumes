@@ -14,7 +14,7 @@
     body {
         -webkit-font-smoothing: antialiased;
         color: #333332;
-        font-family: Lora, serif;
+        font-family: Nexa, serif;
         font-size: 12px;
         font-weight: 400;
         line-height: 1.4;

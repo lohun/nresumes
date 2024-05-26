@@ -54,6 +54,13 @@
     <script src="{{ url_for('static', filename='assets/js/config.js') }}"></script>
 
     <style>
+        @font-face {
+          font-family: 'Nexa';
+          font-style: normal;
+          font-weight: 300;
+          src: url("{{url_for('static', filename='fonts/nexa/Nexa-ExtraLight.ttf')}}") format('ttf');
+        }
+
         .card2 {
             height: 80vh;
             width: 100%;
@@ -76,10 +83,6 @@
         }
 
         @media (max-width: 900px) {
-            .card {
-                height: 60vh;
-                width: 100%;
-            }
 
             .card2 {
                 height: 100vh;
@@ -105,7 +108,7 @@
             .btn-group {
                 position: fixed;
                 top: 80vh;
-                left: 15vw;
+                left: 8vw;
                 background-color: #fff;
                 box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
             }
@@ -517,17 +520,17 @@
 
 
                                 <div class="btn-group mb-5" role="group" aria-label="First group">
-                                    <a href="/templates" class="btn btn-sm btn-outline-primary">
+                                    <a href="/templates" class="btn btn-primary">
                                         Change Template
                                     </a>
 
-                                    <button type="button" class="btn btn-sm btn-outline-primary"
+                                    <button type="button" class="btn btn-outline-primary"
                                         data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
                                         aria-controls="offcanvasEnd">
                                         Edit Resume
                                     </button>
 
-                                    <button type="button" class="btn btn-sm btn-outline-primary" data-bs-toggle="modal"
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                         data-bs-target="#modalCenter" aria-controls="offcanvasEnd">
                                         Download
                                     </button>
