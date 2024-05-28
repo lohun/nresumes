@@ -20,6 +20,10 @@ class User(UserMixin):
     active = False
     id = 0
     profile_picture = "placeholder.png"
+    font = ""
+    background_color = ""
+    primary_color = ""
+    secondary_color = ""
     title = ""
     first_name = ""
     last_name = ""
@@ -90,6 +94,12 @@ class User(UserMixin):
         
         if 'profile_picture' in user.keys() and user['profile_picture'] != "":
             self.profile_picture = user['profile_picture']
+        
+        if 'backgroundColor' in user.keys() and user['backgroundColor'] != "":
+            self.font = user['font']
+            self.background_color = user['backgroundColor']
+            self.primary_color = user['primaryColor']
+            self.secondary_color = user['secondaryColor']
         
     def is_authenticated(self):
         return self.authenticated

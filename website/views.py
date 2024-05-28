@@ -208,8 +208,7 @@ def edituser():
 @views.route('/experience')
 @login_required
 def experience():
-    experience = current_user.experience
-    return render_template("experience.html", user=current_user, experience = experience)
+    return render_template("experience.html")
 
 @views.route('/editExperience', methods=["POST"])
 @login_required
@@ -271,8 +270,7 @@ def submitExperience():
 @views.route('/education')
 @login_required
 def education():
-    education = current_user.education
-    return render_template("education.html", user=current_user, education = education)
+    return render_template("education.html")
 
 @views.route('/editEducation', methods=["POST"])
 @login_required
@@ -342,8 +340,7 @@ def submitEducation():
 @views.route('/certification')
 @login_required
 def certification():
-    certification = current_user.certifications
-    return render_template("certification.html", user=current_user, certification = certification)
+    return render_template("certification.html")
 
 @views.route('/editCertification', methods=["POST"])
 @login_required
@@ -424,8 +421,7 @@ def submitSocial():
 @views.route('/socials')
 @login_required
 def socials():
-    user = current_user.socials
-    return render_template("socials.html", user=current_user, socials=user)
+    return render_template("socials.html")
 
 @views.route('/editSocial', methods=["POST"])
 @login_required
@@ -453,8 +449,7 @@ def editSocial():
 @views.route('/projects')
 @login_required
 def project():
-    project = current_user.projects
-    return render_template("projects.html", user=current_user, project = project)
+    return render_template("projects.html")
 
 @views.route('/editProject', methods=["POST"])
 @login_required
@@ -518,8 +513,7 @@ def submitProject():
 @views.route('/skills')
 @login_required
 def skills():
-    skills = current_user.skills
-    return render_template("skills.html", user=current_user, skills = skills)
+    return render_template("skills.html",)
 
 @views.route('/editSkills', methods=["POST"])
 @login_required
@@ -568,8 +562,7 @@ def submitSkills():
 @views.route('/volunteer')
 @login_required
 def volunteer():
-    volunteer = current_user.volunteer
-    return render_template("volunteer.html", user=current_user, volunteer = volunteer)
+    return render_template("volunteer.html")
 
 @views.route('/editVolunteer', methods=["POST"])
 @login_required
@@ -630,7 +623,7 @@ def submitVolunteer():
 @login_required
 def interests():
     interest = current_user.interests
-    return render_template("interests.html", user=current_user, interest = interest)
+    return render_template("interests.html")
 
 @views.route('/editInterests', methods=["POST"])
 @login_required
@@ -680,7 +673,7 @@ def submitInterests():
 @login_required
 def extra():
     extra = current_user.extra
-    return render_template("extra.html", user=current_user, extra = extra)
+    return render_template("extra.html")
 
 @views.route('/editExtra', methods=["POST"])
 @login_required
@@ -770,19 +763,54 @@ def preview():
     user = current_user
     template = user.template
     templates_collection = db.template
+    fonts_collection = db.fonts
     template = templates_collection.find_one({"_id": ObjectId(template)})
+    fonts = fonts_collection.find()
     preview = ""
+    font_name = ""
+    font_location = ""
+    font_type = ""
+    fonts_list = []
+    
+    for font in fonts:
+        if font["_id"] == template['font']:
+            font_name = font['name']
+            font_location = font['location']
+            font_type = font['type']
+        elif font["_id"] == user.font:
+            font_name = font['name']
+            font_location = font['location']
+            font_type = font['type']
+        fonts_list.append(font)
+    font_face = '@font-face { font-family: "' + font_name + '"; font-style: normal; font-weight: 300; src: url("static/' + font['location'] + '") format("' + font_type + '");}'
     
     if (template['type'] == "skill"):
         preview = skill_preview(current_user, template)
     else:
         preview = basic_preview(current_user, template)
         
+    if user.font == "":
+        preview = preview.replace("{{font_name}}", font_name)
+        preview = preview.replace("{{background_color}}", template['backgroundColor'])
+        preview = preview.replace("{{primary_color}}", template['primaryColor'])
+        preview = preview.replace("{{secondary_color}}", template['secondaryColor'])
+        current_user.font = template['font']
+        current_user.background_color = template['backgroundColor']
+        current_user.primary_color = template['primaryColor']
+        current_user.secondary_color = template['secondaryColor']
+    else:
+        preview = preview.replace("{{font_name}}", font_name)
+        preview = preview.replace("{{background_color}}", current_user.background_color)
+        preview = preview.replace("{{primary_color}}", current_user.primary_color)
+        preview = preview.replace("{{secondary_color}}", current_user.secondary_color)
+        
+    preview = preview.replace("{{font_face}}", font_face)
     
     random_number = randint(0, 10000)
     filename = f"My Resume {random_number}"
     
-    return render_template('preview.html', info = preview, user = user, filename = filename)
+    
+    return render_template('preview.html', info = preview, filename = filename, fonts = fonts_list, font_name= font_name, font_location=font_location, font_type=font_type)
 
 @views.route('/download', methods=["POST"])
 @login_required
@@ -796,171 +824,36 @@ def download():
         filename = default_name
     
     user = current_user
-    id = user.id
     template = user.template
     templates_collection = db.template
+    fonts_collection = db.fonts
     template = templates_collection.find_one({"_id": ObjectId(template)})
-    preview = open(template['location'], "r").read()
-    experienceTemplate = template['experience_template']
-    certificationsTemplate = template['certifications_template']
-    educationTemplate = template['education_template']
-    projectsTemplate = template['projects_template']
-    skillsTemplate = template['skills_template']
-    volunteerTemplate = template['volunteering_template']
-    interestsTemplate = template['interests_template']
-    extraTemplate = template['extra_template']
-    experience_history = ""
-    education_history = ""
-    socials_history = ""
-    projects_history = ""
-    certifications_history = ""
-    skills_history = ""
-    volunteer_history = ""
-    interests_history = ""
-    extra_history = ""
-    basic_info = ""
-    preview = preview.replace("{{title}}", f"{user.title}")
-    preview = preview.replace("{{fullname}}", f"{user.last_name} {user.first_name}")
+    font = fonts_collection.find_one({"_id": ObjectId(current_user.font)})
+    preview = ""
+    dirname = os.path.dirname(__file__)
+    location = os.path.join(dirname, f"website/static/{font['location']}")
     
-    if user.email_bool == "on":
-        temp = template['basic']
-        basic_info = basic_info + temp.replace("{{basic}}", f"{user.email}")
+    if (template['type'] == "skill"):
+        preview = skill_preview(current_user, template)
+    else:
+        preview = basic_preview(current_user, template)
         
-    if user.address_bool == "on":
-        temp = template['basic']
-        basic_info = basic_info + temp.replace("{{basic}}", f"{user.address}")
+    preview = preview.replace("{{font_name}}", font['name'])
+    preview = preview.replace("{{background_color}}", current_user.background_color)
+    preview = preview.replace("{{primary_color}}", current_user.primary_color)
+    preview = preview.replace("{{secondary_color}}", current_user.secondary_color)
     
-    if user.phone_bool == "on":
-        temp = template['basic']
-        basic_info = basic_info + temp.replace("{{basic}}", f"{user.phone_number}")
-    
-    for row in user.experience:
-        temp_experience = template["experience"]
-        temp_experience = temp_experience.replace("{{end_date}}", row["date_ended"])
-        temp_experience = temp_experience.replace("{{start_date}}", row['date_started'])
-        temp_experience = temp_experience.replace("{{company}}", row['company'])
-        temp_experience = temp_experience.replace("{{role}}", row['role'])
-        temp_experience = temp_experience.replace("{{role_description}}", row['description'])
-        experience_history = experience_history + temp_experience
-        
-    for row in user.education:
-        temp_education = template["education"]
-        temp_education = temp_education.replace("{{school}}", row['school'])
-        temp_education = temp_education.replace("{{award}}", row['award'])
-        temp_education = temp_education.replace("{{department}}", row['department'])
-        temp_education = temp_education.replace("{{faculty}}", row['faculty'])
-        temp_education = temp_education.replace("{{achievements}}", row['achievements']or "")
-        temp_education = temp_education.replace("{{date_started}}", row['date_started'])
-        temp_education = temp_education.replace("{{date_ended}}", row['date_ended'])
-        education_history = education_history + temp_education
-        
-    for row in user.projects:
-        temp_projects = template["projects"]
-        temp_projects = temp_projects.replace("{{name}}", row['name'])
-        temp_projects = temp_projects.replace("{{link}}", row['link'])
-        temp_projects = temp_projects.replace("{{description}}", row['description'])
-        temp_projects = temp_projects.replace("{{date_started}}", row['date_started'])
-        temp_projects = temp_projects.replace("{{date_ended}}", row['date_ended'])
-        projects_history = projects_history + temp_projects
-        
-    for row in user.certifications:
-        temp_certifications = template["certification"]
-        temp_certifications = temp_certifications.replace("{{name}}", row['name'])
-        temp_certifications = temp_certifications.replace("{{organization}}", row['organization'])
-        temp_certifications = temp_certifications.replace("{{date}}", row['date'])
-        certifications_history = certifications_history + temp_certifications
-        
-    for row in user.skills:
-        temp_skills = template["skills"]
-        temp_skills = temp_skills.replace("{{name}}", row['name'])
-        skills_history = skills_history + temp_skills
-        
-    for row in user.volunteer:
-        temp_volunteer = template["volunteer"]
-        temp_volunteer = temp_volunteer.replace("{{organization}}", row['organization'])
-        temp_volunteer = temp_volunteer.replace("{{role}}", row['role'])
-        temp_volunteer = temp_volunteer.replace("{{date_started}}", row['date_started'])
-        temp_volunteer = temp_volunteer.replace("{{date_ended}}", row['date_ended'])
-        volunteer_history = volunteer_history + temp_volunteer
-        
-    for row in user.interests:
-        temp_interests = template["interests"]
-        temp_interests = temp_interests.replace("{{name}}", row['name'])
-        interests_history = interests_history + temp_interests
-        
-    for row in user.socials:
-        temp_socials = template["socials"]
-        try:
-            social_type = f"{row['type']}_bool"
-            if getattr(user, social_type) == "on":
-                temp_socials = temp_socials.replace("{{type}}", row['type'])
-                temp_socials = temp_socials.replace("{{link}}", row['link'])
-            else:
-                temp_socials = ""
-        except AttributeError:
-            temp_socials = ""
-        socials_history = socials_history + temp_socials
-        
-    for row in user.extra:
-        temp_extra = template["extra"]
-        temp_extra = temp_extra.replace("{{title}}", row['title'])
-        temp_extra = temp_extra.replace("{{description}}", row['description'])
-        extra_history = extra_history + temp_extra
-    if experience_history != "":
-        experienceTemplate = experienceTemplate.replace('{{employment_history}}', experience_history)
-    else:
-        experienceTemplate = ""
-        
-    if education_history != "":
-        educationTemplate = educationTemplate.replace('{{education_history}}', education_history)
-    else:
-        educationTemplate = ""
-        
-    if projects_history != "":
-        projectsTemplate = projectsTemplate.replace('{{projects_history}}', projects_history)
-    else:
-        projectsTemplate = ""
-    
-    if skills_history != "":
-        skillsTemplate = skillsTemplate.replace('{{skills_history}}', skills_history)
-    else:
-        skillsTemplate = ""
-        
-    if certifications_history != "":
-        certificationsTemplate = certificationsTemplate.replace('{{certifications_history}}', certifications_history)
-    else:
-        certificationsTemplate = ""
-        
-    if volunteer_history != "":
-        volunteerTemplate = volunteerTemplate.replace('{{volunteer_history}}', volunteer_history)
-    else:
-        volunteerTemplate = ""
-        
-    if interests_history != "":
-        interestsTemplate = interestsTemplate.replace('{{interests_history}}', interests_history)
-    else:
-        interestsTemplate = ""
-        
-    if user.extra != []:
-        extraTemplate = extraTemplate.replace('{{extra_history}}', extra_history)
-    else:
-        extraTemplate = ""
-    
-    complete_template = experience_history+ " " + educationTemplate+ " " + certificationsTemplate + " " + projectsTemplate+ " " + skillsTemplate+ " " + volunteerTemplate+ " " + interestsTemplate+ " " + extraTemplate+ " "
-    
-    basic_info = basic_info + socials_history
-    preview = preview.replace("{{basic_info}}", basic_info)
-    preview = preview.replace("{{info}}", complete_template)
-    
+    preview = preview.replace("{{font_face}}", "")
+
     html = HTML(string=preview)
-    css = CSS(string='@page { size: A4; margin: 1cm }')
+    css = CSS(string='@page { size: A4; margin: 1cm }, @font-face {font-family: "'+ font['name'] +'"; font-style: normal; font-weight: 300; src: url('+ location +') format('+ font['type'] +');}')
     path = pathlib.Path(f"website/static/build/{user.last_name} {user.first_name}")
     path.mkdir(parents=True, exist_ok=True)
     
     html.write_pdf(f'{path}/{filename}.pdf', stylesheets=[css])
     
     collection.update_one( 
-        { "_id" : ObjectId(id) },
+        { "_id" : ObjectId(current_user.id) },
         { "$push": { "builds": {
                 "_id": ObjectId(),
                 "path": f'build/{user.last_name} {user.first_name}/{filename}.pdf',
@@ -974,8 +867,7 @@ def download():
 @views.route('/builds')
 @login_required
 def builds():
-    builds = current_user.builds
-    return render_template("build.html", user=current_user, builds = builds)
+    return render_template("build.html")
 
 @views.route('/templates')
 @login_required
@@ -996,7 +888,11 @@ def selecttemplate(id):
     info = collection.update_one(
             {"_id": ObjectId(current_user.id)},
             {"$set": {
-                "template": ObjectId(id)
+                "template": ObjectId(id),
+                "font": template['font'],
+                "backgroundColor": template['backgroundColor'],
+                "primaryColor": template['primaryColor'],
+                "secondaryColor": template['secondaryColor']
             }}
         )
     if info:
@@ -1232,7 +1128,33 @@ def deleteBuilds(id):
     else:
         flash("Info not deleted, please try again.")
     return redirect("/builds")
+
+
+@views.route("/editfontsandcolors", methods=['POST'])
+@login_required    
+def editfontsandcolors():
+    font = request.form.get("font")
+    background_color = request.form.get("backgroundColor")    
+    primary_color = request.form.get("primaryColor")    
+    secondary_color = request.form.get("secondaryColor")    
+    id = current_user.id
+    info = collection.update_one( 
+        { "_id" : ObjectId(id) },
+        { "$set": {
+                "font": font,
+                "backgroundColor": background_color,
+                "primaryColor": primary_color,
+                "secondaryColor": secondary_color,
+            } 
+         }
+    )
     
+    if info:
+        flash("Changes made")
+        return redirect("/build")
+    else:
+        flash("Changes not made, please try again.")
+    return redirect("/build")
     
 
 
@@ -1367,7 +1289,6 @@ def basic_preview(user, template):
                 temp_socials = ""
         except AttributeError:
             temp_socials = ""
-        socials_history = socials_history + temp_socials
         if template['social_seperator'] == "\n":
             socials_history = socials_history + f"<p>{temp_socials}</p>"
         elif template['social_seperator'] == "li":
@@ -1598,4 +1519,6 @@ def skill_preview(user, template):
     preview = preview.replace("{{skill_history}}", skillsTemplate)
     preview = preview.replace("{{info}}", complete_template)
     return preview
+
+
 

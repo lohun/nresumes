@@ -54,11 +54,9 @@
     <script src="{{ url_for('static', filename='assets/js/config.js') }}"></script>
 
     <style>
-        @font-face {
-          font-family: 'Nexa';
-          font-style: normal;
-          font-weight: 300;
-          src: url("{{url_for('static', filename='fonts/nexa/Nexa-ExtraLight.ttf')}}") format('ttf');
+
+        * {
+            font-family: Arial, Helvetica, sans-serif;
         }
 
         .card2 {
@@ -69,10 +67,11 @@
 
 
         .btn-group {
+            opacity: 0.7;
             position: fixed;
             z-index: 1000;
             top: 80vh;
-            left: 70vw;
+            left: 50vw;
             background-color: #fff;
             box-shadow: 0 10px 10px rgba(0, 0, 0, 0.5);
         }
@@ -82,7 +81,7 @@
             height: 100%;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 800px) {
 
             .card2 {
                 height: 100vh;
@@ -337,7 +336,72 @@
                                     </div>
                                     <div class="offcanvas-body my-auto mx-0 flex-grow-0">
                                         <div class="accordion mt-3" id="accordionExample">
-                                            <div class="card accordion-item active">
+                                            <div class="card accordion-item">
+                                                <h2 class="accordion-header" id="headingFonts">
+                                                    <button type="button" class="accordion-button"
+                                                        data-bs-toggle="collapse" data-bs-target="#accordionFonts"
+                                                        aria-expanded="true" aria-controls="accordionFonts">
+                                                        Fonts and Colors
+                                                    </button>
+                                                </h2>
+
+                                                <div id="accordionFonts" class="accordion-collapse collapse"
+                                                    data-bs-parent="#accordionExample">
+                                                    <div class="accordion-body">
+                                                        <form action="/editfontsandcolors" id="editFontsAndColors"
+                                                            method="post">
+                                                            <div class="mb-3">
+                                                                <label for="fonts" class="form-label">Font
+                                                                    Type</label>
+                                                                <select class="form-select" id="fonts" name="font"
+                                                                    aria-label="Select Font">
+                                                                    {%for font in fonts%}
+                                                                    {%if font['_id'] == current_user.font%}
+                                                                    <option selected value="{{font['_id']}}">
+                                                                        {{font['name']}}</option>
+                                                                    {%else%}
+                                                                    <option value="{{font['_id']}}">{{font['name']}}
+                                                                    </option>
+                                                                    {% endif %}
+                                                                    {% endfor %}
+
+                                                                </select>
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="backgroundColor"
+                                                                    class="form-label">Background Color</label>
+                                                                <input type="color"
+                                                                    class="form-control form-control-color"
+                                                                    id="backgroundColor" name="backgroundColor"
+                                                                    value="{{current_user.background_color}}"
+                                                                    title="Choose a color">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="primaryColor" class="form-label">Primary
+                                                                    Font Color</label>
+                                                                <input type="color"
+                                                                    class="form-control form-control-color"
+                                                                    id="primaryColor" name="primaryColor"
+                                                                    value="{{current_user.primary_color}}"
+                                                                    title="Choose a color">
+                                                            </div>
+                                                            <div class="mb-3">
+                                                                <label for="secondaryColor" class="form-label">Secondary
+                                                                    Font Color</label>
+                                                                <input type="color"
+                                                                    class="form-control form-control-color"
+                                                                    id="secondaryColor" name="secondaryColor"
+                                                                    value="{{current_user.secondary_color}}"
+                                                                    title="Choose a color">
+                                                            </div>
+                                                            <button type="submit"
+                                                                class="btn btn-primary w-100">Submit</button>
+
+                                                        </form>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="card accordion-item">
                                                 <h2 class="accordion-header" id="headingOne">
                                                     <button type="button" class="accordion-button"
                                                         data-bs-toggle="collapse" data-bs-target="#accordionOne"
@@ -346,7 +410,7 @@
                                                     </button>
                                                 </h2>
 
-                                                <div id="accordionOne" class="accordion-collapse collapse show"
+                                                <div id="accordionOne" class="accordion-collapse collapse"
                                                     data-bs-parent="#accordionExample">
                                                     <div class="accordion-body">
                                                         <form action="/edituser" id="editUser" method="post">
@@ -524,9 +588,8 @@
                                         Change Template
                                     </a>
 
-                                    <button type="button" class="btn btn-outline-primary"
-                                        data-bs-toggle="offcanvas" data-bs-target="#offcanvasEnd"
-                                        aria-controls="offcanvasEnd">
+                                    <button type="button" class="btn btn-outline-primary" data-bs-toggle="offcanvas"
+                                        data-bs-target="#offcanvasEnd" aria-controls="offcanvasEnd">
                                         Edit Resume
                                     </button>
 

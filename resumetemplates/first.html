@@ -5,24 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume</title>
     <style>
+        {{font_face}}
         body {
-            font-family: Nexa, sans-serif;
+            font-family: "{{font_name}}", sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            background-color: {{background_color}};
             color: #333;
         }
         .container {
             width: 80%;
             margin: auto;
-            background: #fff;
+            background: {{background_color}};
             padding: 20px;
         }
         header {
             text-align: center;
-            background-color: #6a0dad;
-            color: white;
+            background-color: {{primary_color}};
+            color: {{background_color}};
             padding: 20px;
         }
         header h1 {
@@ -40,8 +41,8 @@
         .section-title {
             font-size: 1.5em;
             margin-bottom: 10px;
-            color: #6a0dad;
-            border-bottom: 2px solid #6a0dad;
+            color: {{primary_color}};
+            border-bottom: 2px solid {{primary_color}};
             padding-bottom: 5px;
         }
         .item {
@@ -49,15 +50,20 @@
         }
         .item-title {
             font-weight: bold;
-            color: #6a0dad;
+            color: {{primary_color}};
         }
         .item-subtitle {
             font-style: italic;
-            color: #555;
+            color: {{secondary_color}};
         }
+
+        a {
+            color: {{primary_color}};            
+        }
+
         .item-date {
             float: right;
-            color: #6a0dad;
+            color: {{primary_color}};
         }
         .clear {
             clear: both;

@@ -5,13 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume</title>
     <style>
+        {{font_face}}
         body {
-            font-family: Arial, sans-serif;
+            font-family: "{{font_name}}", sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #f8f8ff;
-            color: #333;
+            background-color: {{background_color}};
+            color: {{secondary_color}};
+        }
+
+        a {
+            color: {{primary_color}};            
         }
         .container {
             display: grid;
@@ -19,12 +24,11 @@
             gap: 20px;
             width: 80%;
             margin: 20px auto;
-            background: #fff;
+            background: {{background_color}};
             padding: 20px;
-            box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
         .sidebar {
-            background-color: #6a0dad;
+            background-color: {{primary_color}};
             color: white;
             padding: 20px;
         }
@@ -40,8 +44,8 @@
         .section-title {
             font-size: 1.5em;
             margin-bottom: 10px;
-            color: #6a0dad;
-            border-bottom: 2px solid #6a0dad;
+            color: {{primary_color}};
+            border-bottom: 2px solid {{primary_color}};
             padding-bottom: 5px;
         }
         .item {
@@ -50,14 +54,14 @@
         .item-title {
             font-weight: bold;
             font-size: 1.2em;
-            color: #6a0dad;
+            color: {{primary_color}};
         }
         .item-subtitle {
             font-style: italic;
-            color: #555;
+            color: {{secondary_color}};
         }
         .item-date {
-            color: #6a0dad;
+            color: {{primary_color}};
             font-style: italic;
         }
     </style>

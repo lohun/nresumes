@@ -6,20 +6,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resume</title>
     <style>
-        *, div {font-family: 'Titillium Web';}
+        {{font_face}}
+        *, div {font-family: "{{font_name}}";}
         body {
-            font-family: Nexa, sans-serif;
+            font-family: "{{font_name}}", sans-serif;
             line-height: 1.6;
             margin: 0;
             padding: 0;
-            background-color: #fff;
+            background-color: {{background_color}};
             color: #333;
         }
 
         .container {
             width: 80%;
             margin: auto;
-            background: #fff;
+            background: {{background_color}};
             padding: 20px;
         }
 
@@ -31,7 +32,11 @@
         }
 
         h1 {
-            border-bottom: 2px solid #333;
+            border-bottom: 2px solid {{primary_color}};
+        }
+
+        a {
+            color: {{primary_color}};            
         }
 
         .contact,
@@ -44,7 +49,7 @@
         .section-title {
             font-size: 1.2em;
             margin-bottom: 10px;
-            border-bottom: 1px solid #ccc;
+            border-bottom: 1px solid {{secondary_color}};
             padding-bottom: 5px;
         }
 
@@ -58,12 +63,12 @@
 
         .item-subtitle {
             font-style: italic;
-            color: #666;
+            color: {{primary_color}};
         }
 
         .item-date {
             float: right;
-            color: #999;
+            color: {{secondary_color}};
         }
 
         .clear {
