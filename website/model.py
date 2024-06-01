@@ -41,7 +41,6 @@ class User(UserMixin):
     country = ""
     date_of_birth = ""
     phone_number = ""
-    summary = ""
     template = ""
     password = ""
     education = []
@@ -75,7 +74,6 @@ class User(UserMixin):
         self.country = user['country']
         self.date_of_birth = user['date_of_birth']
         self.phone_number = user['phone_number']
-        self.summary = user['summary']
         self.template = user['template']
         self.password = user['password']
         self.education = user['education']

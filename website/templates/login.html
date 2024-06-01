@@ -12,7 +12,7 @@
           <div class="app-brand justify-content-center">
             <a href="/" class="app-brand-link gap-2">
               <span class="app-brand-logo demo">
-                <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
+                <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="NResume Logo">
               </span>
               <span class="app-brand-text demo text-body fw-bolder">NResume</span>
             </a>
@@ -24,7 +24,7 @@
 
             <div class="mb-3">
               <label for="email" class="form-label">Email</label>
-              <input type="text" class="form-control" id="email" name="email" aria-describedby="email"
+              <input type="text" required class="form-control" id="email" name="email" aria-describedby="email"
                 placeholder="Enter your email" autofocus />
             </div>
             <div class="mb-3 form-password-toggle">
@@ -37,7 +37,7 @@
               <div class="input-group input-group-merge">
                 <input type="password" id="password" class="form-control" name="password"
                   placeholder="&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;"
-                  aria-describedby="password" />
+                  aria-describedby="password" required />
                 <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
               </div>
             </div>
@@ -47,7 +47,7 @@
           </form>
 
           <p class="text-center">
-            <span>New on our platform?</span>
+            <span>New on NResume?</span>
             <a href="/register">
               <span>Create an account</span>
             </a>

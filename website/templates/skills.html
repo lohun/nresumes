@@ -49,8 +49,8 @@
                     <form action="/editSkills" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="skillName" class="form-label">Skill</label>
-                            <input type="text" name="name" class="form-control" id="editSkillName">
+                            <label for="editSkillName" class="form-label">Skill</label>
+                            <input type="text" name="name" class="form-control" required id="editSkillName" aria-describedby="editSkillName">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -74,7 +74,7 @@
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
                             <label for="skillName" class="form-label">Skill</label>
-                            <input type="text" name="name" class="form-control" id="skillName">
+                            <input type="text" name="name" required class="form-control" id="skillName" aria-describedby="skillName">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

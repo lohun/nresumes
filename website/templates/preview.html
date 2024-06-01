@@ -7,6 +7,8 @@
     <meta name="viewport"
         content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0" />
 
+        <meta name="description"
+    content="Introducing NResume: the ultimate online platform for crafting tailored resumes optimized for the Nigerian job market. With customizable templates, keyword optimization, and local market insights, our intuitive resume builder ensures your CV stands out to Nigerian recruiters. Accessible on any device, NResume prioritizes data privacy and security, empowering you to confidently present your credentials and land your dream job in Nigeria. Join thousands of satisfied users and kickstart your professional journey with NResume today!">
     <title>NResume | Build Resume</title>
 
     <meta name="description" content="" />
@@ -464,12 +466,6 @@
                                                                     name="phone_number" aria-describedby="firstName">
                                                             </div>
 
-                                                            <div class="mb-3">
-                                                                <label for="summary" class="form-label">Summary</label>
-                                                                <div id="summary" class="form-control">
-                                                                    {{current_user.summary | safe}}</div>
-                                                            </div>
-
                                                             <button type="submit"
                                                                 class="btn btn-primary w-100">Submit</button>
 
@@ -690,36 +686,6 @@
 
     <!-- Place this tag in your head or just before your close body tag. -->
     <script async defer src="https://buttons.github.io/buttons.js"></script>
-
-    <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
-
-    <script>
-        var doc = document.getElementById('preview-frame').contentWindow.document;
-        doc.open();
-        doc.write(`{{info|safe}}`);
-        doc.close();
-
-
-        const quill = new Quill('#summary', {
-            modules: {
-                toolbar: [
-                    ['bold', 'italic'],
-                    ['link', 'blockquote', 'code-block'],
-                    [{ list: 'ordered' }],
-                ],
-            },
-            theme: 'snow'
-        });
-
-        const form = document.getElementById('editUser');
-        form.addEventListener('formdata', (event) => {
-            event.preventDefault();
-            // Append Quill content before submitting
-            event.formData.append('summary', quill.root.innerHTML);
-            form.submit()
-        });
-
-    </script>
 </body>
 
 </html>

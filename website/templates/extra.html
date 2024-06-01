@@ -86,11 +86,11 @@
                     <form action="/submitExtra" id="submitExtra" method="post">
                         <div class="mb-3">
                             <label for="extra" class="form-label">Title</label>
-                            <input type="text" name="title" class="form-control" id="extra">
+                            <input type="text" name="title" required aria-describedby="extra" class="form-control" id="extra">
                         </div>
                         <div class="mb-3">
                             <label for="extraDetail" class="form-label">Details</label>
-                            <div id="extraDetail" class="form-control"></div>
+                            <div id="extraDetail" aria-required="true" aria-describedby="extraDetail" class="form-control"></div>
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>

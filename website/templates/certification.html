@@ -89,17 +89,17 @@
                     <form action="/submitCertification" method="post">
                         <div class="mb-3">
                             <label for="certificationName" class="form-label">Certificate Name</label>
-                            <input type="text" class="form-control" name="name" id="certificationName">
+                            <input type="text" class="form-control" name="name" id="certificationName" required aria-describedby="certificationName">
                         </div>
     
                         <div class="mb-3">
                             <label for="organizationCertificate" class="form-label">Organization</label>
-                            <input type="text" class="form-control" name="organization" id="organizationCertificate">
+                            <input type="text" class="form-control" name="organization" id="organizationCertificate" required aria-describedby="organizationCertificate">
                         </div>
     
                         <div class="mb-3">
                             <label for="certficateAwardDate" class="form-label">Award Date</label>
-                            <input type="date" name="date" class="form-control" id="certficateAwardDate">
+                            <input type="month" name="date" class="form-control" required id="certficateAwardDate" aria-describedby="organizationCertificate">
                         </div>
     
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

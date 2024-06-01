@@ -57,27 +57,27 @@
                     <form action="/editEducation" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="course" class="form-label">Course Name</label>
-                            <input type="text" class="form-control" id="editCourse" name="department"
-                                aria-describedby="course">
+                            <label for="editSchool" class="form-label">Course Name</label>
+                            <input type="text" class="form-control" id="editSchool" name="department"
+                                aria-describedby="editCourse">
                         </div>
 
                         <div class="mb-3">
-                            <label for="faculty" class="form-label">Faculty</label>
+                            <label for="editFaculty" class="form-label">Faculty</label>
                             <input type="text" class="form-control" id="editFaculty" name="faculty"
-                                aria-describedby="faculty">
+                                aria-describedby="editFaculty">
                         </div>
 
                         <div class="mb-3">
-                            <label for="school" class="form-label">Institution Name</label>
-                            <input type="text" class="form-control" id="editSchool" name="school"
-                                aria-describedby="school">
+                            <label for="editSchool" class="form-label">Institution Name</label>
+                            <input type="text" required class="form-control" id="editSchool" name="school"
+                                aria-describedby="editSchool">
                         </div>
 
                         <div class="mb-3">
-                            <label for="degree" class="form-label">Award/Honours</label>
-                            <input type="text" class="form-control" name="award" id="editDegree"
-                                aria-describedby="degree">
+                            <label for="editDegree" class="form-label">Award/Honours</label>
+                            <input type="text" required class="form-control" name="award" id="editDegree"
+                                aria-describedby="editDegree">
                         </div>
 
                         <div class="mb-3">
@@ -132,12 +132,12 @@
     
                         <div class="mb-3">
                             <label for="dateStarted" class="form-label">Date Started</label>
-                            <input type="date" name="date_started" class="form-control" id="dateStarted" aria-describedby="dateStarted">
+                            <input type="month" name="date_started" class="form-control" id="dateStarted" aria-describedby="dateStarted">
                         </div>
     
                         <div class="mb-3">
                             <label for="dateEnd" class="form-label">Date End</label>
-                            <input type="date" name="date_ended" class="form-control" id="dateEnd" aria-describedby="dateEnd">
+                            <input type="month" name="date_ended" class="form-control" id="dateEnd" aria-describedby="dateEnd">
                         </div>
     
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

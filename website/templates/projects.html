@@ -101,30 +101,30 @@
                     <form action="/submitProject" id="submitProject" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="course" class="form-label">Project Name</label>
-                            <input type="text" name="name" class="form-control" id="name" aria-describedby="name">
+                            <label for="name" class="form-label">Project Name</label>
+                            <input type="text" name="name" class="form-control" required id="name" aria-describedby="name">
                         </div>
 
                         <div class="mb-3">
-                            <label for="course" class="form-label">Link</label>
-                            <input type="text" name="link" class="form-control" id="link" aria-describedby="editLink">
+                            <label for="link" class="form-label">Link</label>
+                            <input type="text" name="link" class="form-control" id="link" required aria-describedby="link">
                         </div>
 
                         <div class="mb-3">
-                            <label for="faculty" class="form-label">Date Started</label>
-                            <input type="date" name="date_started" class="form-control" id="dateStarted"
-                                aria-describedby="faculty">
+                            <label for="dateStarted" class="form-label">Date Started</label>
+                            <input type="date" name="date_started" required class="form-control" id="dateStarted"
+                                aria-describedby="dateStarted">
                         </div>
 
                         <div class="mb-3">
-                            <label for="school" class="form-label">Date Ended</label>
-                            <input type="date" name="date_ended" class="form-control" id="dateEnd"
-                                aria-describedby="school">
+                            <label for="dateEnd" class="form-label">Date Ended</label>
+                            <input type="date" name="date_ended" required class="form-control" id="dateEnd"
+                                aria-describedby="dateEnd">
                         </div>
 
                         <div class="mb-3">
                             <label for="description" class="form-label">Description</label>
-                            <div id="description" class="form-control"></div>
+                            <div id="description" aria-describedby="description" aria-required="true" class="form-control"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

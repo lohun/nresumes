@@ -54,27 +54,27 @@
                     <form action="/editVolunteer" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="course" class="form-label">Organization</label>
-                            <input type="text" name="organization" class="form-control" id="editOrganization"
-                                aria-describedby="course">
+                            <label for="editOrganization" class="form-label">Organization</label>
+                            <input type="text" name="organization" required class="form-control" id="editOrganization"
+                                aria-describedby="editOrganization">
                         </div>
 
                         <div class="mb-3">
-                            <label for="course" class="form-label">Role</label>
-                            <input type="text" name="role" class="form-control" id="editRole"
+                            <label for="editRole" class="form-label">Role</label>
+                            <input type="text" name="role" class="form-control" required id="editRole"
                                 aria-describedby="editRole">
                         </div>
 
                         <div class="mb-3">
-                            <label for="faculty" class="form-label">Date Started</label>
-                            <input type="date" name="date_started" class="form-control" id="editDateStarted"
-                                aria-describedby="faculty">
+                            <label for="editDateStarted" class="form-label">Date Started</label>
+                            <input type="month" name="date_started" class="form-control" required id="editDateStarted"
+                                aria-describedby="editDateStarted">
                         </div>
 
                         <div class="mb-3">
-                            <label for="school" class="form-label">Date Ended</label>
-                            <input type="date" name="date_ended" class="form-control" id="editDateEnd"
-                                aria-describedby="school">
+                            <label for="editDateEnd" class="form-label">Date Ended</label>
+                            <input type="month" name="date_ended" class="form-control" required id="editDateEnd"
+                                aria-describedby="editDateEnd">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -96,23 +96,23 @@
                 <div class="row">
                     <form action="/submitVolunteer" method="post">
                         <div class="mb-3">
-                            <label for="course" class="form-label">Organization</label>
-                            <input type="text" name="organization" class="form-control" id="course" aria-describedby="course">
+                            <label for="organization" class="form-label">Organization</label>
+                            <input type="text" name="organization" required class="form-control" id="organization" aria-describedby="organization">
                         </div>
     
                         <div class="mb-3">
-                            <label for="course" class="form-label">Role</label>
-                            <input type="text" name="role" class="form-control" id="role" aria-describedby="course">
+                            <label for="role" class="form-label">Role</label>
+                            <input type="text" name="role" class="form-control" required id="role" aria-describedby="role">
                         </div>
     
                         <div class="mb-3">
-                            <label for="faculty" class="form-label">Date Started</label>
-                            <input type="date" name="date_started"  class="form-control" id="faculty" aria-describedby="faculty">
+                            <label for="date_started" class="form-label">Date Started</label>
+                            <input type="month" name="date_started"  class="form-control" required id="date_started" aria-describedby="date_started">
                         </div>
     
                         <div class="mb-3">
-                            <label for="school" class="form-label">Date Ended</label>
-                            <input type="date" name="date_ended" class="form-control" id="school" aria-describedby="school">
+                            <label for="date_ended" class="form-label">Date Ended</label>
+                            <input type="month" name="date_ended" class="form-control" required id="date_ended" aria-describedby="date_ended">
                         </div>
     
                         <button type="submit" class="btn btn-primary w-100">Submit</button>

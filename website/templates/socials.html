@@ -49,7 +49,7 @@
                 <form action="/submitSocial" method="post">
                     <div class="mb-3">
                         <label for="type" class="form-label">Type</label>
-                        <select class="form-select" name="type" aria-label="Default select example">
+                        <select class="form-select" required id="type" name="type" aria-label="Default select example">
                             <option selected>Open this select menu</option>
                             <option value="website">Website</option>
                             <option value="linkedin">LinkedIn</option>
@@ -63,7 +63,7 @@
 
                     <div class="mb-3">
                         <label for="link" class="form-label">Link</label>
-                        <input type="text" name="link" class="form-control" id="link">
+                        <input type="text" required name="link" class="form-control" id="link" aria-describedby="link">
                     </div>
                     <button type="submit" class="btn btn-primary w-100">Submit</button>
                 </form>
@@ -85,8 +85,8 @@
                     <form action="/editSocial" method="post">
                         <input type="hidden" id="editId" name="id">
                         <div class="mb-3">
-                            <label for="type" class="form-label">Type</label>
-                            <select class="form-select" id="editType" name="type" aria-label="Default select example">
+                            <label for="editType" class="form-label">Type</label>
+                            <select class="form-select" id="editType" required aria-describedby="editType" name="type" aria-label="Default select example">
                                 <option selected>Open this select menu</option>
                                 <option value="website">Website</option>
                                 <option value="linkedin">LinkedIn</option>
@@ -99,8 +99,8 @@
 
 
                         <div class="mb-3">
-                            <label for="link" class="form-label">Link</label>
-                            <input type="text" id="editLink" name="link" class="form-control" id="link">
+                            <label for="editLink" class="form-label">Link</label>
+                            <input type="text" id="editLink" name="link" required aria-describedby="editLink" class="form-control" id="link">
                         </div>
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>
