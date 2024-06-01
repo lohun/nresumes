@@ -34,56 +34,56 @@ views = Blueprint('views', __name__)
 
 collection = db["user"]
 
-def validate(request_input, type="string", route = "/"):
+def validate(request_input, type="string"):
     request_input = request.form.get(request_input).strip()
     results = ""
     match type:
         case "string":
-            if re.search(r"^[A-Za-z0-9]*$"):
+            if re.search(r"^[A-Za-z0-9\s]*.*$", request_input):
                 results = request_input
             else:
                 flash("Invalid input")
-                return redirect(route)
+                return False
             
         case "number":
-            if re.search(r"^[0-9]+$"):
+            if re.search(r"^[0-9]+$", request_input):
                 results = request_input
             else:
                 flash("Invalid input")
-                return redirect(route)
+                return False
             
         case "email":
             regex_string = r"\b[A-Za-z0-9.-%=_]+@[A-Za-z0-9.-]+\.[A-z|a-z]{2,7}\b"
-            if re.search(regex_string):
+            if re.search(regex_string, request_input):
                 results = request_input
             else:
                 flash("Invalid input")
-                return redirect(route)
+                return False
         
         case "date":
-            if re.search(r"^\b\d\d?-\b\d\d?-\d\d\d\d\b$"):
+            if re.search(r"^\b\d\d?-\b\d\d?-\d\d\d\d\b$", request_input):
                 results = request_input
             else:
                 flash("Invalid input")
-                return redirect(route)
+                return False
             
         case "month":
-            if re.search(r"^\b\d\d?-\d\d\d\d\b$"):
+            if re.search(r"^[A-Za-z]{3}-\d\d\d\d\b$", request_input):
                 results = request_input
             else:
                 flash("Invalid input")
-                return redirect(route)
+                return False
             
         case "password":
-            if re.search(r"?=.*([A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$"):
+            if re.search(r"?=.*([A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$", request_input):
                 results = request_input
             else:
                 flash("Please use a password of at leasrt 8 characters with and at least one number")
-                return redirect(route)
+                return False
             
         case _:
             flash("Invalid input")
-            return redirect(route)
+            return False
         
     return results
 
@@ -102,8 +102,10 @@ def login():
         return redirect("/summary")
     
     if request.method == "POST":
-        email = validate(request_input="email", type="email", route="/login")
-        password = validate(request_input="password", type="password", route="/login")
+        email = validate(request_input="email", type="email")
+        password = validate(request_input="password", type="password")
+        if email == False or password == False:
+            return redirect("/login")
         password = bytes(password, "utf-8")
         
         
@@ -127,8 +129,7 @@ def login():
 @views.route('/summary')
 @login_required
 def home():
-    user = current_user
-    return render_template("profile.html", user=user)
+    return render_template("profile.html")
 
 @views.route("/profile", methods=["GET", "POST"])
 @login_required
@@ -136,12 +137,15 @@ def profile():
     user = current_user
     if request.method == "POST":
         _id = user.id
-        title = validate(request_input="title", type="string", route="/profile")
-        lastName = validate(request_input="last_name", type="string", route="/profile")
-        firstName = validate(request_input="first_name", type="string", route="/profile")
-        phone = validate(request_input="phone_number", type="string", route="/profile")
-        address = validate(request_input="address", type="string", route="/profile")
-        country = validate(request_input="country", type="string", route="/profile")
+        title = validate(request_input="title", type="string")
+        lastName = validate(request_input="last_name", type="string")
+        firstName = validate(request_input="first_name", type="string")
+        phone = validate(request_input="phone_number", type="string")
+        address = validate(request_input="address", type="string")
+        country = validate(request_input="country", type="string")
+        
+        if title == False or lastName == False or firstName == False or phone == False or address == False or country == False:
+            return redirect("/profile")
         
         info = collection.update_one( 
             { "_id" : ObjectId(_id) },
@@ -167,10 +171,13 @@ def register():
         return redirect("/summary")
     
     if request.method == "POST":
-        dob = validate(request_input="dob", type="string", route="/register")
-        email = validate(request_input="email", type="email", route="/register")
-        password = validate(request_input="password", type="password", route="/register")
-        confirmPassword = validate(request_input="confirmPassword", type="password", route="/register")
+        dob = validate(request_input="dob", type="string")
+        email = validate(request_input="email", type="email")
+        password = validate(request_input="password", type="password")
+        confirmPassword = validate(request_input="confirmPassword", type="password")
+        
+        if dob == False or email == False or password == False or confirmPassword == False:
+            return redirect("/register")
         
         templates = db['template']
         templates = templates.find({})
@@ -228,13 +235,16 @@ def register():
 @views.route("/edituser", methods=["POST"])
 def edituser():
     _id = current_user.id
-    title = validate(request_input="title", type="string", route="/build")
-    lastName = validate(request_input="last_name", type="string", route="/build")
-    firstName = validate(request_input="first_name", type="string", route="/build")
-    phone = validate(request_input="phone_number", type="number", route="/build")
-    address = validate(request_input="address", type="string", route="/build")
-    country = validate(request_input="country", type="string", route="/build")
+    title = validate(request_input="title", type="string")
+    lastName = validate(request_input="last_name", type="string")
+    firstName = validate(request_input="first_name", type="string")
+    phone = validate(request_input="phone_number", type="number")
+    address = validate(request_input="address", type="string")
+    country = validate(request_input="country", type="string")
     
+    if title == False or lastName == False or firstName == False or phone == False or title == False or address == False or country == False:
+        return redirect("/build")
+      
     info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { "$set": { 
@@ -263,12 +273,16 @@ def experience():
 @login_required
 def editExperience():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/experience")
-    company = validate(request_input="company", type="string", route="/experience")
-    title = validate(request_input="title", type="string", route="/experience")
-    startDate = validate(request_input="startDate", type="month", route="/experience")
-    endDate = validate(request_input="endDate", type="month", route="/experience")
-    description = validate(request_input="description", type="string", route="/experience")
+    id = validate(request_input="id", type="string")
+    company = validate(request_input="company", type="string")
+    title = validate(request_input="title", type="string")
+    startDate = validate(request_input="startDate", type="text")
+    endDate = validate(request_input="endDate", type="text")
+    description = request.form.get("description").strip()
+    
+    if id == False or company == False or title == False or startDate == False or endDate == False:
+        return redirect("/experience")
+    
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "experience._id": ObjectId(id) },
         { "$set": { 
@@ -290,12 +304,18 @@ def editExperience():
 @views.route('/submitExperience', methods=["POST"])
 @login_required
 def submitExperience():
-    company = validate(request_input="company", type="string", route="/experience")
-    title = validate(request_input="title", type="string", route="/experience")
-    startDate = validate(request_input="startDate", type="month", route="/experience")
-    endDate = validate(request_input="endDate", type="month", route="/experience")
-    description = validate(request_input="description", type="string", route="/experience")
+    company = validate(request_input="company", type="string")
+    title = validate(request_input="title", type="string")
+    startDate = validate(request_input="startDate", type="text")
+    endDate = validate(request_input="endDate", type="text")
+    description = request.form.get("description").strip()
+    
+    if company == False or title == False or startDate == False or endDate == False:
+        return redirect("/experience")
+    
     id = current_user.id
+    
+    
 
     info = collection.update_one( 
         { "_id" : ObjectId(id) },
@@ -325,14 +345,18 @@ def education():
 @login_required
 def editEducation():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/education")
-    school = validate(request_input="school", type="string", route="/education")
-    award = validate(request_input="award", type="string", route="/education")
-    department = validate(request_input="department", type="string", route="/education")
-    faculty = validate(request_input="faculty", type="string", route="/education")
-    achievments = validate(request_input="achievments", type="string", route="/education")
-    date_started = validate(request_input="date_started", type="month", route="/education")
-    date_ended = validate(request_input="date_ended", type="month", route="/education")
+    id = validate(request_input="id", type="string")
+    school = validate(request_input="school", type="string")
+    award = validate(request_input="award", type="string")
+    department = validate(request_input="department", type="string")
+    faculty = validate(request_input="faculty", type="string")
+    achievments = validate(request_input="achievments", type="string")
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
+    
+    if id == False or school == False or award == False or department == False or faculty == False or achievments == False or date_started == False or date_ended == False:
+        return redirect("/education")
+    
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "education._id": ObjectId(id) },
         { "$set": { 
@@ -355,13 +379,16 @@ def editEducation():
 @views.route('/submitEducation', methods=["POST"])
 @login_required
 def submitEducation():
-    school = validate(request_input="school", type="string", route="/education")
-    award = validate(request_input="award", type="string", route="/education")
-    department = validate(request_input="department", type="string", route="/education")
-    faculty = validate(request_input="faculty", type="string", route="/education")
-    achievments = validate(request_input="achievments", type="string", route="/education")
-    date_started = validate(request_input="date_started", type="month", route="/education")
-    date_ended = validate(request_input="date_ended", type="month", route="/education")
+    school = validate(request_input="school", type="string")
+    award = validate(request_input="award", type="string")
+    department = validate(request_input="department", type="string")
+    faculty = validate(request_input="faculty", type="string")
+    achievments = validate(request_input="achievments", type="string")
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
+    
+    if school == False or award == False or department == False or faculty == False or achievments == False or date_started == False or date_ended == False:
+        return redirect("/education")
     
     id = current_user.id
 
@@ -395,10 +422,14 @@ def certification():
 @login_required
 def editCertification():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/certification")
-    name = validate(request_input="name", type="string", route="/certification")
-    organization = validate(request_input="organization", type="string", route="/certification")
-    certification_date = validate(request_input="date", type="month", route="/certification")
+    id = validate(request_input="id", type="string")
+    name = validate(request_input="name", type="string")
+    organization = validate(request_input="organization", type="string")
+    certification_date = validate(request_input="date", type="text")
+    
+    if id == False or name == False or organization == False or certification_date == False:
+        return redirect("/certification")
+    
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "certifications._id": ObjectId(id) },
@@ -414,14 +445,17 @@ def editCertification():
         return redirect("/certification")
     else:
         flash("Info not edited, please try again.")
-    return redirect("/certification")
+    return 
 
 @views.route('/submitCertification', methods=["POST"])
 @login_required
 def submitCertification():
-    name = validate(request_input="name", type="string", route="/certification")
-    organization = validate(request_input="organization", type="string", route="/certification")
-    certification_date = validate(request_input="date", type="month", route="/certification")
+    name = validate(request_input="name", type="string")
+    organization = validate(request_input="organization", type="string")
+    certification_date = validate(request_input="date", type="text")
+    
+    if name == False or organization == False or certification_date == False:
+        return redirect("/certification")
     
     id = current_user.id
 
@@ -446,8 +480,11 @@ def submitCertification():
 @views.route('/submitSocial', methods=["POST"])
 @login_required
 def submitSocial():
-    social_type = validate(request_input="type", type="string", route="/socials")
-    link = validate(request_input="link", type="url", route="/socials")
+    social_type = validate(request_input="type", type="string")
+    link = validate(request_input="link", type="url")
+    
+    if social_type == False or link == False:
+        return redirect("socials")
     
     id = current_user.id
 
@@ -476,9 +513,15 @@ def socials():
 @login_required
 def editSocial():
     _id = current_user.id
-    id = validate("id", type="string", route="/socials")
-    social_type = validate(request_input="type", type="string", route="/socials")
-    link = validate(request_input="link", type="url", route="/socials")
+    id = validate("id", type="string")
+    social_type = validate(request_input="type", type="string")
+    link = validate(request_input="link", type="url")
+    
+    if id == False or social_type == False or link == False:
+        return redirect("socials")
+    
+    if social_type == False or link == False:
+        return redirect("socials")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "socials._id": ObjectId(id) },
@@ -504,12 +547,15 @@ def project():
 @login_required
 def editProject():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/projects")
-    name = validate(request_input="name", type="string", route="/projects")
-    link = validate(request_input="link", type="url", route="/projects")
-    description = validate(request_input="description", type="string", route="/projects")
-    date_started = validate(request_input="date_started", type="month", route="/projects")
-    date_ended = validate(request_input="date_ended", type="month", route="/projects")
+    id = validate(request_input="id", type="string")
+    name = validate(request_input="name", type="string")
+    link = validate(request_input="link", type="url")
+    description = request.form.get("description").strip()
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
+    
+    if id == False or name == False or link == False or date_started == False or date_ended == False:
+        return redirect("/projects")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "projects._id": ObjectId(id) },
@@ -532,12 +578,15 @@ def editProject():
 @views.route('/submitProject', methods=["POST"])
 @login_required
 def submitProject():
-    name = validate(request_input="name", type="string", route="/projects")
-    link = validate(request_input="link", type="url", route="/projects")
-    description = validate(request_input="description", type="string", route="/projects")
-    date_started = validate(request_input="date_started", type="month", route="/projects")
-    date_ended = validate(request_input="date_ended", type="month", route="/projects")
+    name = validate(request_input="name", type="string")
+    link = validate(request_input="link", type="url")
+    description = request.form.get("description").strip()
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
     id = current_user.id
+    
+    if name == False or link == False or date_started == False or date_ended == False:
+        return redirect("/projects")
     
     info = collection.update_one(
         { "_id" : ObjectId(id) },
@@ -568,8 +617,11 @@ def skills():
 @login_required
 def editSkills():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/skills")
-    name = validate(request_input="name", type="string", route="/skills")
+    id = validate(request_input="id", type="string")
+    name = validate(request_input="name", type="string")
+    
+    if id == False or name == False:
+        return redirect("skills")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "skills._id": ObjectId(id) },
@@ -588,7 +640,10 @@ def editSkills():
 @views.route('/submitSkills', methods=["POST"])
 @login_required
 def submitSkills():
-    name = validate(request_input="name", type="string", route="/skills")
+    name = validate(request_input="name", type="string")
+    
+    if name == False:
+        return redirect("skills")
     
     id = current_user.id
 
@@ -617,11 +672,14 @@ def volunteer():
 @login_required
 def editVolunteer():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/volunteer")
-    organization = validate(request_input="organization", type="string", route="/volunteer")
-    role = validate(request_input="role", type="string", route="/volunteer")
-    date_started = validate(request_input="date_started", type="month", route="/volunteer")
-    date_ended = validate(request_input="date_ended", type="month", route="/volunteer")
+    id = validate(request_input="id", type="string")
+    organization = validate(request_input="organization", type="string")
+    role = validate(request_input="role", type="string")
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
+    
+    if id == False or organization == False or role == False or date_started == False or date_ended == False:
+        return redirect("/volunteer")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "volunteer._id": ObjectId(id) },
@@ -643,10 +701,13 @@ def editVolunteer():
 @views.route('/submitVolunteer', methods=["POST"])
 @login_required
 def submitVolunteer():
-    organization = validate(request_input="organization", type="string", route="/volunteer")
-    role = validate(request_input="role", type="string", route="/volunteer")
-    date_started = validate(request_input="date_started", type="month", route="/volunteer")
-    date_ended = validate(request_input="date_ended", type="month", route="/volunteer")
+    organization = validate(request_input="organization", type="string")
+    role = validate(request_input="role", type="string")
+    date_started = validate(request_input="date_started", type="text")
+    date_ended = validate(request_input="date_ended", type="text")
+    
+    if organization == False or role == False or date_started == False or date_ended == False:
+        return redirect("/volunteer")
     
     id = current_user.id
 
@@ -671,15 +732,17 @@ def submitVolunteer():
 @views.route('/interests')
 @login_required
 def interests():
-    interest = current_user.interests
     return render_template("interests.html")
 
 @views.route('/editInterests', methods=["POST"])
 @login_required
 def editInterests():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/interests")
-    name = validate(request_input="name", type="string", route="/interests")
+    id = validate(request_input="id", type="string")
+    name = validate(request_input="name", type="string")
+    
+    if id == False or name == False:
+        return redirect("/interests")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "interests._id": ObjectId(id) },
@@ -698,7 +761,10 @@ def editInterests():
 @views.route('/submitInterests', methods=["POST"])
 @login_required
 def submitInterests():
-    name = validate(request_input="name", type="string", route="/interests")
+    name = validate(request_input="name", type="string")
+    
+    if name == False:
+        return redirect("/interests")
     
     id = current_user.id
 
@@ -728,9 +794,12 @@ def extra():
 @login_required
 def editExtra():
     _id = current_user.id
-    id = validate(request_input="id", type="string", route="/extra")
-    title = validate(request_input="title", type="string", route="/extra")
-    description = validate(request_input="description", type="string", route="/extra")
+    id = validate(request_input="id", type="string")
+    title = validate(request_input="title", type="string")
+    description = request.form.get("description").strip()
+    
+    if id == False or title == False:
+        return redirect("/extra")
     
     info = collection.update_one( 
         { "_id" : ObjectId(_id), "extra._id": ObjectId(id) },
@@ -747,9 +816,12 @@ def editExtra():
 @views.route('/submitExtra', methods=["POST"])
 @login_required
 def submitExtra():
-    title = validate(request_input="title", type="string", route="/extra")
-    description = validate(request_input="description", type="string", route="/extra")    
+    title = validate(request_input="title", type="string")
+    description = request.form.get("description").strip()
     id = current_user.id
+    
+    if title == False:
+        return redirect("/extra")
     info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "extra": {
@@ -772,15 +844,19 @@ def submitExtra():
 @login_required
 def socialsallowed():
     id = current_user.id
-    personal_bool = validate(request_input='personal_bool', type="string", route="/build")
-    email_bool = validate(request_input='email_bool', type="string", route="/build")
-    linkedin_bool = validate(request_input='linkedin_bool', type="string", route="/build")
-    phone_bool = validate(request_input='phone_bool', type="string", route="/build")
-    twitter_bool = validate(request_input='twitter_bool', type="string", route="/build")
-    instagram_bool = validate(request_input='instagram_bool', type="string", route="/build")
-    youtube_bool = validate(request_input='youtube_bool', type="string", route="/build")
-    tiktok_bool = validate(request_input='tiktok_bool', type="string", route="/build")
-    github_bool = validate(request_input='github_bool', type="string", route="/build")
+    personal_bool = validate(request_input='personal_bool', type="string")
+    email_bool = validate(request_input='email_bool', type="string")
+    linkedin_bool = validate(request_input='linkedin_bool', type="string")
+    phone_bool = validate(request_input='phone_bool', type="string")
+    twitter_bool = validate(request_input='twitter_bool', type="string")
+    instagram_bool = validate(request_input='instagram_bool', type="string")
+    youtube_bool = validate(request_input='youtube_bool', type="string")
+    tiktok_bool = validate(request_input='tiktok_bool', type="string")
+    github_bool = validate(request_input='github_bool', type="string")
+    
+    if personal_bool == False or email_bool == False or linkedin_bool == False or phone_bool == False or twitter_bool == False or instagram_bool == False or youtube_bool == False or tiktok_bool == False or  github_bool == False:
+        return redirect("/build")
+    
     info = collection.update_one( 
         { "_id" : id },
         { "$set": { "email_bool": email_bool,
@@ -864,8 +940,12 @@ def preview():
 @views.route('/download', methods=["POST"])
 @login_required
 def download():
-    filename = validate(request_input="filename", type="string", route="/build")
-    default_name = validate(request_input="default_name", type="string", route="/build")
+    filename = validate(request_input="filename", type="string")
+    default_name = validate(request_input="default_name", type="string")
+    
+    if filename == False or default_name == False:
+        return redirect("/builds")
+    
     if not current_user.is_authenticated():
         redirect("/login")
         
@@ -1182,10 +1262,14 @@ def deleteBuilds(id):
 @views.route("/editfontsandcolors", methods=['POST'])
 @login_required    
 def editfontsandcolors():
-    font = validate(request_input="font", type="string", route="/build")
-    background_color = validate(request_input="backgroundColor", type="string", route="/build")    
-    primary_color = validate(request_input="primaryColor", type="string", route="/build") 
-    secondary_color = validate(request_input="secondaryColor", type="string", route="/build")
+    font = validate(request_input="font", type="string")
+    background_color = validate(request_input="backgroundColor", type="string")    
+    primary_color = validate(request_input="primaryColor", type="string") 
+    secondary_color = validate(request_input="secondaryColor", type="string")
+    
+    if font == False or background_color == False or primary_color == False or secondary_color == False:
+        return redirect("/build")
+    
     id = current_user.id
     info = collection.update_one( 
         { "_id" : ObjectId(id) },

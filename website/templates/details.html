@@ -54,6 +54,9 @@
   <!--! Template customizer & Theme config files MUST be included after core stylesheets and helpers.js in the <head> section -->
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="{{ url_for('static', filename='assets/js/config.js') }}"></script>
+  <script src="https://jsuites.net/v4/jsuites.js"></script>
+  <script src="https://jsuites.net/v4/jsuites.webcomponents.js"></script>
+  <link rel="stylesheet" href="https://jsuites.net/v4/jsuites.css" type="text/css" />
 </head>
 
 <body>
@@ -264,7 +267,15 @@
           <!-- Content -->
 
           <div class="container-xxl flex-grow-1 container-p-y">
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>{%block header%} title {%endblock%}
+            <nav aria-label="breadcrumb">
+              <ol class="breadcrumb breadcrumb-style1">
+                <li class="breadcrumb-item">
+                  <a href="/summary">Home</a>
+                </li>
+                {%block header%} {%endblock%}
+              </ol>
+            </nav>
+            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>
             </h4>
 
             <div class="row">

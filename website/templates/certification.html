@@ -1,5 +1,7 @@
 {% extends "details.html" %} {% block title %} Certifications {%endblock%}
-{% block header %} Certifications {%endblock%}
+{% block header %} <li class="breadcrumb-item">
+    <a href="javascript:void(0);">Certifications</a>
+</li> {%endblock%}
 
 {% block main %}
 <button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add
@@ -66,7 +68,7 @@
 
                         <div class="mb-3">
                             <label for="certficateAwardDate" class="form-label">Award Date</label>
-                            <input type="date" name="date" class="form-control" id="editCertficateAwardDate">
+                            <input type="text" name="date" class="form-control" id="editCertficateAwardDate">
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -89,19 +91,22 @@
                     <form action="/submitCertification" method="post">
                         <div class="mb-3">
                             <label for="certificationName" class="form-label">Certificate Name</label>
-                            <input type="text" class="form-control" name="name" id="certificationName" required aria-describedby="certificationName">
+                            <input type="text" class="form-control" name="name" id="certificationName" required
+                                aria-describedby="certificationName">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="organizationCertificate" class="form-label">Organization</label>
-                            <input type="text" class="form-control" name="organization" id="organizationCertificate" required aria-describedby="organizationCertificate">
+                            <input type="text" class="form-control" name="organization" id="organizationCertificate"
+                                required aria-describedby="organizationCertificate">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="certficateAwardDate" class="form-label">Award Date</label>
-                            <input type="month" name="date" class="form-control" required id="certficateAwardDate" aria-describedby="organizationCertificate">
+                            <input type="text" name="date" class="form-control" required id="certficateAwardDate"
+                                aria-describedby="organizationCertificate">
                         </div>
-    
+
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>
                 </div>
@@ -112,6 +117,17 @@
 
 
 <script>
+
+    jSuites.calendar(document.getElementById('certficateAwardDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
+
+    jSuites.calendar(document.getElementById('editCertficateAwardDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
+
     function editform(e) {
         var id = e.getAttribute("data-id");
         var name = e.getAttribute("data-name");

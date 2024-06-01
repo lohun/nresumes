@@ -1,5 +1,7 @@
 {% extends "details.html" %} {% block title %} Profile {%endblock%}
-{% block header %} Select your Resume template <em>{{current_user.first_name}}</em> {%endblock%}
+{% block header %}<li class="breadcrumb-item">
+    <a href="javascript:void(0);">Resume templates</a>
+</li> {%endblock%}
 
 {% block main %}
 <div class="card mb-4">

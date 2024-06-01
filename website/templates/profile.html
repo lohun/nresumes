@@ -1,6 +1,6 @@
 {% extends "details.html" %} {% block title %} View Profile {%endblock%}
 
-{% block header %} View Profile {%endblock%}
+{% block header %} {%endblock%}
 
 {% block main %}
 <style>
@@ -9,10 +9,11 @@
     }
     .btn-group {
         position: relative;
-        right: 0;
-        top: 0;
+        float: right;
+        clear: both;
     }
 </style>
+
 <div class="card">
     <div class="card-body">
         <section>

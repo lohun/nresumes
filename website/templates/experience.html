@@ -1,5 +1,9 @@
 {% extends "details.html" %} {% block title %} Experience {%endblock%}
-{% block header %} Experience {%endblock%}
+{% block header %}
+<li class="breadcrumb-item">
+    <a href="javascript:void(0);">Experience</a>
+</li>
+{%endblock%}
 
 {% block main %}
 <button data-bs-toggle="modal" data-bs-target="#modalCenter2" class="btn btn-outline-primary mb-5">Add
@@ -82,7 +86,7 @@
 
                         <div class="mb-3">
                             <label for="editDescription" class="form-label">Job Description</label>
-                            <div id="editDescription" class="form-control" ></div>
+                            <div id="editDescription" class="form-control"></div>
                         </div>
 
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
@@ -113,18 +117,19 @@
 
                         <div class="mb-3">
                             <label for="title" class="form-label">Title</label>
-                            <input type="text" required class="form-control" id="title" name="title" aria-describedby="title">
+                            <input type="text" required class="form-control" id="title" name="title"
+                                aria-describedby="title">
                         </div>
 
                         <div class="mb-3">
                             <label for="startDate" class="form-label">Start Date</label>
-                            <input type="month" required class="form-control" id="startDate" name="startDate"
+                            <input type="text" required class="form-control" id="startDate" name="startDate"
                                 aria-describedby="startDate">
                         </div>
 
                         <div class="mb-3">
                             <label for="endDate" class="form-label">End Date</label>
-                            <input type="month" required class="form-control" id="endDate" name="endDate"
+                            <input type="text" required class="form-control" id="endDate" name="endDate"
                                 aria-describedby="endDate">
                         </div>
 
@@ -144,6 +149,25 @@
 <script src="https://cdn.jsdelivr.net/npm/quill@2.0.2/dist/quill.js"></script>
 
 <script>
+    jSuites.calendar(document.getElementById('endDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
+
+    jSuites.calendar(document.getElementById('startDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
+
+    jSuites.calendar(document.getElementById('editStartDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
+
+    jSuites.calendar(document.getElementById('editEndDate'), {
+        type: 'year-month-picker',
+        format: 'MMM-YYYY'
+    });
     const quill = new Quill('#editDescription', {
         modules: {
             toolbar: [

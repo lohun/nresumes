@@ -1,5 +1,7 @@
 {% extends "details.html" %} {% block title %} Profile {%endblock%}
-{% block header %} Hey <em>{{current_user.first_name}}</em> {%endblock%}
+{% block header %} <li class="breadcrumb-item">
+    <a href="javascript:void(0);">User Profile</a>
+</li> {%endblock%}
 
 {% block main %}
 
