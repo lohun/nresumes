@@ -11,8 +11,6 @@
 
         <div class="demo-inline-spacing mt-3">
             <div class="list-group">
-
-
                 {% for row in current_user.education %}
                 <a href="javascript:void(0);"
                     class="list-group-item list-group-item-action flex-column align-items-start">
@@ -114,34 +112,38 @@
                     <form action="/submitEducation" method="POST">
                         <div class="mb-3">
                             <label for="course" class="form-label">Course Name</label>
-                            <input type="text" class="form-control" id="course" name="department" aria-describedby="course">
+                            <input type="text" class="form-control" id="course" name="department"
+                                aria-describedby="course">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="faculty" class="form-label">Faculty</label>
-                            <input type="text" class="form-control" id="faculty" name="faculty" aria-describedby="faculty">
+                            <input type="text" class="form-control" id="faculty" name="faculty"
+                                aria-describedby="faculty">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="school" class="form-label">Institution Name</label>
                             <input type="text" class="form-control" id="school" name="school" aria-describedby="school">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="degree" class="form-label">Award/Honours</label>
                             <input type="text" class="form-control" name="award" id="degree" aria-describedby="degree">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="dateStarted" class="form-label">Date Started</label>
-                            <input type="text" name="date_started" class="form-control" id="dateStarted" aria-describedby="dateStarted">
+                            <input type="text" name="date_started" class="form-control" id="dateStarted"
+                                aria-describedby="dateStarted">
                         </div>
-    
+
                         <div class="mb-3">
                             <label for="dateEnd" class="form-label">Date End</label>
-                            <input type="text" name="date_ended" class="form-control" id="dateEnd" aria-describedby="dateEnd">
+                            <input type="text" name="date_ended" class="form-control" id="dateEnd"
+                                aria-describedby="dateEnd">
                         </div>
-    
+
                         <button type="submit" class="btn btn-primary w-100">Submit</button>
                     </form>
                 </div>

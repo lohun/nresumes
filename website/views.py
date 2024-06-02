@@ -7,15 +7,18 @@ import os
 from random import randint
 import bcrypt
 from bson import ObjectId
-from flask import Blueprint, render_template, request, redirect, flash, url_for
+from flask import Blueprint, render_template, request, redirect, flash, send_file, send_from_directory, url_for
 from flask_login import current_user, login_required, login_user, logout_user
 from .database import db
 from .model import User
 from website import login_manager
 from weasyprint import HTML, CSS
+from weasyprint.fonts import FontConfiguration
+from weasyprint.logger import LOGGER as weayprint_logger
 from werkzeug.utils import secure_filename
 import pathlib
 import re
+import logging
 
 
 UPLOAD_FOLDER = '/website/static/build/'
@@ -898,16 +901,17 @@ def preview():
     fonts_list = []
     
     for font in fonts:
-        if font["_id"] == template['font']:
+        if font["_id"] == user.font:
             font_name = font['name']
             font_location = font['location']
             font_type = font['type']
-        elif font["_id"] == user.font:
+        elif font["_id"] == template['font']:
             font_name = font['name']
             font_location = font['location']
             font_type = font['type']
         fonts_list.append(font)
-    font_face = '@font-face { font-family: "' + font_name + '"; font-style: normal; font-weight: 300; src: url("static/' + font['location'] + '") format("' + font_type + '");}'
+        
+    font_face = '@font-face { font-family: "' + font_name + '"; font-style: normal; font-weight: 300; src: url("static/' + font_location + '") format("' + font_type + '");}'
     
     if (template['type'] == "skill"):
         preview = skill_preview(current_user, template)
@@ -960,8 +964,11 @@ def download():
     font = fonts_collection.find_one({"_id": ObjectId(current_user.font)})
     preview = ""
     dirname = os.path.dirname(__file__)
-    location = os.path.join(dirname, f"website/static/{font['location']}")
-    
+    location = f"static/{font['location']}"
+    location = re.sub(r' ', "\ ", location)
+    logger = logging.getLogger(__name__)
+    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
+    weayprint_logger.setLevel(logging.DEBUG)
     if (template['type'] == "skill"):
         preview = skill_preview(current_user, template)
     else:
@@ -973,13 +980,53 @@ def download():
     preview = preview.replace("{{secondary_color}}", current_user.secondary_color)
     
     preview = preview.replace("{{font_face}}", "")
+    font_configuration = FontConfiguration()
 
     html = HTML(string=preview)
-    css = CSS(string='@page { size: A4; margin: 1cm }, @font-face {font-family: "'+ font['name'] +'"; font-style: normal; font-weight: 300; src: url('+ location +') format('+ font['type'] +');}')
+    css = CSS(string="""@page { size: A4; margin: 1cm }
+            @font-face { 
+                font-family: '""" + font['name'] + """';
+                font-style: normal; 
+                font-weight: 300;
+                src: url('""" + location + """');
+            }
+            
+            body{ 
+                font-family: '""" + font['name'] + """';
+                font-size:13px;
+            }
+            h1 {
+                font-size: 30px;
+            }
+
+            h2 {
+                font-size: 25px;
+            }
+            
+            h6 {
+                font-size: 14px;
+            }
+            
+            h3 {
+                font-size: 24px;
+            }
+            
+            h4 {
+                font-size: 20px;
+            }
+            
+            h5 {
+                font-size: 16px;
+            }
+
+            p {
+                font-size: 13px;
+            }
+            """, font_config=font_configuration, base_url=request.base_url)
     path = pathlib.Path(f"website/static/build/{user.last_name} {user.first_name}")
     path.mkdir(parents=True, exist_ok=True)
     
-    html.write_pdf(f'{path}/{filename}.pdf', stylesheets=[css])
+    html.write_pdf(f'{path}/{filename}.pdf', stylesheets=[css], font_config=font_configuration)
     
     collection.update_one( 
         { "_id" : ObjectId(current_user.id) },
@@ -987,11 +1034,12 @@ def download():
                 "_id": ObjectId(),
                 "path": f'build/{user.last_name} {user.first_name}/{filename}.pdf',
                 "name": filename,
-                "date": datetime.datetime.now()
+                "date": datetime.date.today().strftime('%x')
             } } 
          }
     )
-    return redirect("/builds")
+    full_path = os.path.join(dirname, f"static/build/{user.last_name} {user.first_name}")
+    return send_from_directory(full_path, f"{filename}.pdf", as_attachment = True)
 
 @views.route('/builds')
 @login_required
@@ -1031,6 +1079,18 @@ def selecttemplate(id):
         flash("Oops, not updated, please try again.")
         redirect("/templates")
 
+class WesyprintLoggerFilter(logging.Filter):
+
+    task = None
+
+    def __init__(self, task):
+        self.task = task
+
+    def filter(self, record):
+        print('%s| %s' % (self.task.id, record.getMessage()))
+        progress = self.task.get_progress()
+        self.task.set_progress(progress + 1)
+        return True
 
 @views.route('/logout')
 @login_required
@@ -1242,8 +1302,8 @@ def deleteBuilds(id):
     dirname = os.path.dirname(__file__)
     for row in user.builds:
         if row['_id'] == id:
-            if os.path.exists(os.path.join(dirname, f"website/static/{row['path']}")):
-                os.remove(os.path.join(dirname, f"website/static/{row['path']}"))
+            if os.path.exists(os.path.join(dirname, f"website/{row['path']}")):
+                os.remove(os.path.join(dirname, row['path']))
     info = collection.update_one( 
         { "_id" : ObjectId(_id) },
         { 
@@ -1274,7 +1334,7 @@ def editfontsandcolors():
     info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$set": {
-                "font": font,
+                "font": ObjectId(font),
                 "backgroundColor": background_color,
                 "primaryColor": primary_color,
                 "secondaryColor": secondary_color,
