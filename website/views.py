@@ -14,11 +14,9 @@ from .model import User
 from website import login_manager
 from weasyprint import HTML, CSS
 from weasyprint.fonts import FontConfiguration
-from weasyprint.logger import LOGGER as weayprint_logger
 from werkzeug.utils import secure_filename
 import pathlib
 import re
-import logging
 
 
 UPLOAD_FOLDER = '/website/static/build/'
@@ -98,6 +96,36 @@ def unauthorized_callback():
 @views.route("/")
 def index():
     return render_template('landing.html')
+
+@views.route("/about")
+def about():
+    return render_template("about.html")
+
+@views.route("/feedback", methods=['GET', 'POST'])
+def feedback():
+    if request.method == "POST":
+        feedback_collection = db["feedback"]
+        name = validate(request_input="name", type="string")
+        email = validate(request_input="email", type="email")
+        feedback = validate(request_input="feedback", type="string")
+        
+        if name == False or feedback==False:
+            return redirect("/feedback")
+        
+        info = feedback_collection.insert_one({
+            "_id": ObjectId(),
+            "name": name,
+            "email": email,
+            "feedback": feedback
+        })
+        
+        if info:
+            flash("Thank you, your feedback has been submitted")
+            return redirect("/feedback")
+        else:
+            flash("Feedback not gotten, there seems to be an error. Please try again.")
+            return redirect("/feedback")
+    return render_template("feedback.html")
 
 @views.route("/login", methods=["GET", "POST"])
 def login():
@@ -966,9 +994,6 @@ def download():
     dirname = os.path.dirname(__file__)
     location = f"static/{font['location']}"
     location = re.sub(r' ', "\ ", location)
-    logger = logging.getLogger(__name__)
-    logging.basicConfig(filename='example.log', encoding='utf-8', level=logging.DEBUG)
-    weayprint_logger.setLevel(logging.DEBUG)
     if (template['type'] == "skill"):
         preview = skill_preview(current_user, template)
     else:
@@ -986,7 +1011,7 @@ def download():
     css = CSS(string="""@page { size: A4; margin: 1cm }
             @font-face { 
                 font-family: '""" + font['name'] + """';
-                font-style: normal; 
+                font-style: normal;
                 font-weight: 300;
                 src: url('""" + location + """');
             }
@@ -1078,19 +1103,6 @@ def selecttemplate(id):
     else:
         flash("Oops, not updated, please try again.")
         redirect("/templates")
-
-class WesyprintLoggerFilter(logging.Filter):
-
-    task = None
-
-    def __init__(self, task):
-        self.task = task
-
-    def filter(self, record):
-        print('%s| %s' % (self.task.id, record.getMessage()))
-        progress = self.task.get_progress()
-        self.task.set_progress(progress + 1)
-        return True
 
 @views.route('/logout')
 @login_required
