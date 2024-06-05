@@ -172,7 +172,7 @@ def profile():
         lastName = validate(request_input="last_name", type="string")
         firstName = validate(request_input="first_name", type="string")
         phone = validate(request_input="phone_number", type="string")
-        address = validate(request_input="address", type="string")
+        address = validate(request_input="state", type="string")
         country = validate(request_input="country", type="string")
         
         if title == False or lastName == False or firstName == False or phone == False or address == False or country == False:
