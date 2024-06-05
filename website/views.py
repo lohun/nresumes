@@ -204,8 +204,8 @@ def register():
     if request.method == "POST":
         dob = validate(request_input="dob", type="string")
         email = validate(request_input="email", type="email")
-        password = validate(request_input="password", type="password")
-        confirmPassword = validate(request_input="confirmPassword", type="password")
+        password = validate(request_input="password", type="string")
+        confirmPassword = validate(request_input="confirmPassword", type="string")
         
         if dob == False or email == False or password == False or confirmPassword == False:
             return redirect("/register")
