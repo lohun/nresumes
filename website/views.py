@@ -50,11 +50,11 @@ def validate(request_input, type="string"):
             if re.search(r"^[0-9]+$", request_input):
                 results = request_input
             else:
-                flash("Invalid input")
+                flash("Please input a valid email")
                 return False
             
         case "email":
-            regex_string = r"\b[A-Za-z0-9.-%=_]+@[A-Za-z0-9.-]+\.[A-z|a-z]{2,7}\b"
+            regex_string = r"(^[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+$)"
             if re.search(regex_string, request_input):
                 results = request_input
             else:
@@ -204,8 +204,8 @@ def register():
     if request.method == "POST":
         dob = validate(request_input="dob", type="string")
         email = validate(request_input="email", type="email")
-        password = validate(request_input="password", type="string")
-        confirmPassword = validate(request_input="confirmPassword", type="string")
+        password = validate(request_input="password", type="password")
+        confirmPassword = validate(request_input="confirmPassword", type="password")
         
         if dob == False or email == False or password == False or confirmPassword == False:
             return redirect("/register")
