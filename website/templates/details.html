@@ -90,229 +90,73 @@
   {%endif%}
   {%endwith%}
 
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="javascript:void(0)">
+        <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
+      </a>
+    </div>
+  </nav>
+
 
   <!-- Layout wrapper -->
-  <div class="layout-wrapper layout-content-navbar">
-    <div class="layout-container">
-      <!-- Menu -->
-      <aside id="layout-menu" class="layout-menu menu-vertical menu bg-menu-theme">
-        <div class="app-brand demo">
-          <a href="/summary" class="app-brand-link">
-            <span class="app-brand-logo demo">
-              <img src="{{ url_for('static', filename='assets/img/favicon/NR.svg') }}" alt="" srcset="">
-            </span>
-            <span class="app-brand-text demo menu-text fw-bolder ms-2">NResume</span>
-          </a>
-          <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto d-block d-xl-none">
-            <i class="bx bx-chevron-left bx-sm align-middle"></i>
-          </a>
-        </div>
-        <div class="menu-inner-shadow"></div>
-        <ul class="menu-inner py-1">
-          <!-- Dashboard -->
+  <div class="container-xxl flex-grow-1 container-p-y">
+    <nav aria-label="breadcrumb">
+      <ol class="breadcrumb breadcrumb-style1">
+        <li class="breadcrumb-item">
+          <a href="/build">Home</a>
+        </li>
+        {%block header%} {%endblock%}
+      </ol>
+    </nav>
+    <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>
+    </h4>
 
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Personal Information</span>
-          </li>
-
-          <li class="menu-item">
-            <a href='/summary' class="menu-link">
-              <i class="menu-icon tf-icons bx bx-home-circle"></i>
-              <div>Summary</div>
-            </a>
-          </li>
-
-          <li class="menu-item">
-            <a href="/education" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Education</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/experience" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Experience</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/certification" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Certifications</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/socials" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Socials</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/skills" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Skills</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/projects" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Projects</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/volunteer" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Volunteer</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/interests" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Interests</div>
-            </a>
-          </li>
-          <li class="menu-item">
-            <a href="/extra" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pen"></i>
-              <div>Extra Info</div>
-            </a>
-          </li>
-
-
-          <li class="menu-header small text-uppercase">
-            <span class="menu-header-text">Pages</span>
-          </li>
-
-          <li class="menu-item">
-            <a href="/templates" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-pencil"></i>
-              <div>Templates</div>
-            </a>
-          </li>
-
-          <li class="menu-item">
-            <a href="/build" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-wrench"></i>
-              <div>Build New Resume</div>
-            </a>
-          </li>
-
-          <li class="menu-item">
-            <a href="/builds" class="menu-link">
-              <i class="menu-icon tf-icons bx bx-download"></i>
-              <div>Resumes</div>
-            </a>
-          </li>
-
-        </ul>
-      </aside>
-      <!-- / Menu -->
-
-      <!-- Layout container -->
-      <div class="layout-page">
-        <!-- Navbar -->
-
-        <nav
-          class="layout-navbar container-xxl navbar navbar-expand-xl navbar-detached align-items-center bg-navbar-theme"
-          id="layout-navbar">
-          <div class="layout-menu-toggle navbar-nav align-items-xl-center me-3 me-xl-0 d-xl-none">
-            <a class="nav-item nav-link px-0 me-xl-4" href="javascript:void(0)">
-              <i class="bx bx-menu bx-sm"></i>
-            </a>
-          </div>
-
-          <div class="navbar-nav-right d-flex align-items-center" id="navbar-collapse">
-
-            <ul class="navbar-nav flex-row align-items-center ms-auto">
-              <!-- Place this tag where you want the button to render. -->
-
-
-              <!-- User -->
-              <li class="nav-item navbar-dropdown dropdown-user dropdown">
-                <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
-                  <div class="avatar avatar-online">
-                    <img src="{{ url_for('static', filename=current_user.profile_picture) }}" alt
-                      class="w-px-40 h-auto rounded-circle" />
-                  </div>
-                </a>
-                <ul class="dropdown-menu dropdown-menu-end">
-                  <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/profile">
-                      <i class="bx bx-user me-2"></i>
-                      <span class="align-middle">My Profile</span>
-                    </a>
-                  </li>
-                  <li>
-                    <div class="dropdown-divider"></div>
-                  </li>
-                  <li>
-                    <a class="dropdown-item" href="/logout">
-                      <i class="bx bx-power-off me-2"></i>
-                      <span class="align-middle">Log Out</span>
-                    </a>
-                  </li>
-                </ul>
-              </li>
-              <!--/ User -->
-            </ul>
-          </div>
-        </nav>
-
-        <!-- / Navbar -->
-
-        <!-- Content wrapper -->
-        <div class="content-wrapper">
-          <!-- Content -->
-
-          <div class="container-xxl flex-grow-1 container-p-y">
-            <nav aria-label="breadcrumb">
-              <ol class="breadcrumb breadcrumb-style1">
-                <li class="breadcrumb-item">
-                  <a href="/summary">Home</a>
-                </li>
-                {%block header%} {%endblock%}
-              </ol>
-            </nav>
-            <h4 class="fw-bold py-3 mb-4"><span class="text-muted fw-light"></span>
-            </h4>
-
-            <div class="row">
-              <div class="col-md-12">
-                <a href="/build" class="btn btn-info mb-5">View Resume</a>
-                {%block main%} {%endblock%}
-              </div>
-            </div>
-          </div>
-          <!-- / Content -->
-
-          <!-- Footer -->
-          <footer class="content-footer footer bg-footer-theme">
-            <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
-              <div class="mb-2 mb-md-0">
-                ©
-                <script>
-                  document.write(new Date().getFullYear());
-                </script>
-                , made with ❤️ by
-                <a href="#" target="_blank" class="footer-link fw-bolder">Nwankpele Damilola</a>
-              </div>
-            </div>
-          </footer>
-          <!-- / Footer -->
-
-          <div class="content-backdrop fade"></div>
-        </div>
-        <!-- Content wrapper -->
+    <div class="row">
+      <div class="col-md-8 col-sm-12">
+        {%block main%} {%endblock%}
       </div>
-      <!-- / Layout page -->
-    </div>
 
-    <!-- Overlay -->
-    <div class="layout-overlay layout-menu-toggle"></div>
+      <div class="col-md-4 col-sm-12 sections">
+        <div class="card">
+          <div class="card-body">
+            <div class="h5">Sections</div>
+            <div class="list-group">
+              <a href="/profile" class="list-group-item list-group-item-action">Personal
+                Information</a>
+              <a href="/experience" class="list-group-item list-group-item-action">Work
+                History</a>
+              <a href="education" class="list-group-item list-group-item-action">Education</a>
+              <a href="/projects" class="list-group-item list-group-item-action">Projects
+                Undertaken</a>
+    
+              <a href="/certifications" class="list-group-item list-group-item-action">Certifications</a>
+              <a href="/skills" class="list-group-item list-group-item-action">Skills</a>
+              <a href="/socials" class="list-group-item list-group-item-action">Important Social Media Links</a>
+              <a href="/interests" class="list-group-item list-group-item-action">Hubbies and Interests</a>
+              <a href="/volunteer" class="list-group-item list-group-item-action">Volunteer and Contributions Made</a>
+              <a href="/extra" class="list-group-item list-group-item-action">Extra (Any extra information to add)</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- / Layout wrapper -->
+
+
+  <footer class="content-footer footer bg-footer-theme">
+    <div class="container-xxl d-flex flex-wrap justify-content-between py-2 flex-md-row flex-column">
+      <div class="mb-2 mb-md-0">
+        ©
+        <script>
+          document.write(new Date().getFullYear());
+        </script>
+        , made with ❤️ by
+        <a href="#" target="_blank" class="footer-link fw-bolder">Nwankpele Damilola</a>
+      </div>
+    </div>
+  </footer>
+  <!-- / Footer -->
 
   <!-- Core JS -->
   <!-- build:js assets/vendor/js/core.js -->

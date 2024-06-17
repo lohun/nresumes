@@ -307,8 +307,8 @@ def editExperience():
     id = validate(request_input="id", type="string")
     company = validate(request_input="company", type="string")
     title = validate(request_input="title", type="string")
-    startDate = validate(request_input="startDate", type="text")
-    endDate = validate(request_input="endDate", type="text")
+    startDate = validate(request_input="startDate", type="string")
+    endDate = validate(request_input="endDate", type="string")
     description = request.form.get("description").strip()
     
     if id == False or company == False or title == False or startDate == False or endDate == False:
@@ -337,8 +337,8 @@ def editExperience():
 def submitExperience():
     company = validate(request_input="company", type="string")
     title = validate(request_input="title", type="string")
-    startDate = validate(request_input="startDate", type="text")
-    endDate = validate(request_input="endDate", type="text")
+    startDate = validate(request_input="startDate", type="string")
+    endDate = validate(request_input="endDate", type="string")
     description = request.form.get("description").strip()
     
     if company == False or title == False or startDate == False or endDate == False:
@@ -346,8 +346,6 @@ def submitExperience():
     
     id = current_user.id
     
-    
-
     info = collection.update_one( 
         { "_id" : ObjectId(id) },
         { "$push": { "experience": {
@@ -382,8 +380,8 @@ def editEducation():
     department = validate(request_input="department", type="string")
     faculty = validate(request_input="faculty", type="string")
     achievments = validate(request_input="achievments", type="string")
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     
     if id == False or school == False or award == False or department == False or faculty == False or achievments == False or date_started == False or date_ended == False:
         return redirect("/education")
@@ -415,8 +413,8 @@ def submitEducation():
     department = validate(request_input="department", type="string")
     faculty = validate(request_input="faculty", type="string")
     achievments = validate(request_input="achievments", type="string")
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     
     if school == False or award == False or department == False or faculty == False or achievments == False or date_started == False or date_ended == False:
         return redirect("/education")
@@ -456,7 +454,7 @@ def editCertification():
     id = validate(request_input="id", type="string")
     name = validate(request_input="name", type="string")
     organization = validate(request_input="organization", type="string")
-    certification_date = validate(request_input="date", type="text")
+    certification_date = validate(request_input="date", type="string")
     
     if id == False or name == False or organization == False or certification_date == False:
         return redirect("/certification")
@@ -483,7 +481,7 @@ def editCertification():
 def submitCertification():
     name = validate(request_input="name", type="string")
     organization = validate(request_input="organization", type="string")
-    certification_date = validate(request_input="date", type="text")
+    certification_date = validate(request_input="date", type="string")
     
     if name == False or organization == False or certification_date == False:
         return redirect("/certification")
@@ -582,8 +580,8 @@ def editProject():
     name = validate(request_input="name", type="string")
     link = validate(request_input="link", type="url")
     description = request.form.get("description").strip()
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     
     if id == False or name == False or link == False or date_started == False or date_ended == False:
         return redirect("/projects")
@@ -612,8 +610,8 @@ def submitProject():
     name = validate(request_input="name", type="string")
     link = validate(request_input="link", type="url")
     description = request.form.get("description").strip()
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     id = current_user.id
     
     if name == False or link == False or date_started == False or date_ended == False:
@@ -706,8 +704,8 @@ def editVolunteer():
     id = validate(request_input="id", type="string")
     organization = validate(request_input="organization", type="string")
     role = validate(request_input="role", type="string")
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     
     if id == False or organization == False or role == False or date_started == False or date_ended == False:
         return redirect("/volunteer")
@@ -734,8 +732,8 @@ def editVolunteer():
 def submitVolunteer():
     organization = validate(request_input="organization", type="string")
     role = validate(request_input="role", type="string")
-    date_started = validate(request_input="date_started", type="text")
-    date_ended = validate(request_input="date_ended", type="text")
+    date_started = validate(request_input="date_started", type="string")
+    date_ended = validate(request_input="date_ended", type="string")
     
     if organization == False or role == False or date_started == False or date_ended == False:
         return redirect("/volunteer")
