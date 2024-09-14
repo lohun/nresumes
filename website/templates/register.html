@@ -1,6 +1,7 @@
 {% extends "auth.html" %} {% block title %} Register {%endblock%}
 
 {% block main %}
+<link rel="stylesheet" href="{{ url_for('static', filename='dist/css/datepicker.minimal.css') }}">
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
@@ -27,7 +28,7 @@
 
                         <div class="mb-3">
                             <label for="dob" class="form-label">Date of Birth</label>
-                            <input type="date" class="form-control" id="dob" required name="dob" aria-describedby="dob">
+                            <input type="date" class="form-control w-100" id="dob" required name="dob" aria-describedby="dob">
                         </div>
 
                         <div class="mb-3 form-password-toggle">
@@ -64,4 +65,11 @@
         </div>
     </div>
 </div>
+
+<script src="{{ url_for('static', filename='dist/datepicker.js') }}"></script>
+<script>
+    var datepicker = new Datepicker('#dob', {
+        yearRange: 80
+    });
+</script>
 {% endblock %}
