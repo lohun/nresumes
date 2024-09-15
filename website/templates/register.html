@@ -1,7 +1,7 @@
 {% extends "auth.html" %} {% block title %} Register {%endblock%}
 
 {% block main %}
-<link rel="stylesheet" href="{{ url_for('static', filename='dist/css/datepicker.minimal.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='dists/css/datepicker.minimal.css') }}">
 <div class="container-xxl">
     <div class="authentication-wrapper authentication-basic container-p-y">
         <div class="authentication-inner">
@@ -66,7 +66,7 @@
     </div>
 </div>
 
-<script src="{{ url_for('static', filename='dist/datepicker.js') }}"></script>
+<script src="{{ url_for('static', filename='dists/datepicker.js') }}"></script>
 <script>
     var datepicker = new Datepicker('#dob', {
         yearRange: 80
