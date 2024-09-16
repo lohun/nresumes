@@ -1,5 +1,3 @@
-from ast import If
-from crypt import methods
 from datetime import timedelta
 import datetime
 import json
@@ -7,7 +5,7 @@ import os
 from random import randint
 import bcrypt
 from bson import ObjectId
-from flask import Blueprint, render_template, request, redirect, flash, send_file, send_from_directory, url_for
+from flask import Blueprint, render_template, request, redirect, flash, send_from_directory
 from flask_login import current_user, login_required, login_user, logout_user
 from .database import db
 from .model import User
@@ -212,7 +210,7 @@ def register():
         
         templates = db['template']
         templates = templates.find({})
-        template = templates[1]
+        template = templates[0]
         
         if(password != confirmPassword):
             flash("Password does not match")
